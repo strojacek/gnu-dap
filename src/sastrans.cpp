@@ -706,7 +706,7 @@ void datatrans(char *step, FILE *dapfile)
       fputs("\"", dapfile);
     else if (!delim[0])
       fputs("\" \"", dapfile);
-    fputs(")\n{\n", dapfile);
+    fputs(");\n{\n", dapfile);
   }
   else if ((s = findstatement(step, (char*) "set")))
   {
@@ -779,7 +779,7 @@ void datatrans(char *step, FILE *dapfile)
   else /* no infile or set or merge found */
   {
     inputisnull = 1;
-    fputs("infile (NULL, NULL)\n{\n", dapfile);
+    fputs("infile (NULL, NULL);\n{\n", dapfile);
   }
 
   /* now we look for length statement declaring string variables */

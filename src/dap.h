@@ -3,9 +3,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
-#include <include/gcem.hpp>
+//#include <include/gcem.hpp>
 // #include <include/mcmc.hpp>
-#include <include/stats.hpp>
+//#include <include/stats.hpp>
 /*  Copyright (C) 2001, 2002 Free Software Foundation, Inc.
  *
  *  This file is part of Dap.
