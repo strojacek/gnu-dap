@@ -646,7 +646,7 @@ int main(int argc, char **argv)
 		if (namelen > 4 && !strcmp(*argv + namelen - 4, ".sas"))
 		{
 			sastrans(*argv);
-			namelen -= 4;
+			namelen -= 2;
 		}
 		if (namelen < 4 || strcmp(*argv + namelen - 4, ".cpp"))
 		{
