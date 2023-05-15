@@ -126,8 +126,8 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
   likered = 0.0;
   nc = ncell;
   ex = expect;
-  x = (double *)dap_malloc(sizeof(double) * strlen(sel), "");
-  xch = (double *)dap_malloc(sizeof(double) * strlen(sel), "");
+  x = (double *)dap_malloc(sizeof(double) * strlen(sel), (char*) "");
+  xch = (double *)dap_malloc(sizeof(double) * strlen(sel), (char*) "");
   if (selred)
   {
     sel = selred;
@@ -204,8 +204,8 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
     output();
   }
   likerat *= 2.0;
-  infomem = (double *)dap_malloc(sizeof(double) * sparam * sparam, "");
-  info = (double **)dap_malloc(sizeof(double *) * sparam, "");
+  infomem = (double *)dap_malloc(sizeof(double) * sparam * sparam, (char*) "");
+  info = (double **)dap_malloc(sizeof(double *) * sparam, (char*) "");
   for (p = 0; p < sparam; p++)
     info[p] = infomem + p * sparam;
   h = 0.0001;
@@ -381,10 +381,10 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
       s++;
   }
   dap_ono = 0;
-  dap_free(x, "");
-  dap_free(xch, "");
-  dap_free(infomem, "");
-  dap_free(info, "");
+  dap_free(x, (char*) "");
+  dap_free(xch, (char*) "");
+  dap_free(infomem, (char*) "");
+  dap_free(info, (char*) "");
 }
 
 void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double *, double *),
@@ -413,10 +413,10 @@ void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double
   int ncell;
   int s;
 
-  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  partv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  filarg = dap_malloc(strlen(varlist) + strlen(part) + 8, "");
+  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  partv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  filarg = dap_malloc(strlen(varlist) + strlen(part) + 8, (char*) "");
   strcpy(filarg, "FILL ");
   for (s = 0; varlist[s] == ' '; s++)
     ; /* skip leading blanks before count arg */
@@ -426,14 +426,14 @@ void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double
   strcpy(filarg + v, part); /* part vars need to come first */
   strcat(filarg, " ");
   strcat(filarg, varlist + s);
-  filset = dap_malloc(strlen(dname) + 5, "");
+  filset = dap_malloc(strlen(dname) + 5, (char*) "");
   strcpy(filset, dname);
   strcat(filset, ".fil");
   dataset(dname, filset, filarg);
-  catset = dap_malloc(strlen(dname) + 5, "");
+  catset = dap_malloc(strlen(dname) + 5, (char*) "");
   strcpy(catset, dname);
   strcat(catset, ".cat");
-  covset = dap_malloc(strlen(dname) + 5, "");
+  covset = dap_malloc(strlen(dname) + 5, (char*) "");
   strcpy(covset, dname);
   strcat(covset, ".cov");
   /* find maximum length of parameter names */
@@ -469,25 +469,25 @@ void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double
   param1n = dap_vd(paramstr, 0);
   sprintf(paramstr, "_param2_ %d", paramlen);
   param2n = dap_vd(paramstr, 0);
-  covn = dap_vd("_cov_ -1", 0);
-  partstr = dap_malloc(strlen(part) + 1, "");
+  covn = dap_vd((char*) "_cov_ -1", 0);
+  partstr = dap_malloc(strlen(part) + 1, (char*) "");
   for (v = 0; v < npart; v++)
   {
     strcpy(partstr, dap_obs[0].do_nam[partv[v]]);
     sprintf(partstr + strlen(partstr), " %d", dap_obs[0].do_len[partv[v]]);
     partv2[v] = dap_vd(partstr, 1);
   }
-  outset(covset, "");
+  outset(covset, (char*) "");
   /* now back to catset */
   dap_ono = 0;
-  outset(catset, "");
-  tabmem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxcell, "");
-  tab = (double **)dap_malloc(sizeof(double *) * dap_maxcell, "");
+  outset(catset, (char*) "");
+  tabmem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxcell, (char*) "");
+  tab = (double **)dap_malloc(sizeof(double *) * dap_maxcell, (char*) "");
   for (ncell = 0; ncell < dap_maxcell; ncell++)
     tab[ncell] = tabmem + ncell * nvar;
-  selcodes = dap_malloc(strlen(select) + 1, "");
+  selcodes = dap_malloc(strlen(select) + 1, (char*) "");
   nparam = selparse(select, selcodes);
-  allparam = (double *)dap_malloc(sizeof(double) * nparam, "");
+  allparam = (double *)dap_malloc(sizeof(double) * nparam, (char*) "");
   sel = selcodes;
   if (strchr(selcodes, '?'))
   {
@@ -536,21 +536,21 @@ void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double
   }
   if (selred)
   {
-    dap_free(selred, "");
+    dap_free(selred, (char*) "");
     selred = NULL;
   }
-  dap_free(filarg, "");
-  dap_free(varv, "");
-  dap_free(partv, "");
-  dap_free(partv2, "");
-  dap_free(filset, "");
-  dap_free(catset, "");
-  dap_free(covset, "");
-  dap_free(partstr, "");
-  dap_free(tabmem, "");
-  dap_free(tab, "");
-  dap_free(allparam, "");
-  dap_free(selcodes, "");
+  dap_free(filarg, (char*) "");
+  dap_free(varv, (char*) "");
+  dap_free(partv, (char*) "");
+  dap_free(partv2, (char*) "");
+  dap_free(filset, (char*) "");
+  dap_free(catset, (char*) "");
+  dap_free(covset, (char*) "");
+  dap_free(partstr, (char*) "");
+  dap_free(tabmem, (char*) "");
+  dap_free(tab, (char*) "");
+  dap_free(allparam, (char*) "");
+  dap_free(selcodes, (char*) "");
 }
 
 /* compute expected cell counts from the parameters and the
@@ -745,7 +745,7 @@ static int llparse(char **klass, int nterm, unsigned int *pattern,
       }
     }
   }
-  dap_free(oneclass, "");
+  dap_free(oneclass, (char*) "");
   return nterm;
 }
 
@@ -816,10 +816,10 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   char formstr[8];       /* "  %-xxs" + '\0' */
   valnode *nodeptr;      /* for stepping through node list */
 
-  fnamefil = dap_malloc(strlen(fname) + 5, "");
+  fnamefil = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(fnamefil, fname);
   strcat(fnamefil, ".fil");
-  filarg = dap_malloc(strlen(varlist) + strlen(part) + 8, "");
+  filarg = dap_malloc(strlen(varlist) + strlen(part) + 8, (char*) "");
   strcpy(filarg, "FILL ");
   for (s = 0; varlist[s] == ' '; s++)
     ; /* skip leading blanks before count arg */
@@ -830,10 +830,10 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   strcat(filarg, " ");
   strcat(filarg, varlist + s);
   dataset(fname, fnamefil, filarg);
-  fname1 = dap_malloc(strlen(fname) + 5, "");
+  fname1 = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(fname1, fname);
   strcat(fname1, ".llm");
-  catname = dap_malloc(strlen(fname1) + 5, "");
+  catname = dap_malloc(strlen(fname1) + 5, (char*) "");
   strcpy(catname, fname1);
   strcat(catname, ".cat");
 
@@ -854,18 +854,18 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   /* don't need a +1 for varlist1 or outlist because first variable,
    * the counts, doesn't need a '_'
    */
-  varlist1 = dap_malloc(strlen(varlist) + nvar + 2, "");
-  outlist = dap_malloc(strlen(varlist) + nvar + strlen(part) + 2, "");
+  varlist1 = dap_malloc(strlen(varlist) + nvar + 2, (char*) "");
+  outlist = dap_malloc(strlen(varlist) + nvar + strlen(part) + 2, (char*) "");
   /* don't even need this much for vardef because we're going to
    * declare one variable at a time with " -1", but definitely safe
    */
-  vardef = dap_malloc(strlen(varlist) + 4, "");
-  classv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
+  vardef = dap_malloc(strlen(varlist) + 4, (char*) "");
+  classv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
   /* classval[c] = pointer to first node in list of values for class var c */
-  classval = (valnode **)dap_malloc(sizeof(valnode *) * nclass, "");
-  endcv = (valnode **)dap_malloc(sizeof(valnode *) * nclass, "");
+  classval = (valnode **)dap_malloc(sizeof(valnode *) * nclass, (char*) "");
+  endcv = (valnode **)dap_malloc(sizeof(valnode *) * nclass, (char*) "");
   /* and maxlen[c] = max length of value for class var c */
-  maxlen = (int *)dap_malloc(sizeof(int) * nclass, "");
+  maxlen = (int *)dap_malloc(sizeof(int) * nclass, (char*) "");
 
   inset(fnamefil);
 
@@ -913,9 +913,9 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   /* now the rest, leave space in classv for old class vars */
 
   /* going to need class variable names as array */
-  classmem = dap_malloc(strlen(varlist + coff) + 1, "");
+  classmem = dap_malloc(strlen(varlist + coff) + 1, (char*) "");
   /* this is a bit wasteful of space, price for saving would be time */
-  klass = (char **)dap_malloc(sizeof(char *) * nclass, "");
+  klass = (char **)dap_malloc(sizeof(char *) * nclass, (char*) "");
 
   for (c = 0, cm = 0; varlist[l];)
   {
@@ -949,8 +949,8 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
 
   outset(fname1, outlist);
 
-  maxval = (double *)dap_malloc(sizeof(double) * nclass, "");
-  maxval1 = (double *)dap_malloc(sizeof(double) * nclass, "");
+  maxval = (double *)dap_malloc(sizeof(double) * nclass, (char*) "");
+  maxval1 = (double *)dap_malloc(sizeof(double) * nclass, (char*) "");
   for (nvl = 0; nvl < nclass; nvl++)
     maxval1[nvl] = 0.0;
   /* have to convert string classification into double for categ
@@ -1033,9 +1033,9 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
           if (firstpart)
           { /* already got first nodes */
             endcv[nv - 1]->next = (valnode *)
-                dap_malloc(sizeof(valnode), "");
+                dap_malloc(sizeof(valnode), (char*) "");
             endcv[nv - 1] = endcv[nv - 1]->next;
-            endcv[nv - 1]->value = dap_malloc(onelen + 1, "");
+            endcv[nv - 1]->value = dap_malloc(onelen + 1, (char*) "");
             endcv[nv - 1]->next = NULL;
             strcpy(endcv[nv - 1]->value,
                    dap_obs[0].do_str[classv[npart + nv - 1]]);
@@ -1046,12 +1046,12 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
       {
         for (nvl = 0; nvl < nclass; nvl++)
         {
-          classval[nvl] = (valnode *)dap_malloc(sizeof(valnode), "");
+          classval[nvl] = (valnode *)dap_malloc(sizeof(valnode), (char*) "");
           endcv[nvl] = classval[nvl];
           onelen = strlen(dap_obs[0].do_str[classv[npart + nvl]]);
           if (onelen > maxlen[nvl])
             maxlen[nvl] = onelen;
-          endcv[nvl]->value = dap_malloc(onelen + 1, "");
+          endcv[nvl]->value = dap_malloc(onelen + 1, (char*) "");
           endcv[nvl]->next = NULL;
           strcpy(endcv[nvl]->value,
                  dap_obs[0].do_str[classv[npart + nvl]]);
@@ -1122,8 +1122,8 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
 
   for (nterm = 1, nv = 0; nv < nclass; nv++)
     nterm *= 2;
-  term = (int *)dap_malloc(sizeof(int) * nterm, "");
-  pattern = (unsigned int *)dap_malloc(sizeof(int) * nclass, "");
+  term = (int *)dap_malloc(sizeof(int) * nterm, (char*) "");
+  pattern = (unsigned int *)dap_malloc(sizeof(int) * nclass, (char*) "");
   for (c = 1, pattern[0] = 1; c < nclass; c++)
     pattern[c] = 2 * pattern[c - 1];
   nterm = llparse(klass, nterm, pattern, model0, model1, term);
@@ -1147,16 +1147,16 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
       sellen += termparam * (termlen + 2);
     }
   }
-  param = (double *)dap_malloc(sizeof(double) * nparam0, "");
-  paramlistmem = (int *)dap_malloc(sizeof(int) * nparam0 * nclass, "");
+  param = (double *)dap_malloc(sizeof(double) * nparam0, (char*) "");
+  paramlistmem = (int *)dap_malloc(sizeof(int) * nparam0 * nclass, (char*) "");
   /* paramlist is external */
-  paramlist = (int **)dap_malloc(sizeof(int *) * nparam0, "");
+  paramlist = (int **)dap_malloc(sizeof(int *) * nparam0, (char*) "");
   for (p = 0; p < nparam0; p++)
     paramlist[p] = paramlistmem + p * nclass;
-  select = dap_malloc(sellen, "");
-  selterm = dap_malloc(sellen, ""); /* overkill, but so what? */
+  select = dap_malloc(sellen, (char*) "");
+  selterm = dap_malloc(sellen, (char*) ""); /* overkill, but so what? */
   /* now go back and create select string */
-  sub = (int *)dap_malloc(sizeof(int) * nclass, "");
+  sub = (int *)dap_malloc(sizeof(int) * nclass, (char*) "");
   /* param[0] is always mu; start numparam at 0 because we increment when
    * we find a term, not afterward
    */
@@ -1220,7 +1220,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   for (p = 1; p < numparam; p++)
     param[p] = 0.0;
 
-  categ(fname1, varlist1, "", &llexpect, param, select, part, "");
+  categ(fname1, varlist1, (char*) "", &llexpect, param, select, part, (char*) "");
 
   /* tables are now in catname, going to copy back to fname1 and
    * translate the numerical values back to strings.
@@ -1238,7 +1238,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
     classv[c] = dap_vd(vardef, 0);
   }
 
-  outset(fname1, "");
+  outset(fname1, (char*) "");
 
   /* need to get indices of numerical class vars; classv has dap_maxvar slots */
   /* +1 because I'm too lazy to skip the count variable */
@@ -1257,39 +1257,39 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
     output();
   }
 
-  dap_free(fnamefil, "");
-  dap_free(filarg, "");
-  dap_free(fname1, "");
-  dap_free(catname, "");
-  dap_free(varlist1, "");
-  dap_free(outlist, "");
-  dap_free(vardef, "");
-  dap_free(classv, "");
-  dap_free(maxval, "");
-  dap_free(maxval1, "");
-  dap_free(term, "");
-  dap_free(param, "");
-  dap_free(select, "");
-  dap_free(selterm, "");
-  dap_free(sub, "");
-  dap_free(classmem, "");
-  dap_free(klass, "");
-  dap_free(pattern, "");
-  dap_free(paramlistmem, "");
-  dap_free(paramlist, "");
+  dap_free(fnamefil, (char*) "");
+  dap_free(filarg, (char*) "");
+  dap_free(fname1, (char*) "");
+  dap_free(catname, (char*) "");
+  dap_free(varlist1, (char*) "");
+  dap_free(outlist, (char*) "");
+  dap_free(vardef, (char*) "");
+  dap_free(classv, (char*) "");
+  dap_free(maxval, (char*) "");
+  dap_free(maxval1, (char*) "");
+  dap_free(term, (char*) "");
+  dap_free(param, (char*) "");
+  dap_free(select, (char*) "");
+  dap_free(selterm, (char*) "");
+  dap_free(sub, (char*) "");
+  dap_free(classmem, (char*) "");
+  dap_free(klass, (char*) "");
+  dap_free(pattern, (char*) "");
+  dap_free(paramlistmem, (char*) "");
+  dap_free(paramlist, (char*) "");
   for (c = 0; c < nclass; c++)
   {
     while (classval[c])
     {
-      dap_free(classval[c]->value, "");
+      dap_free(classval[c]->value, (char*) "");
       endcv[c] = classval[c]->next;
-      dap_free(classval[c], "");
+      dap_free(classval[c], (char*) "");
       classval[c] = endcv[c];
     }
   }
-  dap_free(classval, "");
-  dap_free(endcv, "");
-  dap_free(maxlen, "");
+  dap_free(classval, (char*) "");
+  dap_free(endcv, (char*) "");
+  dap_free(maxlen, (char*) "");
 }
 
 /* estimate: use a estimate and covariance matrix dataset such as that
@@ -1334,13 +1334,13 @@ void estimate(char *fname, char *parameters, char *definitions, char *part)
   int *partv;                        /* indices of the partitioning variables */
   int npart;                         /* number of partitioning variables */
 
-  parammem = dap_malloc(strlen(parameters) + strlen(definitions) + 1, "");
+  parammem = dap_malloc(strlen(parameters) + strlen(definitions) + 1, (char*) "");
   /* divide by 2 because params are separated; almost always still too many */
   /* this is just (an overestimate of) the max, not the real nparam */
   nparam = (strlen(parameters) + strlen(definitions)) / 2;
-  param = (char **)dap_malloc(sizeof(char *) * nparam, "");
-  defmem = (double *)dap_malloc(sizeof(double) * nparam * nparam, "");
-  def = (double **)dap_malloc(sizeof(double *) * nparam, "");
+  param = (char **)dap_malloc(sizeof(char *) * nparam, (char*) "");
+  defmem = (double *)dap_malloc(sizeof(double) * nparam * nparam, (char*) "");
+  def = (double **)dap_malloc(sizeof(double *) * nparam, (char*) "");
   for (p = 0; p < nparam; p++)
   {
     def[p] = defmem + p * nparam;
@@ -1463,33 +1463,34 @@ void estimate(char *fname, char *parameters, char *definitions, char *part)
       break;
     }
   }
-  estimate = (double *)dap_malloc(sizeof(double) * nparam, "");
-  covmem = (double *)dap_malloc(sizeof(double) * nparam * nparam, "");
-  cov = (double **)dap_malloc(sizeof(double *) * nparam, "");
+  estimate = (double *)dap_malloc(sizeof(double) * nparam, (char*) "");
+  covmem = (double *)dap_malloc(sizeof(double) * nparam * nparam, (char*) "");
+  cov = (double **)dap_malloc(sizeof(double *) * nparam, (char*) "");
   for (p = 0; p < nparam; p++)
     cov[p] = covmem + nparam * p;
   inset(fname);
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(estimate) missing _type_ variable in dataset %s\n", fname);
     exit(1);
   }
-  if ((param1n = dap_varnum("_param1_")) < 0)
+  if ((param1n = dap_varnum((char*) "_param1_")) < 0)
   {
     fprintf(dap_err, "(estimate) missing _param1_ variable in dataset %s\n", fname);
     exit(1);
   }
-  if ((param2n = dap_varnum("_param2_")) < 0)
+  if ((param2n = dap_varnum((char*) "_param2_")) < 0)
   {
     fprintf(dap_err, "(estimate) missing _param2_ variable in dataset %s\n", fname);
     exit(1);
   }
-  if ((covn = dap_varnum("_cov_")) < 0)
+  if ((covn = dap_varnum((char*) "_cov_")) < 0)
+
   {
     fprintf(dap_err, "(estimate) missing _cov_ variable in dataset %s\n", fname);
     exit(1);
   }
-  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
   npart = dap_list(part, partv, dap_maxvar);
   for (pnum1 = 0; pnum1 < nparam; pnum1++)
   {
@@ -1590,12 +1591,12 @@ void estimate(char *fname, char *parameters, char *definitions, char *part)
       }
     }
   }
-  dap_free(parammem, "");
-  dap_free(param, "");
-  dap_free(defmem, "");
-  dap_free(def, "");
-  dap_free(estimate, "");
-  dap_free(covmem, "");
-  dap_free(cov, "");
-  dap_free(partv, "");
+  dap_free(parammem, (char*) "");
+  dap_free(param, (char*) "");
+  dap_free(defmem, (char*) "");
+  dap_free(def, (char*) "");
+  dap_free(estimate, (char*) "");
+  dap_free(covmem, (char*) "");
+  dap_free(cov, (char*) "");
+  dap_free(partv, (char*) "");
 }

@@ -466,7 +466,7 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
   nxdigs = 3;
   nydigs = 3;
   /* allocate word */
-  word = dap_malloc(dap_namelen + 1, "");
+  word = dap_malloc(dap_namelen + 1, (char*) "");
   /* now parse the axis specifications, if present */
   if (axspec && axspec[0])
   {
