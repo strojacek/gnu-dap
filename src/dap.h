@@ -141,7 +141,7 @@ int dap_lablen = 63;		   /* max number of non-null char in column label */
 #ifdef DAP_SETDIR
 char *dap_setdir = DAP_SETDIR;
 #else
-char *dap_setdir = "dap_sets"; /* where datasets are stored */
+char *dap_setdir = (char*) "dap_sets"; /* where datasets are stored */
 #endif
 #ifdef DAP_MAXVAL
 int dap_maxval = DAP_MAXVAL;
@@ -299,7 +299,7 @@ int dap_maxmem = 1048576;	   /* memory buffer size for sorting */
 #ifdef DAP_TMPDIR
 char *dap_tmpdir = DAP_TMPDIR;
 #else
-char *dap_tmpdir = "dap_tmp";  /* where datasets are stored */
+char *dap_tmpdir = (char*) "dap_tmp";  /* where datasets are stored */
 #endif
 
 /* Memory allocation tracing */

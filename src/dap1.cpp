@@ -130,12 +130,12 @@ void sort(char *fname, char *varlist, char *modifiers)
   if (!sortinit)
   {
     sortinit = 1;
-    line = (char **)dap_malloc(sizeof(char *) * dap_maxlines, "");
-    startmem = (int *)dap_malloc(sizeof(int) * 2 * dap_maxvar, "");
+    line = (char **)dap_malloc(sizeof(char *) * dap_maxlines, (char*) "");
+    startmem = (int *)dap_malloc(sizeof(int) * 2 * dap_maxvar, (char*) "");
     start[0] = startmem;
     start[1] = startmem + dap_maxvar;
-    mod = dap_malloc(dap_maxvar, "");
-    varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+    mod = dap_malloc(dap_maxvar, (char*) "");
+    varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
   }
   if (!fname)
   {
@@ -171,10 +171,10 @@ void sort(char *fname, char *varlist, char *modifiers)
   }
   else
     nmods = 0;
-  dsrt0 = dap_malloc(strlen(fname) + 5, "");
-  dap_suffix(dsrt0, fname, ".srt");
+  dsrt0 = dap_malloc(strlen(fname) + 5, (char*) "");
+  dap_suffix(dsrt0, fname, (char*) ".srt");
   inset(fname);
-  outset(dsrt0, "");
+  outset(dsrt0, (char*) "");
   nvar = dap_list(varlist, varv, dap_maxvar);
   if (nmods && (nvar != nmods))
   {
@@ -228,15 +228,15 @@ void sort(char *fname, char *varlist, char *modifiers)
   else
   {
     inset(NULL); /* because we had to call inset before and now we don't want it */
-    dfile = dap_malloc(strlen(fname) + strlen(dap_setdir) + 2, "");
+    dfile = dap_malloc(strlen(fname) + strlen(dap_setdir) + 2, (char*) "");
     dap_name(dfile, fname);
-    dsrt = dap_malloc(strlen(dsrt0) + strlen(dap_setdir) + 2, "");
+    dsrt = dap_malloc(strlen(dsrt0) + strlen(dap_setdir) + 2, (char*) "");
     dap_name(dsrt, dsrt0);
     dsort(dfile, dsrt, varv, nvar, unique, mod, nmods);
-    dap_free(dsrt, "");
-    dap_free(dfile, "");
+    dap_free(dsrt, (char*) "");
+    dap_free(dfile, (char*) "");
   }
-  dap_free(dsrt0, "");
+  dap_free(dsrt0, (char*) "");
 }
 
 /* Print header for function "print" */
@@ -247,7 +247,7 @@ static void printhead(char **formstr, int space, char *fname, int *varv, int nva
   char *ttext;
   int wastitle; /* flag: was there a title? */
 
-  ttext = dap_malloc(strlen(fname) + 11, "");
+  ttext = dap_malloc(strlen(fname) + 11, (char*) "");
   if (dap_title)
     wastitle = 1;
   else
@@ -306,7 +306,7 @@ static void printhead(char **formstr, int space, char *fname, int *varv, int nva
   }
   if (!wastitle)
     title(NULL);
-  dap_free(ttext, "");
+  dap_free(ttext, (char*) "");
 }
 
 /* Print values in dataset. If varlist is NULL or "" or "\t" or ",", print values
@@ -330,12 +330,12 @@ void print(char fname[], char *varlist)
   int lenstr;     /* length of string variable */
   int obn;
 
-  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
   inset(fname);
   space = ' ';
   if (varlist && varlist[0])
   {
-    varlist1 = (char *)dap_malloc(strlen(varlist) + 1, "");
+    varlist1 = (char *)dap_malloc(strlen(varlist) + 1, (char*) "");
     for (v = 0; varlist[v]; v++)
     {
       if (varlist[v] == '\t' || varlist[v] == ',')
@@ -354,7 +354,7 @@ void print(char fname[], char *varlist)
         varlist1[v] = varlist[v];
     }
     varlist1[v] = '\0';
-    if ((varv[0] = dap_varnum("_type_")) < 0)
+    if ((varv[0] = dap_varnum((char*) "_type_")) < 0)
     {
       fputs("(print) Missing _type_ variable.\n", dap_err);
       exit(1);
@@ -367,7 +367,7 @@ void print(char fname[], char *varlist)
       for (v = 0; v < nvar; v++)
         varv[v] = v;
     }
-    dap_free(varlist1, "");
+    dap_free(varlist1, (char*) "");
   }
   else
   {
@@ -375,8 +375,8 @@ void print(char fname[], char *varlist)
     for (v = 0; v < nvar; v++)
       varv[v] = v;
   }
-  formmem = dap_malloc(nvar * 10, "");
-  formstr = (char **)dap_malloc(sizeof(char *) * nvar, "");
+  formmem = dap_malloc(nvar * 10, (char*) "");
+  formstr = (char **)dap_malloc(sizeof(char *) * nvar, (char*) "");
   for (v = 0; v < nvar; v++)
     formstr[v] = formmem + 10 * v;
   for (v = 0; v < nvar; v++)
@@ -431,9 +431,9 @@ void print(char fname[], char *varlist)
     obn++;
   }
   fflush(dap_lst);
-  dap_free(varv, "");
-  dap_free(formmem, "");
-  dap_free(formstr, "");
+  dap_free(varv, (char*) "");
+  dap_free(formmem, (char*) "");
+  dap_free(formstr, (char*) "");
 }
 
 int dap_mnsparse(char *varlist, char *outlist, int *varv, int *wtvar, int stats[])
@@ -455,13 +455,13 @@ int dap_mnsparse(char *varlist, char *outlist, int *varv, int *wtvar, int stats[
     fputs("(meansparse) Missing variable list.\n", dap_err);
     exit(1);
   }
-  vname = dap_malloc(dap_namelen + 6, "");
+  vname = dap_malloc(dap_namelen + 6, (char*) "");
   for (v = 0; varlist[v]; v++)
     ;
   for (--v; v >= 0 && varlist[v] == ' '; --v)
     ;
   nvar = 0;
-  tmplist = dap_malloc(dap_listlen + 1, "");
+  tmplist = dap_malloc(dap_listlen + 1, (char*) "");
   tmplist[0] = '\0';
   wn = -1;
   for (nonly = 0; v >= 0;)
@@ -544,8 +544,8 @@ int dap_mnsparse(char *varlist, char *outlist, int *varv, int *wtvar, int stats[
     for (i = j - 1; i >= 0 && tmplist[i] == ' '; --i)
       ;
   }
-  dap_free(vname, "");
-  dap_free(tmplist, "");
+  dap_free(vname, (char*) "");
+  dap_free(tmplist, (char*) "");
   if (nonly)
     return -nvar;
   return nvar;
@@ -612,7 +612,7 @@ void dap_stats(char *statlist, int *stats)
   }
   for (s = 0; statlist[s] == ' '; s++)
     ;
-  stat = dap_malloc(dap_namelen + 1, "");
+  stat = dap_malloc(dap_namelen + 1, (char*) "");
   for (pctptn = 0; statlist[s];)
   {
     for (i = 0; statlist[s + i] && statlist[s + i] != ' '; i++)
@@ -676,7 +676,7 @@ void dap_stats(char *statlist, int *stats)
     while (statlist[s] == ' ')
       s++;
   }
-  dap_free(stat, "");
+  dap_free(stat, (char*) "");
 }
 
 static void meansout(int varv[], int nvar, int nobs[], double sum[], double sumwt[],
@@ -691,10 +691,10 @@ static void meansout(int varv[], int nvar, int nobs[], double sum[], double sumw
   double fract;
 
   dap_swap();
-  dn = (double *)dap_malloc(sizeof(double) * nvar, "");
+  dn = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
   for (v = 0; v < nvar; v++)
     dn[v] = (double)nobs[v];
-  if ((typevar = dap_varnum("_type_")) < 0)
+  if ((typevar = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(meansout) Missing _type_ variable\n");
     exit(1);
@@ -890,7 +890,7 @@ static void meansout(int varv[], int nvar, int nobs[], double sum[], double sumw
   {
     if (sscanf(dap_sttnm[STEP] + 4, "%d", &nsteps) == 1)
     {
-      range = (double *)dap_malloc(sizeof(double) * nvar, "");
+      range = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
       strcpy(dap_obs[0].do_str[typevar], "STEP");
       for (v = 0; v < nvar; v++)
       {
@@ -907,7 +907,7 @@ static void meansout(int varv[], int nvar, int nobs[], double sum[], double sumw
               min[v] + range[v] * fract;
         output();
       }
-      dap_free(range, "");
+      dap_free(range, (char*) "");
     }
     else
     {
@@ -949,7 +949,7 @@ static void meansout(int varv[], int nvar, int nobs[], double sum[], double sumw
     output();
   }
   dap_swap();
-  dap_free(dn, "");
+  dap_free(dn, (char*) "");
 }
 
 int dap_list(char *varlist, int *varv, int maxvars)
@@ -968,7 +968,7 @@ int dap_list(char *varlist, int *varv, int maxvars)
   }
   for (m = 0; varlist[m] == ' '; m++)
     ;
-  mname = dap_malloc(dap_namelen + 1, "");
+  mname = dap_malloc(dap_namelen + 1, (char*) "");
   for (nvars = 0; varlist[m];)
   {
     for (i = 0; varlist[m + i] && varlist[m + i] != ' '; i++)
@@ -998,7 +998,7 @@ int dap_list(char *varlist, int *varv, int maxvars)
     while (varlist[m] == ' ')
       m++;
   }
-  dap_free(mname, "");
+  dap_free(mname, (char*) "");
   return nvars;
 }
 
@@ -1069,19 +1069,19 @@ void means(char *fname, char *varlist, char *statlist, char *marks)
     fputs("(means) Missing input dataset name.\n", dap_err);
     exit(1);
   }
-  outname = dap_malloc(strlen(fname) + 5, "");
-  dap_suffix(outname, fname, ".mns");
-  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-  wtvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-  outlist = dap_malloc(dap_listlen + 1, "");
+  outname = dap_malloc(strlen(fname) + 5, (char*) "");
+  dap_suffix(outname, fname, (char*) ".mns");
+  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+  wtvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+  outlist = dap_malloc(dap_listlen + 1, (char*) "");
   inset(fname);
   dap_stats(statlist, stats);
   nvar = dap_mnsparse(varlist, outlist, varv, wtvar, stats);
   if ((nonly = (nvar < 0)))
     nvar = -nvar;
-  nobs = (int *)dap_malloc(sizeof(int) * nvar, "");
-  nnan = (int *)dap_malloc(sizeof(int) * nvar, "");
+  nobs = (int *)dap_malloc(sizeof(int) * nvar, (char*) "");
+  nnan = (int *)dap_malloc(sizeof(int) * nvar, (char*) "");
   if (marks && marks[0])
   {
     strcat(outlist, " ");
@@ -1089,11 +1089,11 @@ void means(char *fname, char *varlist, char *statlist, char *marks)
   }
   outset(outname, outlist);
   nmark = dap_list(marks, markv, dap_maxvar);
-  sum = (double *)dap_malloc(sizeof(double) * nvar, "");
-  sumwt = (double *)dap_malloc(sizeof(double) * nvar, "");
-  ss = (double *)dap_malloc(sizeof(double) * nvar, "");
-  min = (double *)dap_malloc(sizeof(double) * nvar, "");
-  max = (double *)dap_malloc(sizeof(double) * nvar, "");
+  sum = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
+  sumwt = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
+  ss = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
+  min = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
+  max = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
   for (v = 0; v < nvar; v++)
   {
     sum[v] = 0.0;
@@ -1157,27 +1157,28 @@ void means(char *fname, char *varlist, char *statlist, char *marks)
         nnan[v]++;
     }
   }
-  dap_free(outname, "");
-  dap_free(varv, "");
-  dap_free(markv, "");
-  dap_free(nobs, "");
-  dap_free(outlist, "");
-  dap_free(wtvar, "");
-  dap_free(sum, "");
-  dap_free(sumwt, "");
-  dap_free(ss, "");
-  dap_free(min, "");
-  dap_free(max, "");
-  dap_free(nnan, "");
+  dap_free(outname, (char*) "");
+  dap_free(varv, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(nobs, (char*) "");
+  dap_free(outlist, (char*) "");
+  dap_free(wtvar, (char*) "");
+  dap_free(sum, (char*) "");
+  dap_free(sumwt, (char*) "");
+  dap_free(ss, (char*) "");
+  dap_free(min, (char*) "");
+  dap_free(max, (char*) "");
+  dap_free(nnan, (char*) "");
 }
 
-typedef struct
+class labnode
 {
+  public:
   char *lab; /* the label */
   int labd;  /* next one down */
   int laba;  /* next one across */
   int labc;  /* column of tableval array */
-} labnode;
+};
 
 static char tabform[7];
 static char emptyform[5];
@@ -1233,7 +1234,7 @@ static void labelprint(char name[], int width)
   int c;
 
   if (!label)
-    label = dap_malloc(dap_strlen + 1, "");
+    label = dap_malloc(dap_strlen + 1, (char*) "");
   strcpy(label, name);
   for (c = 0; label[c] && c < width; c++)
     ;
@@ -1475,7 +1476,7 @@ static int findcol()
       if (colvar[0] >= 0)
         label = dap_obs[0].do_str[colvar[varn]];
       else
-        label = "";
+        label = (char*) "";
       for (prevnode = -1; node >= 0 &&
                           strcmp(label, collabel[node].lab);)
       {
@@ -1545,7 +1546,7 @@ static void specparse(char rowvars[], char colvars[], char format[])
   char *vname;
   int v;
 
-  vname = dap_malloc(dap_namelen + 1, "");
+  vname = dap_malloc(dap_namelen + 1, (char*) "");
   nrowvar = 0;
   ncolvar = 0;
   for (t = 0; rowvars[t] == ' '; t++)
@@ -1688,7 +1689,7 @@ static void specparse(char rowvars[], char colvars[], char format[])
     colvar[0] = -1;
     ncolvar = 2;
   }
-  dap_free(vname, "");
+  dap_free(vname, (char*) "");
 }
 
 void table(char *fname, char *rowvars, char *colvars, char *format, char *marks)
@@ -1708,22 +1709,22 @@ void table(char *fname, char *rowvars, char *colvars, char *format, char *marks)
   if (!tabinit)
   {
     tabinit = 1;
-    valsetmem = (int *)dap_malloc(dap_maxrows * dap_maxcols * sizeof(int), "");
-    valset = (int **)dap_malloc(dap_maxrows * sizeof(int *), "");
+    valsetmem = (int *)dap_malloc(dap_maxrows * dap_maxcols * sizeof(int), (char*) "");
+    valset = (int **)dap_malloc(dap_maxrows * sizeof(int *), (char*) "");
     for (r = 0; r < dap_maxrows; r++)
       valset[r] = valsetmem + dap_maxcols * r;
-    tabvalmem = (double *)dap_malloc(dap_maxrows * dap_maxcols * sizeof(double), "");
-    tableval = (double **)dap_malloc(dap_maxrows * sizeof(double *), "");
+    tabvalmem = (double *)dap_malloc(dap_maxrows * dap_maxcols * sizeof(double), (char*) "");
+    tableval = (double **)dap_malloc(dap_maxrows * sizeof(double *), (char*) "");
     for (r = 0; r < dap_maxrows; r++)
       tableval[r] = tabvalmem + dap_maxcols * r;
-    collabel = (labnode *)dap_malloc(dap_maxclab * sizeof(labnode), "");
+    collabel = (labnode *)dap_malloc(dap_maxclab * sizeof(labnode), (char*) "");
     for (c = 0; c < dap_maxclab; c++)
-      collabel[c].lab = dap_malloc(dap_lablen + 1, "");
-    rowvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-    colvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-    rlabmem = dap_malloc(dap_maxrows * dap_maxrowv * (dap_lablen + 1), "");
-    rlptrmem = (char **)dap_malloc(sizeof(char *) * dap_maxrows * dap_maxrowv, "");
-    rowlabel = (char ***)dap_malloc(sizeof(char **) * dap_maxrows, "");
+      collabel[c].lab = dap_malloc(dap_lablen + 1, (char*) "");
+    rowvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+    colvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+    rlabmem = dap_malloc(dap_maxrows * dap_maxrowv * (dap_lablen + 1), (char*) "");
+    rlptrmem = (char **)dap_malloc(sizeof(char *) * dap_maxrows * dap_maxrowv, (char*) "");
+    rowlabel = (char ***)dap_malloc(sizeof(char **) * dap_maxrows, (char*) "");
     for (r = 0; r < dap_maxrows; r++)
     {
       rowlabel[r] = rlptrmem + r * dap_maxrowv;
@@ -1732,12 +1733,12 @@ void table(char *fname, char *rowvars, char *colvars, char *format, char *marks)
                          r * (dap_maxrowv * (dap_lablen + 1)) +
                          v * (dap_lablen + 1);
     }
-    prevmem = dap_malloc(dap_maxrowv * (dap_lablen + 1), "");
-    prev = (char **)dap_malloc(sizeof(char *) * dap_maxrowv, "");
+    prevmem = dap_malloc(dap_maxrowv * (dap_lablen + 1), (char*) "");
+    prev = (char **)dap_malloc(sizeof(char *) * dap_maxrowv, (char*) "");
     for (v = 0; v < dap_maxrowv; v++)
       prev[v] = prevmem + v * (dap_lablen + 1);
-    markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-    nstring = dap_malloc(dap_strlen + 1, "dap_strlen");
+    markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+    nstring = dap_malloc(dap_strlen + 1, (char*) "dap_strlen");
   }
   if (!fname)
   {
@@ -1769,8 +1770,8 @@ void table(char *fname, char *rowvars, char *colvars, char *format, char *marks)
     if (dap_obs[0].do_len[rowvar[r]] <= 0)
     {
       if (dap_obs[0].do_str[rowvar[r]])
-        dap_free(dap_obs[0].do_str[rowvar[r]], "");
-      dap_obs[0].do_str[rowvar[r]] = dap_malloc(rtitlesp + 1, "");
+        dap_free(dap_obs[0].do_str[rowvar[r]], (char*) "");
+      dap_obs[0].do_str[rowvar[r]] = dap_malloc(rtitlesp + 1, (char*) "");
     }
   }
   for (c = 0; c < ncolvar - 1; c++)
@@ -1778,8 +1779,8 @@ void table(char *fname, char *rowvars, char *colvars, char *format, char *marks)
     if (dap_obs[0].do_len[colvar[c]] <= 0)
     {
       if (dap_obs[0].do_str[colvar[c]])
-        dap_free(dap_obs[0].do_str[colvar[c]], "");
-      dap_obs[0].do_str[colvar[c]] = dap_malloc(rtitlesp + 1, "");
+        dap_free(dap_obs[0].do_str[colvar[c]], (char*) "");
+      dap_obs[0].do_str[colvar[c]] = dap_malloc(rtitlesp + 1, (char*) "");
     }
   }
   for (r = 0; r < dap_maxrows; r++)
@@ -1886,8 +1887,8 @@ void split(char *fname, char *varlist, char *classvalvars)
   int classv, valuev; /* indexes of class and value vars */
 
   /* need space for length specification */
-  classvar = dap_malloc(strlen(varlist) + 6, ""); /* should be longer than needed */
-  valuevar = dap_malloc(strlen(varlist) + 6, ""); /* should be longer than needed */
+  classvar = dap_malloc(strlen(varlist) + 6, (char*) ""); /* should be longer than needed */
+  valuevar = dap_malloc(strlen(varlist) + 6, (char*) ""); /* should be longer than needed */
   for (s = 0; classvalvars[s] == ' '; s++)        /* skip spaces */
     ;
   /* copy classification variable name */
@@ -1910,12 +1911,12 @@ void split(char *fname, char *varlist, char *classvalvars)
     fprintf(dap_err, "(split) No value variable specified: %s\n", classvalvars);
     exit(1);
   }
-  var = (int *)dap_malloc(sizeof(int) * ((strlen(varlist) + 1) / 2), ""); /* more than necessary */
-  varname = dap_malloc(strlen(varlist) + 1, "");                          /* longest possible name */
-  skiplist = dap_malloc(strlen(varlist) + 2, "");                         /* prepare to eliminate variables */
+  var = (int *)dap_malloc(sizeof(int) * ((strlen(varlist) + 1) / 2), (char*) ""); /* more than necessary */
+  varname = dap_malloc(strlen(varlist) + 1, (char*) "");                          /* longest possible name */
+  skiplist = dap_malloc(strlen(varlist) + 2, (char*) "");                         /* prepare to eliminate variables */
   strcpy(skiplist, "!");                                                  /* if outset second parameter starts with '!'... */
   strcat(skiplist, varlist);                                              /* those variables are dropped */
-  outname = dap_malloc(strlen(fname) + 5, "");                            /* outname will have ".spl" appended */
+  outname = dap_malloc(strlen(fname) + 5, (char*) "");                            /* outname will have ".spl" appended */
   strcpy(outname, fname);
   strcat(outname, ".spl");
   inset(fname); /* set up input dataset */
@@ -1972,12 +1973,12 @@ void split(char *fname, char *varlist, char *classvalvars)
       output(); /* and write line to output dataset */
     }
   }
-  dap_free(classvar, "");
-  dap_free(valuevar, "");
-  dap_free(var, "");
-  dap_free(skiplist, "");
-  dap_free(outname, "");
-  dap_free(varname, "");
+  dap_free(classvar, (char*) "");
+  dap_free(valuevar, (char*) "");
+  dap_free(var, (char*) "");
+  dap_free(skiplist, (char*) "");
+  dap_free(outname, (char*) "");
+  dap_free(varname, (char*) "");
 }
 
 void join(char *fname, char *partvars, char *valuevar)
@@ -2001,11 +2002,11 @@ void join(char *fname, char *partvars, char *valuevar)
   int more;        /* for processing dataset: more lines? */
   int np;          /* index to partv */
 
-  outname = dap_malloc(strlen(fname) + 5, ""); /* room for ".joi" */
+  outname = dap_malloc(strlen(fname) + 5, (char*) ""); /* room for ".joi" */
   strcpy(outname, fname);
   strcat(outname, ".joi");
-  newv = (int *)dap_malloc(sizeof(int *) * dap_maxvar, "dap_maxvar");
-  partvars1 = dap_malloc(strlen(partvars) + 1, ""); /* partvars1 shorter than partvars */
+  newv = (int *)dap_malloc(sizeof(int *) * dap_maxvar, (char*) "dap_maxvar");
+  partvars1 = dap_malloc(strlen(partvars) + 1, (char*) ""); /* partvars1 shorter than partvars */
   /* need to find last variable in partvars */
   for (s = 0; partvars[s] == ' '; s++)
     ;                           /* s marks beginning of first variable */
@@ -2027,12 +2028,12 @@ void join(char *fname, char *partvars, char *valuevar)
   }
   strncpy(partvars1, partvars, s);
   partvars1[s] = '\0';                                 /* now we have all but the final variable */
-  classvar = dap_malloc(strlen(partvars) - s + 2, ""); /* need extra for null */
+  classvar = dap_malloc(strlen(partvars) - s + 2, (char*) ""); /* need extra for null */
   for (t = 0; partvars[s] && partvars[s] != ' ';)
     classvar[t++] = partvars[s++];
   classvar[t] = '\0'; /* get that final variable */
   /* construct list for outset to exclude */
-  skiplist = dap_malloc(strlen(classvar) + strlen(valuevar) + 3, "");
+  skiplist = dap_malloc(strlen(classvar) + strlen(valuevar) + 3, (char*) "");
   if (strcmp(classvar, "_type_")) /* always need _type_ */
     sprintf(skiplist, "!%s %s", classvar, valuevar);
   else
@@ -2053,14 +2054,14 @@ void join(char *fname, char *partvars, char *valuevar)
   vallen = dap_obs[dap_ono].do_len[valv];
   /* length of string gives length of variable name */
   vlen = dap_obs[dap_ono].do_len[cv];
-  varspec = dap_malloc(vlen + 5, ""); /* should be long enough */
+  varspec = dap_malloc(vlen + 5, (char*) ""); /* should be long enough */
   if (vlen <= 0)
   {
     fprintf(dap_err, "(join) Variable %s not string variable (%d)\n", classvar, vlen);
     exit(1);
   }
   dap_mark();                                           /* after setting all this up, will need to start over */
-  partv = (int *)dap_malloc(sizeof(int *) * npart, ""); /* allocate */
+  partv = (int *)dap_malloc(sizeof(int *) * npart, (char*) ""); /* allocate */
   dap_list(partvars1, partv, npart);                    /* set up partv index array */
   /* now get new variable names and set them up */
   for (nnew = 0; step(); nnew++)
@@ -2123,13 +2124,13 @@ void join(char *fname, char *partvars, char *valuevar)
                dap_obs[dap_ono].do_str[valv]);
     }
   }
-  dap_free(outname, "");
-  dap_free(newv, "");
-  dap_free(partvars1, "");
-  dap_free(classvar, "");
-  dap_free(skiplist, "");
-  dap_free(varspec, "");
-  dap_free(partv, "");
+  dap_free(outname, (char*) "");
+  dap_free(newv, (char*) "");
+  dap_free(partvars1, (char*) "");
+  dap_free(classvar, (char*) "");
+  dap_free(skiplist, (char*) "");
+  dap_free(varspec, (char*) "");
+  dap_free(partv, (char*) "");
 }
 
 /* dsort -- dap dataset sort HERE
@@ -2308,18 +2309,18 @@ static void merge(int nseg, int out)
   int (*scmp)(const void *, const void *);
 
   scmp = &nextlinecmp;
-  nextline = (char **)dap_malloc(nseg * sizeof(char *), "nextline");
+  nextline = (char **)dap_malloc(nseg * sizeof(char *), (char*) "nextline");
   prevline = NULL; /* mark as not yet set */
-  segnamemem = (char *)dap_malloc(nseg * (strlen(TMPLATE) + 1), "segnamemem");
-  segname = (char **)dap_malloc(nseg * sizeof(char *), "segname");
-  spos = (unsigned long int *)dap_malloc(nseg * sizeof(unsigned long int), "spos");
-  segord = (int *)dap_malloc(nseg * sizeof(int), "segord");
+  segnamemem = (char *)dap_malloc(nseg * (strlen(TMPLATE) + 1), (char*) "segnamemem");
+  segname = (char **)dap_malloc(nseg * sizeof(char *), (char*) "segname");
+  spos = (unsigned long int *)dap_malloc(nseg * sizeof(unsigned long int), (char*) "spos");
+  segord = (int *)dap_malloc(nseg * sizeof(int), (char*) "segord");
   if (!(chunksize = dap_maxmem / (nseg * linelen) * linelen)) /* read in complete lines */
   {
     fputs("(dsort) insufficient memory\n", dap_err);
     exit(1);
   }
-  chunkread = (int *)dap_malloc(nseg * sizeof(int), "chunkread");
+  chunkread = (int *)dap_malloc(nseg * sizeof(int), (char*) "chunkread");
   /* set up segnames, nextline, spos */
   for (s = 0; s < nseg; s++)
   {
@@ -2359,7 +2360,7 @@ static void merge(int nseg, int out)
     if (unique)
     {
       if (!prevline)
-        prevline = (char *)dap_malloc(linelen, "prevline");
+        prevline = (char *)dap_malloc(linelen, (char*) "prevline");
     }
     /* now need to reformat line */
     if (!unique || (prevline && linecmp(nextline + segord[0], &prevline)))
@@ -2391,7 +2392,7 @@ static void merge(int nseg, int out)
     if (unique)
     {
       if (!prevline)
-        prevline = (char *)dap_malloc(linelen, "prevline");
+        prevline = (char *)dap_malloc(linelen, (char*) "prevline");
       memcpy(prevline, nextline[segord[0]], linelen);
     }
     if ((nextline[segord[0]] += linelen) >=
@@ -2443,13 +2444,13 @@ static void merge(int nseg, int out)
   }
   if (outpos)
     write(out, mem2, outpos);
-  dap_free(nextline, "");
-  dap_free(prevline, "");
-  dap_free(segnamemem, "");
-  dap_free(segname, "");
-  dap_free(spos, "");
-  dap_free(chunkread, "");
-  dap_free(segord, "");
+  dap_free(nextline, (char*) "");
+  dap_free(prevline, (char*) "");
+  dap_free(segnamemem, (char*) "");
+  dap_free(segname, (char*) "");
+  dap_free(spos, (char*) "");
+  dap_free(chunkread, (char*) "");
+  dap_free(segord, (char*) "");
 }
 
 /* convert code for field into (max) field length */
@@ -2485,10 +2486,10 @@ static int fixheader(char *header, int srt)
   int k, k1;          /* indexes to keys */
   char **headerfield; /* pointers to start of field names and specs */
 
-  headerfield = (char **)dap_malloc(dap_maxvar * sizeof(char *), "headerfield");
-  fieldstart = (int *)dap_malloc((dap_maxvar + 1) * sizeof(int), "fieldstart");
+  headerfield = (char **)dap_malloc(dap_maxvar * sizeof(char *), (char*) "headerfield");
+  fieldstart = (int *)dap_malloc((dap_maxvar + 1) * sizeof(int), (char*) "fieldstart");
   fieldstart[0] = 0;
-  fieldlen = (int *)dap_malloc((dap_maxvar + 1) * sizeof(int), "fieldlen");
+  fieldlen = (int *)dap_malloc((dap_maxvar + 1) * sizeof(int), (char*) "fieldlen");
   for (headerlen = 0, nspaces = 0, nvars = 0, newfield = 1, linelen = 0;
        headerlen < dap_linelen && header[headerlen] != '\n';
        headerlen++)
@@ -2534,7 +2535,7 @@ static int fixheader(char *header, int srt)
   linelen += (fieldlen[nvars - 1] = fieldfix(sign * fieldlen1)); /* no delimiter */
   /* make map for sort orders */
   maxlines = dap_maxmem / linelen;
-  line = (char **)dap_malloc(maxlines * sizeof(char *), "line");
+  line = (char **)dap_malloc(maxlines * sizeof(char *), (char*) "line");
   if (headerlen == dap_linelen)
   {
     header[dap_linelen - 1] = '\0';
@@ -2559,20 +2560,20 @@ static int fixheader(char *header, int srt)
   for (fieldstart[0] = 0, f = 1; f <= nvars; f++)
     fieldstart[f] = fieldstart[f - 1] + fieldlen[field[f - 1]];
   /* now calculate keylen and keyends */
-  keyend = (int *)dap_malloc(nfields * sizeof(int), "keyend");
+  keyend = (int *)dap_malloc(nfields * sizeof(int), (char*) "keyend");
   for (f = 0, keylen = 0; f < nfields; f++)
   {
     keylen += fieldlen[field[f]];
     keyend[f] = keylen;
   }
-  keymap = (int *)dap_malloc(keylen * sizeof(int), "keymap");
+  keymap = (int *)dap_malloc(keylen * sizeof(int), (char*) "keymap");
   for (f = 0, k = 0; f < nfields; f++)
   {
     for (k1 = 0; k1 < fieldlen[field[f]]; k1++)
       keymap[k++] = sortord[f];
   }
   write(srt, header, headerlen + 1);
-  dap_free(headerfield, "");
+  dap_free(headerfield, (char*) "");
   return headerlen + 1;
 }
 
@@ -2587,10 +2588,10 @@ static void dsort(char *origset, char *sortset, int sortvar[], int nsort,
   int c;               /* for skipping and then copying header line */
   struct stat statbuf; /* for seeing if directory exists */
 
-  header = (char *)dap_malloc(dap_linelen, "header");
-  field = (int *)dap_malloc(dap_maxvar * sizeof(int), "field");
-  unfield = (int *)dap_malloc(dap_maxvar * sizeof(int), "unfield");
-  sortord = (int *)dap_malloc(dap_maxvar * sizeof(int), "dsortord");
+  header = (char *)dap_malloc(dap_linelen, (char*) "header");
+  field = (int *)dap_malloc(dap_maxvar * sizeof(int), (char*) "field");
+  unfield = (int *)dap_malloc(dap_maxvar * sizeof(int), (char*) "unfield");
+  sortord = (int *)dap_malloc(dap_maxvar * sizeof(int), (char*) "dsortord");
   nfields = nsort;
   if (!nmods)
   {
@@ -2783,6 +2784,6 @@ void surveyselect(char *fname, char *outname, char *method, int tirage)
     }
     counter++;
   }
-  dap_free(list, "");
-  dap_free(listsorted, "");
+  dap_free(list, (char*) "");
+  dap_free(listsorted, (char*) "");
 }

@@ -50,10 +50,10 @@ void glmtrans(char *step, FILE *dapfile)
   int minus;                           /* coeff has minus sign? (read as separate token) */
   int coeffsum;                        /* sum of coefficients for contrast */
 
-  if (!getoption(step, "data", setname, 1))
+  if (!getoption(step, (char*) "data", setname, 1))
     strcpy(setname, sastmp);
 
-  if ((modelstart = findstatement(step, "model")))
+  if ((modelstart = findstatement(step, (char*) "model")))
     resplen = linecpy(response, step + modelstart);
   else
   {
@@ -63,7 +63,7 @@ void glmtrans(char *step, FILE *dapfile)
     exit(1);
   }
 
-  if (!(classstart = findstatement(step, "class")))
+  if (!(classstart = findstatement(step, (char*) "class")))
   {
     fprintf(stderr,
             "sastrans: before %d: missing class statement in proc glm\n",
@@ -71,7 +71,7 @@ void glmtrans(char *step, FILE *dapfile)
     exit(1);
   }
 
-  if ((s = findstatement(step, "by")))
+  if ((s = findstatement(step, (char*) "by")))
   {
     for (nbyvars = 0; step[s] && step[s] != ';'; nbyvars++)
       s += linecpy((char *)NULL, step + s) + 1;
@@ -81,19 +81,19 @@ void glmtrans(char *step, FILE *dapfile)
 
   /* we have to sort by the class vars and to get means, etc. */
   fprintf(dapfile, "sort(\"%s\", \"", setname);
-  copylist(step, "by", dapfile);
-  copylist(step, "class", dapfile);
+  copylist(step, (char*) "by", dapfile);
+  copylist(step, (char*) "class", dapfile);
   fputs("\", \"\");\n", dapfile);
 
   /* we have to get means and vars */
   fprintf(dapfile, "means(\"%s.srt\", \"%s\", \"N MEAN VAR\", \"", setname, response);
-  copylist(step, "by", dapfile);
-  copylist(step, "class", dapfile);
+  copylist(step, (char*) "by", dapfile);
+  copylist(step, (char*) "class", dapfile);
   fputs("\");\n", dapfile);
 
   /* now we can start the ANOVA and test the whole model */
   fprintf(dapfile, "effects(\"%s.srt.mns\", \"%s ", setname, response);
-  copylist(step, "class", dapfile);
+  copylist(step, (char*) "class", dapfile);
   fputs("\", \"", dapfile);
   s = modelstart + resplen + 1;
   if (step[s] != '=')
@@ -111,7 +111,7 @@ void glmtrans(char *step, FILE *dapfile)
       putc(step[s], dapfile);
   }
   fputs("\", \"", dapfile);
-  copylist(step, "by", dapfile);
+  copylist(step, (char*) "by", dapfile);
   fputs("\");\n", dapfile);
 
   /* now we've run the model, it's time to test each effect in it */
@@ -119,9 +119,9 @@ void glmtrans(char *step, FILE *dapfile)
    */
 
   /* first get the first lsmeans statement */
-  if ((lsmeans = findstatement(step, "lsmeans")))
+  if ((lsmeans = findstatement(step, (char*) "lsmeans")))
   { /* see if it specifies an error term */
-    if (getoption(step + lsmeans, "e", (char *)NULL, 1))
+    if (getoption(step + lsmeans, (char*) "e", (char *)NULL, 1))
       lsmeans = 0; /* not going to use it */
     else           /* need to get test name, alpha */
     {
@@ -145,7 +145,7 @@ void glmtrans(char *step, FILE *dapfile)
                 saslineno);
         exit(1);
       }
-      if (!getoption(step + lsmeans, "alpha", level, 1))
+      if (!getoption(step + lsmeans, (char*) "alpha", level, 1))
         strcpy(level, "0.05");
     }
   }
@@ -156,7 +156,7 @@ void glmtrans(char *step, FILE *dapfile)
   while (step[e] && step[e] != '/' && step[e] != ';')
   {
     fprintf(dapfile, "ftest(\"%s.srt.mns.con\", \"%s ", setname, response);
-    copylist(step, "class", dapfile);
+    copylist(step, (char*) "class", dapfile);
     fputs("\", \"", dapfile);
     /* here comes the numerator */
     term = e; /* mark this place for lsmeans */
@@ -173,7 +173,7 @@ void glmtrans(char *step, FILE *dapfile)
       }
     }
     fputs("\", \"\", \"", dapfile); /* null denominator */
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     fputs("\");\n", dapfile);
     e++; /* position at next term */
 
@@ -188,25 +188,25 @@ void glmtrans(char *step, FILE *dapfile)
         fprintf(dapfile,
                 "lsmeans(\"%s.srt.mns.tst\", \"%s\", %s, \"%s ",
                 setname, test, level, response);
-        copylist(step, "class", dapfile);
+        copylist(step, (char*) "class", dapfile);
         fputs("\", \"", dapfile);
         for (s = term; step[s] && step[s] != '\n'; s++)
           putc(step[s], dapfile);
         fputs("\", \"", dapfile);
-        copylist(step, "by", dapfile);
+        copylist(step, (char*) "by", dapfile);
         fputs("\", \"s12\");\n", dapfile);
       }
     }
   }
 
   /* now do specific test request */
-  for (s = 0; (sincr = findstatement(step + s, "test"));)
+  for (s = 0; (sincr = findstatement(step + s, (char*) "test"));)
   {
     s += sincr;
     fprintf(dapfile, "ftest(\"%s.srt.mns.con\", \"%s ", setname, response);
-    copylist(step, "class", dapfile);
+    copylist(step, (char*) "class", dapfile);
     fputs("\", \"", dapfile);
-    if (!step[s] || linecmp(step + s, "h") || linecmp(step + s + 2, "="))
+    if (!step[s] || linecmp(step + s, (char*) "h") || linecmp(step + s + 2, (char*) "="))
     {
       fprintf(stderr,
               "sastrans: before %d: missing h= in test statement in proc glm\n",
@@ -214,10 +214,10 @@ void glmtrans(char *step, FILE *dapfile)
       exit(1);
     }
     for (s += 4; step[s] &&
-                 (linecmp(step + s, "e") || (step[s + 2] && linecmp(step + s + 2, "=")));
+                 (linecmp(step + s, (char*) "e") || (step[s + 2] && linecmp(step + s + 2, (char*) "=")));
          s++)
       s += putlines(step + s, dapfile, '\n'); /* putlines puts a space */
-    if (!step[s] || linecmp(step + s, "e") || linecmp(step + s + 2, "="))
+    if (!step[s] || linecmp(step + s, (char*) "e") || linecmp(step + s + 2, (char*) "="))
     {
       fprintf(stderr,
               "sastrans: before %d: missing e= in test statement in proc glm\n",
@@ -235,7 +235,7 @@ void glmtrans(char *step, FILE *dapfile)
       exit(1);
     }
     fputs("\", \"", dapfile);
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     fputs("\");\n", dapfile);
   }
 
@@ -244,7 +244,7 @@ void glmtrans(char *step, FILE *dapfile)
   /* And it's unncessary if there's no contrast statement */
   coeff = (int *)malloc(sizeof(int) * strlen(step) / 2);
   /* First set up array for coefficient values: this is an overestimate; so? */
-  for (s = 0; (sincr = findstatement(step + s, "contrast"));)
+  for (s = 0; (sincr = findstatement(step + s, (char*) "contrast"));)
   {
     s += sincr;
     if (step[s] != '"')
@@ -319,7 +319,7 @@ void glmtrans(char *step, FILE *dapfile)
     fprintf(dapfile, "int _c_, _more_, _contr1_;\ndouble _coeff_[%d];\n", ncoeff);
     fprintf(dapfile, "outset(\"%s.srt.mns.con.con\", \"\");\n", setname);
     fputs("dap_list(\"", dapfile);
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     for (e = classstart, c = 0; c < classvar; c++)
       e += putlines(step + e, dapfile, '\n') + 1;
     fprintf(dapfile, "\", _partv_, %d);\n", nbyvars + classvar);
@@ -346,12 +346,12 @@ void glmtrans(char *step, FILE *dapfile)
     fprintf(dapfile, "ftest(\"%s.srt.mns.con.con\", \"%s ", setname, response);
     copylist(step, "class", dapfile);
     fprintf(dapfile, "\", \"%s\", \"", classname);
-    if ((sincr = getoption(step + s, "e", (char *)NULL, 1)))
+    if ((sincr = getoption(step + s, (char*) "e", (char *)NULL, 1)))
     {
       s += sincr;
       s += putlines(step + s, dapfile, ';');
     }
-    if (!linecmp(step + s, ";"))
+    if (!linecmp(step + s, (char*) ";"))
       s += 2;
     else
     {
@@ -361,19 +361,19 @@ void glmtrans(char *step, FILE *dapfile)
       exit(1);
     }
     fputs("\", \"", dapfile);
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     fputs("\");\ntitle(NULL);\n", dapfile);
   }
   free(coeff);
 
   /* now do lsmeans statement(s) that we haven't done yet, if any */
 
-  while ((s = findstatement(step + lsmeans, "lsmeans"))) /* find next lsmeans statement */
+  while ((s = findstatement(step + lsmeans, (char*) "lsmeans"))) /* find next lsmeans statement */
   {
     lsmeans += s;
     /* first get position of denominator, if any */
-    e = lsmeans + getoption(step + lsmeans, "e", (char *)NULL, 1);
-    if (!getoption(step + lsmeans, "alpha", level, 1))
+    e = lsmeans + getoption(step + lsmeans, (char*) "e", (char *)NULL, 1);
+    if (!getoption(step + lsmeans, (char*) "alpha", level, 1))
       strcpy(level, "0.05");
     /* get test type */
     test[0] = '\0'; /* in case we never find one */
@@ -400,7 +400,7 @@ void glmtrans(char *step, FILE *dapfile)
     for (s = lsmeans; step[s] && step[s] != '/' && step[s] != ';'; s++)
     { /* one term at a time */
       fprintf(dapfile, "ftest(\"%s.srt.mns.con\", \"%s ", setname, response);
-      copylist(step, "class", dapfile);
+      copylist(step, (char*) "class", dapfile);
       fputs("\", \"", dapfile);
       /* here comes the numerator */
       term = s; /* mark this place for call to lsmeans */
@@ -408,25 +408,25 @@ void glmtrans(char *step, FILE *dapfile)
       fputs("\", \"", dapfile);
       if (e > lsmeans) /* put denominator */
       {
-        for (s = e; step[s] && step[s] != ';' && linecmp(step + s, "alpha") &&
-                    linecmp(step + s, "dunnett") && linecmp(step + s, "tukey") &&
-                    linecmp(step + s, "lsd");
+        for (s = e; step[s] && step[s] != ';' && linecmp(step + s, (char*) "alpha") &&
+                    linecmp(step + s, (char*) "dunnett") && linecmp(step + s, (char*) "tukey") &&
+                    linecmp(step + s, (char*) "lsd");
              s += putlines(step + s, dapfile, '\n') + 1)
           ;
       }
       fputs("\", \"", dapfile);
-      copylist(step, "by", dapfile);
+      copylist(step, (char*) "by", dapfile);
       fputs("\");\n", dapfile);
 
       /* now the lsmeans statement */
 
       fprintf(dapfile, "lsmeans(\"%s.srt.mns.tst\", \"%s\", %s, \"%s ",
               setname, test, level, response);
-      copylist(step, "class", dapfile);
+      copylist(step, (char*) "class", dapfile);
       fputs("\", \"", dapfile);
       s = term + putlines(step + term, dapfile, '\n');
       fputs("\", \"", dapfile);
-      copylist(step, "by", dapfile);
+      copylist(step, (char*) "by", dapfile);
       fputs("\", \"s12\");\n", dapfile);
     }
   }
@@ -439,11 +439,11 @@ void logistictrans(char *step, FILE *dapfile)
   char setname[TOKENLEN + 1];
   char outname[TOKENLEN + 1];
 
-  if (!getoption(step, "data", setname, 1))
+  if (!getoption(step, (char*) "data", setname, 1))
     strcpy(setname, sastmp);
 
   fprintf(dapfile, "logreg(\"%s\", \"", setname);
-  if ((s = findstatement(step, "model")))
+  if ((s = findstatement(step, (char*) "model")))
   {
     /* response variable */
     s += putlines(step + s, dapfile, '\n') + 1; /* only one response variable allowed */
@@ -461,7 +461,7 @@ void logistictrans(char *step, FILE *dapfile)
       s += 2;
       s += putlines(step + s, dapfile, ';');
       fputs("\", \"", dapfile); /* closes the x1 variable list */
-      copylist(step, "by", dapfile);
+      copylist(step, (char*) "by", dapfile);
       fputs("\", NULL, 0.95);\n", dapfile);
     }
     else
@@ -478,7 +478,7 @@ void logistictrans(char *step, FILE *dapfile)
             saslineno);
     exit(1);
   }
-  if (getoption(step, "outest", outname, 1))
+  if (getoption(step, (char*) "outest", outname, 1))
   {
     fprintf(dapfile, "dataset(\"%s.cov\", \"%s\", \"RENAME\");\n", setname, outname);
     strcpy(sastmp, outname);
@@ -492,10 +492,10 @@ void npar1waytrans(char *step, FILE *dapfile)
   char setname[TOKENLEN + 1];
   char classname[TOKENLEN + 1]; /* name of class variable */
 
-  if (!getoption(step, "data", setname, 1))
+  if (!getoption(step, (char*) "data", setname, 1))
     strcpy(setname, sastmp);
 
-  if ((s = findstatement(step, "class")))
+  if ((s = findstatement(step, (char*) "class")))
     linecpy(classname, step + s);
   else
   {
@@ -504,7 +504,7 @@ void npar1waytrans(char *step, FILE *dapfile)
     exit(1);
   }
 
-  if ((s = findstatement(step, "var")))
+  if ((s = findstatement(step, (char*) "var")))
   {
     while (step[s] && step[s] != ';') /* if there are multiple variables, then... */
     {                                 /* need to run nonparam for each */
@@ -515,7 +515,7 @@ void npar1waytrans(char *step, FILE *dapfile)
         s++;
       }
       fprintf(dapfile, " %s\", \"", classname);
-      copylist(step, "by", dapfile);
+      copylist(step, (char*) "by", dapfile);
       fputs("\");\n", dapfile);
       s++;
     }
@@ -542,10 +542,10 @@ void regtrans(char *step, FILE *dapfile)
   char outname[TOKENLEN + 1];
   int isadd; /* is there an add statement? */
 
-  if (!getoption(step, "data", setname, 1))
+  if (!getoption(step, (char*) "data", setname, 1))
     strcpy(setname, sastmp);
 
-  if (findstatement(step, "plot")) /* we're going to call plotlinreg */
+  if (findstatement(step, (char*) "plot")) /* we're going to call plotlinreg */
   {
     if (isby(step) >= 0)
       countparts(step, setname, dapfile);
@@ -574,7 +574,7 @@ void regtrans(char *step, FILE *dapfile)
           exit(1);
         }
         fputs("\", \"==\", \"", dapfile);
-        copylist(step, "by", dapfile);
+        copylist(step, (char*) "by", dapfile);
         fputs("\", _saspictcnt_[_sasnpicts_], 0.95);\n", dapfile);
         fputs("_saspictpage_[_sasnpicts_++] = 4;\n", dapfile);
         sashaspicts = 1;
@@ -597,24 +597,24 @@ void regtrans(char *step, FILE *dapfile)
   else /* just use linreg */
   {
     fprintf(dapfile, "linreg(\"%s\", \"", setname);
-    if ((s = findstatement(step, "model")))
+    if ((s = findstatement(step, (char*) "model")))
     {
       /* response variables */
       s += putlines(step + s, dapfile, '=');
       if (step[s] == '=')
       {
         fputs("\", \"", dapfile);
-        if (!(isadd = findstatement(step, "add"))) /* reduced model is intercept only */
+        if (!(isadd = findstatement(step, (char*) "add"))) /* reduced model is intercept only */
           fputs("\", \"", dapfile);                /* close x0-variables list */
         s += 2;
         s += putlines(step + s, dapfile, ';');
         fputs("\", \"", dapfile); /* either closes the x0 or x1 variable list */
         if (isadd)                /* put in the x1-variables */
         {
-          copylist(step, "add", dapfile);
+          copylist(step, (char*) "add", dapfile);
           fputs("\", \"", dapfile); /* closes the x1 variable list */
         }
-        copylist(step, "by", dapfile);
+        copylist(step, (char*) "by", dapfile);
         fputs("\", NULL, 0.95);\n", dapfile);
       }
       else
@@ -632,7 +632,7 @@ void regtrans(char *step, FILE *dapfile)
       exit(1);
     }
   }
-  if (getoption(step, "outest", outname, 1))
+  if (getoption(step, (char*) "outest", outname, 1))
   {
     fprintf(dapfile, "dataset(\"%s.cov\", \"%s\", \"RENAME\");\n", setname, outname);
     strcpy(sastmp, outname);
@@ -702,13 +702,13 @@ void importtrans(char *step, FILE *dapfile)
   static char strreplace[TOKENLEN + 1];
   static char getnames[4];
 
-  if (!getoption(step, "out", setname, 1))
+  if (!getoption(step, (char*) "out", setname, 1))
     strcpy(setname, sastmp);
-  if (!getoption(step, "datafile", datafile, 1))
+  if (!getoption(step, (char*) "datafile", datafile, 1))
     strcpy(datafile, sastmp);
-  if (!getoption(step, "dbms", dbms, 1))
+  if (!getoption(step, (char*) "dbms", dbms, 1))
     strcpy(dbms, sastmp);
-  if (!getoption(step, "delimiter", delimiter, 1))
+  if (!getoption(step, (char*) "delimiter", delimiter, 1))
     strcpy(delimiter, "");
   else
   {
@@ -718,7 +718,7 @@ void importtrans(char *step, FILE *dapfile)
       delimiter[strlen(delimiter) - 1] = '"';
   }
 
-  if ((s = findstatement(step, "getnames")))
+  if ((s = findstatement(step, (char*) "getnames")))
   {
     int i = 8;
     while (step[s + i] != 'n' && step[s + i] != 'y' && step[s + i] != ';' && step[s + i] != '\0')
@@ -732,7 +732,7 @@ void importtrans(char *step, FILE *dapfile)
   int getnam = 1;
   if (strcmp(getnames, "no") == 0)
     getnam = 0;
-  if (!getoption(step, "replace", strreplace, 0))
+  if (!getoption(step, (char*) "replace", strreplace, 0))
     replace = 1;
   /* we have to sort by the class vars and to get means, etc. */
   fprintf(dapfile, "import(\"%s\", %s , \"%s\",%s, %i,%i);\n", setname, datafile, dbms, delimiter, replace, getnam);
@@ -753,13 +753,13 @@ void surveyselecttrans(char *step, FILE *dapfile)
   static char strreplace[TOKENLEN + 1];
   static char getnames[4];
   // data =tPres2007 method=SRS  n = 220  reps= 50  seed= 1213   out=sasPres2007 stats
-  if (!getoption(step, "out", setname, 1))
+  if (!getoption(step, (char*) "out", setname, 1))
     strcpy(setname, sastmp);
-  if (!getoption(step, "data", datafile, 1))
+  if (!getoption(step, (char*) "data", datafile, 1))
     strcpy(datafile, sastmp);
-  if (!getoption(step, "method", method, 1))
+  if (!getoption(step, (char*) "method", method, 1))
     strcpy(method, sastmp);
-  if (!getoption(step, "n", nbtirage, 1))
+  if (!getoption(step, (char*) "n", nbtirage, 1))
     strcpy(nbtirage, "1");
 
   /* we have to sort by the class vars and to get means, etc. */

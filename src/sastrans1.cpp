@@ -39,11 +39,11 @@ void printtrans(char *step, FILE *dapfile)
 {
 	char filename[TOKENLEN + 1];
 
-	if (!getoption(step, "data", filename, 1))
+	if (!getoption(step, (char*) "data", filename, 1))
 		strcpy(filename, sastmp);
 	fprintf(dapfile, "print(\"%s\", \"", filename);
 	/* are there vars? */
-	copylist(step, "var", dapfile);
+	copylist(step, (char*) "var", dapfile);
 	fputs("\");\n", dapfile);
 }
 
@@ -59,27 +59,27 @@ void meanstrans(char *step, FILE *dapfile)
 	char stat[TOKENLEN + 1]; /* statistics name */
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	fprintf(dapfile, "means(\"%s\", \"", setname);
 
 	/* now get variables and out= */
-	copylist(step, "var", dapfile);
-	if (findstatement(step, "weight"))
+	copylist(step, (char*) "var", dapfile);
+	if (findstatement(step, (char*) "weight"))
 	{
 		putc('*', dapfile);
-		copylist(step, "weight", dapfile);
+		copylist(step, (char*) "weight", dapfile);
 	}
 	fputs("\", \"", dapfile);
 
 	/* find out which denominator we're to use for variance */
 	vardf = 0;
-	if (getoption(step, "vardf", stat, 1))
+	if (getoption(step, (char*) "vardf", stat, 1))
 	{
-		if (!linecmp(stat, "wdf"))
+		if (!linecmp(stat, (char*) "wdf"))
 			vardf = 1;
-		else if (linecmp(stat, "df"))
+		else if (linecmp(stat, (char*) "df"))
 		{
 			fprintf(stderr,
 					"sastrans: before %d: invalid option for vardf in proc means\n",
@@ -90,20 +90,20 @@ void meanstrans(char *step, FILE *dapfile)
 	/* now get list of statistics and possibly noprint option */
 	for (s = 0, noprint = 0, statsreq = 0; step[s] && step[s] != ';'; s++)
 	{
-		if (!linecmp(step + s, "noprint"))
+		if (!linecmp(step + s, (char*) "noprint"))
 		{
 			noprint = 1;
 			s += 7;
 		}
-		else if (!linecmp(step + s, "data"))
+		else if (!linecmp(step + s, (char*) "data"))
 		{ /* skip it */
 			for (s += 7; step[s] && step[s] != '\n'; s++)
 				;
 		}
-		else if (!linecmp(step + s, "vardf"))
+		else if (!linecmp(step + s, (char*) "vardf"))
 		{
 			s += 8;
-			if (!linecmp(step + s, "wdf"))
+			if (!linecmp(step + s, (char*) "wdf"))
 				s += 3;
 			else /* must be df */
 				s += 2;
@@ -113,11 +113,11 @@ void meanstrans(char *step, FILE *dapfile)
 			statsreq = 1;
 			s += linecpy(stat, step + s);
 			upper(stat);
-			if (!linecmp(stat, "STD"))
-				strcpy(stat, "SD");
-			else if (!linecmp(stat, "STDERR"))
-				strcpy(stat, "SEM");
-			if (vardf && (!linecmp(stat, "SD") || !linecmp(stat, "SEM") || !linecmp(stat, "VAR")))
+			if (!linecmp(stat, (char*) "STD"))
+				strcpy(stat, (char*) "SD");
+			else if (!linecmp(stat, (char*) "STDERR"))
+				strcpy(stat, (char*) "SEM");
+			if (vardf && (!linecmp(stat, (char*) "SD") || !linecmp(stat, (char*) "SEM") || !linecmp(stat, (char*) "VAR")))
 				strcat(stat, "FREQ");
 			fputs(stat, dapfile);
 			putc(' ', dapfile);
@@ -133,12 +133,12 @@ void meanstrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 
-	if ((s = findstatement(step, "output")))
+	if ((s = findstatement(step, (char*) "output")))
 	{
-		if (!getoption(step + s, "out", outname, 1))
+		if (!getoption(step + s, (char*) "out", outname, 1))
 		{
 			sprintf(sastmp, "sastmp%02d", ++sastempnum);
 			strcpy(outname, sastmp);
@@ -172,9 +172,9 @@ void sorttrans(char *step, FILE *dapfile)
 	fputs("sort(\"", dapfile);
 	inname[0] = '\0';
 	outname[0] = '\0';
-	if (!(sin = getoption(step, "data", inname, 1)))
+	if (!(sin = getoption(step, (char*) "data", inname, 1)))
 		strcpy(inname, sastmp);
-	if (!(sout = getoption(step, "out", outname, 1)))
+	if (!(sout = getoption(step, (char*) "out", outname, 1)))
 		strcpy(outname, inname);
 	fprintf(dapfile, "%s\", \"", inname);
 	optstart = sin; /* hold place for option list */
@@ -183,11 +183,11 @@ void sorttrans(char *step, FILE *dapfile)
 
 	/* now do "by" */
 	descend = 0;
-	if ((s = findstatement(step, "by")))
+	if ((s = findstatement(step, (char*) "by")))
 	{
 		while (step[s] && step[s] != ';')
 		{
-			if (!linecmp(step + s, "descending"))
+			if (!linecmp(step + s, (char*) "descending"))
 			{
 				s += 11;
 				descend = 1;
@@ -209,14 +209,14 @@ void sorttrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do options */
-	if (!linecmp(step + optstart, "nodupkey"))
+	if (!linecmp(step + optstart, (char*) "nodupkey"))
 		putc('u', dapfile);
 	if (descend)
 	{
-		s = findstatement(step, "by");
+		s = findstatement(step, (char*) "by");
 		while (step[s] && step[s] != ';')
 		{
-			if (!linecmp(step + s, "descending"))
+			if (!linecmp(step + s, (char*) "descending"))
 			{
 				s += 11;
 				while (step[s] && step[s] != '\n')
@@ -249,12 +249,12 @@ void datasetstrans(char *step, FILE *dapfile)
 	int s; /* index to step */
 	int t; /* length of token in step */
 
-	if ((s = findstatement(step, "append")))
+	if ((s = findstatement(step, (char*) "append")))
 	{
-		if (getoption(step + s, "base", newname, 1) || getoption(step + s, "out", newname, 1))
+		if (getoption(step + s, (char*) "base", newname, 1) || getoption(step + s, (char*) "out", newname, 1))
 		{
-			if (!(getoption(step + s, "data", oldname, 1) ||
-				  getoption(step + s, "new", oldname, 1)))
+			if (!(getoption(step + s, (char*) "data", oldname, 1) ||
+				  getoption(step + s, (char*) "new", oldname, 1)))
 				strcpy(oldname, sastmp);
 			fprintf(dapfile, "dataset(\"%s\", \"%s\", \"APPEND\");\n", oldname, newname);
 		}
@@ -266,15 +266,15 @@ void datasetstrans(char *step, FILE *dapfile)
 			exit(1);
 		}
 	}
-	if ((s = findstatement(step, "change")))
+	if ((s = findstatement(step, (char*) "change")))
 	{
 		while (step[s] && step[s] != ';')
 		{
 			s += linecpy(oldname, step + s) + 1;
-			if (!linecmp(step + s, "="))
+			if (!linecmp(step + s, (char*) "="))
 			{
 				s += 2;
-				if ((t = linecpy(newname, step + s)) && linecmp(newname, ";"))
+				if ((t = linecpy(newname, step + s)) && linecmp(newname, (char*) ";"))
 				{
 					fprintf(dapfile, "dataset(\"%s\", \"%s\", \"RENAME\");\n", oldname, newname);
 					s += t + 1;
@@ -296,7 +296,7 @@ void datasetstrans(char *step, FILE *dapfile)
 			}
 		}
 	}
-	if ((s = findstatement(step, "delete")))
+	if ((s = findstatement(step, (char*) "delete")))
 	{
 		while (step[s] && step[s] != ';')
 		{
@@ -328,14 +328,14 @@ void freqtrans(char *step, FILE *dapfile)
 	noprint = 0;
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	fprintf(dapfile, "sort(\"%s\", \"", setname);
-	if ((s = findstatement(step, "tables")))
+	if ((s = findstatement(step, (char*) "tables")))
 	{
 		tablesstart = s;
-		copylist(step, "by", dapfile);
+		copylist(step, (char*) "by", dapfile);
 		putc(' ', dapfile);
 		while (step[s] && step[s] != '/' && step[s] != ';')
 		{
@@ -391,7 +391,7 @@ void freqtrans(char *step, FILE *dapfile)
 		exit(1);
 	}
 
-	if ((s = findstatement(step, "weight")))
+	if ((s = findstatement(step, (char*) "weight")))
 	{
 		putc('*', dapfile);
 		while (step[s] && step[s] != '\n')
@@ -420,15 +420,15 @@ void freqtrans(char *step, FILE *dapfile)
 	nstats = 4; /* for FREQ, PERCENT, ROWPERC, COLPERC */
 	for (s = optionsstart; step[s] && step[s] != ';'; s++)
 	{
-		if (!linecmp(step + s, "noprint"))
+		if (!linecmp(step + s, (char*) "noprint"))
 		{
 			noprint = 1;
 			s += 7;
 		}
-		else if (!linecmp(step + s, "out"))
+		else if (!linecmp(step + s, (char*) "out"))
 		{
 			s += 4;
-			if (linecmp(step + s, "="))
+			if (linecmp(step + s, (char*) "="))
 			{
 				fprintf(stderr, "sastrans: before %d: missing = after out option in tables statement in proc freq.\n",
 						saslineno);
@@ -441,33 +441,33 @@ void freqtrans(char *step, FILE *dapfile)
 		{
 			s += linecpy(stat, step + s);
 			upper(stat);
-			if (!linecmp(stat, "NOFREQ"))
+			if (!linecmp(stat, (char*) "NOFREQ"))
 			{
 				nofreq = 1;
 				--nstats;
 			}
-			else if (!linecmp(stat, "NOPERCENT"))
+			else if (!linecmp(stat, (char*) "NOPERCENT"))
 			{
 				nopercent = 1;
 				--nstats;
 			}
-			else if (!linecmp(stat, "NOROW"))
+			else if (!linecmp(stat, (char*) "NOROW"))
 			{
 				norow = 1;
 				--nstats;
 			}
-			else if (!linecmp(stat, "NOCOL"))
+			else if (!linecmp(stat, (char*) "NOCOL"))
 			{
 				nocol = 1;
 				--nstats;
 			}
 			else
 			{
-				if (!linecmp(stat, "EXPECTED"))
+				if (!linecmp(stat, (char*) "EXPECTED"))
 					nstats++;
-				else if (!linecmp(stat, "CHISQ"))
+				else if (!linecmp(stat, (char*) "CHISQ"))
 					fputs(" FISHER ", dapfile);
-				else if (!linecmp(stat, "MEASURES"))
+				else if (!linecmp(stat, (char*) "MEASURES"))
 				{
 					fputs(" ODDSRAT ", dapfile);
 					strcpy(stat, "ORDINAL");
@@ -497,7 +497,7 @@ void freqtrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 
 	/* now print or table if there's anything to print, unless noprint */
@@ -508,7 +508,7 @@ void freqtrans(char *step, FILE *dapfile)
 		else
 		{
 			fprintf(dapfile, "sort(\"%s.srt.frq\", \"", setname);
-			copylist(step, "by", dapfile);
+			copylist(step, (char*) "by", dapfile);
 			/* copy up through row variable */
 			for (s = tablesstart, varn = 0; varn < nvars - 1; varn++)
 			{
@@ -547,7 +547,7 @@ void freqtrans(char *step, FILE *dapfile)
 				putc(step[s], dapfile);
 			fputs(" _cell_\", \"s12\", \"", dapfile);
 			/* now do tables by by and tables variables */
-			copylist(step, "by", dapfile);
+			copylist(step, (char*) "by", dapfile);
 			for (s = tablesstart, varn = 0; varn < nvars - 2; varn++)
 			{
 				while (step[s] && step[s] != '\n')
@@ -579,15 +579,15 @@ void tabulatetrans(char *step, FILE *dapfile)
 	int tablestart;					 /* position following "table" in table statement */
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	strcpy(sortname, setname);
 	strcat(sortname, ".srt");
 
 	fprintf(dapfile, "sort(\"%s\", \"", setname);
-	copylist(step, "by", dapfile);
-	if ((tablestart = findstatement(step, "table")))
+	copylist(step, (char*) "by", dapfile);
+	if ((tablestart = findstatement(step, (char*) "table")))
 	{
 		for (s = tablestart; step[s] && step[s] != '*' && step[s] != ';'; s++)
 		{
@@ -616,7 +616,7 @@ void tabulatetrans(char *step, FILE *dapfile)
 	fputs("\", \"\");\n", dapfile);
 
 	fprintf(dapfile, "table(\"%s\", \"", sortname);
-	if (!getoption(step, "format", format, 1))
+	if (!getoption(step, (char*) "format", format, 1))
 		strcpy(format, "12");
 
 	/* now get row, column, and cell variables */
@@ -664,9 +664,9 @@ void tabulatetrans(char *step, FILE *dapfile)
 	if (step[s] == '/') /* rts option */
 	{
 		s += 2;
-		if (!linecmp(step + s, "rtspace"))
+		if (!linecmp(step + s, (char*) "rtspace"))
 			s += 8;
-		else if (!linecmp(step + s, "rts"))
+		else if (!linecmp(step + s, (char*) "rts"))
 			s += 4;
 		else
 		{
@@ -675,7 +675,7 @@ void tabulatetrans(char *step, FILE *dapfile)
 					saslineno);
 			exit(1);
 		}
-		if (!linecmp(step + s, "="))
+		if (!linecmp(step + s, (char*) "="))
 		{
 			s += 2;
 			while (step[s] && step[s] != '\n')
@@ -702,7 +702,7 @@ void tabulatetrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 }
 
@@ -715,23 +715,23 @@ void corrtrans(char *step, FILE *dapfile)
 	int noprint; /* NOPRINT option present? */
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	fprintf(dapfile, "corr(\"%s\", \"", setname);
 
 	/* now get variables and outp= */
-	copylist(step, "var", dapfile);
+	copylist(step, (char*) "var", dapfile);
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 
 	noprint = 0;
 	for (s = 0; step[s] && step[s] != ';'; s++)
 	{
-		if (!linecmp(step + s, "noprint"))
+		if (!linecmp(step + s, (char*) "noprint"))
 		{
 			noprint++;
 			break;
@@ -746,16 +746,16 @@ void corrtrans(char *step, FILE *dapfile)
 	if (!noprint)
 	{
 		fprintf(dapfile, "sort(\"%s.cor\", \"", setname);
-		copylist(step, "by", dapfile);
+		copylist(step, (char*) "by", dapfile);
 		fputs(" _var1_ _type_ _var2_\", \"\");\n", dapfile);
 		fprintf(dapfile,
 				"table(\"%s.cor.srt\", \"_var1_ _type_\", \"_var2_ _corr_\", \"s12\", \"",
 				setname);
-		copylist(step, "by", dapfile);
+		copylist(step, (char*) "by", dapfile);
 		fputs("\");\n", dapfile);
 	}
 
-	if (getoption(step, "outp", outname, 1))
+	if (getoption(step, (char*) "outp", outname, 1))
 	{
 		fprintf(dapfile, "dataset(\"%s.cor\", \"%s\", \"RENAME\");\n", setname, outname);
 		strcpy(sastmp, outname); /* most recently created dataset */
@@ -772,13 +772,13 @@ void ranktrans(char *step, FILE *dapfile)
 	int ngroups; /* number of groups */
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	fprintf(dapfile, "group(\"%s\", \"", setname);
 
 	ngroups = 0;
-	if (getoption(step, "groups", option, 1)) /* get number of groups */
+	if (getoption(step, (char*) "groups", option, 1)) /* get number of groups */
 	{										  /* do this first to check for conflicting option "descending" */
 		if (sscanf(option, "%d", &ngroups) != 1 || ngroups <= 0)
 		{
@@ -791,7 +791,7 @@ void ranktrans(char *step, FILE *dapfile)
 	for (s = 0; step[s] && step[s] != ';';)
 	{
 		s += linecpy(option, step + s) + 1;
-		if (!linecmp(option, "groups") || !linecmp(option, "data") || !linecmp(option, "out"))
+		if (!linecmp(option, (char*) "groups") || !linecmp(option, (char*) "data") || !linecmp(option, (char*) "out"))
 		{
 			s += 2; /* skip = */
 			while (alphanum(step[s]))
@@ -805,9 +805,9 @@ void ranktrans(char *step, FILE *dapfile)
 					saslineno, option);
 			exit(1);
 		}
-		else if (!linecmp(option, "fraction") || !linecmp(option, "f"))
+		else if (!linecmp(option, (char*) "fraction") || !linecmp(option, (char*) "f"))
 			fputs("/ ", dapfile);
-		else if (!linecmp(option, "percent") || !linecmp(option, "p"))
+		else if (!linecmp(option, (char*) "percent") || !linecmp(option, (char*) "p"))
 			fputs("% ", dapfile);
 		else
 		{
@@ -819,7 +819,7 @@ void ranktrans(char *step, FILE *dapfile)
 	}
 
 	/* now get variables */
-	if ((s = findstatement(step, "var")))
+	if ((s = findstatement(step, (char*) "var")))
 	{
 		while (step[s] && step[s] != ';')
 		{
@@ -846,10 +846,10 @@ void ranktrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 
-	if (!getoption(step, "out", outname, 1))
+	if (!getoption(step, (char*) "out", outname, 1))
 	{
 		sprintf(sastmp, "sastmp%02d", ++sastempnum);
 		strcpy(outname, sastmp);
@@ -872,17 +872,17 @@ void univariatetrans(char *step, FILE *dapfile)
 	int statsreq; /* other than default stats requested? */
 
 	/* get file name */
-	if (!getoption(step, "data", setname, 1))
+	if (!getoption(step, (char*) "data", setname, 1))
 		strcpy(setname, sastmp);
 
 	fprintf(dapfile, "pctiles(\"%s\", \"", setname);
 
 	/* now get variables and out= */
-	copylist(step, "var", dapfile);
-	if (findstatement(step, "weight"))
+	copylist(step, (char*) "var", dapfile);
+	if (findstatement(step, (char*) "weight"))
 	{
 		putc('*', dapfile);
-		copylist(step, "weight", dapfile);
+		copylist(step, (char*) "weight", dapfile);
 	}
 
 	fputs("\", \"", dapfile);
@@ -891,9 +891,9 @@ void univariatetrans(char *step, FILE *dapfile)
 	statsreq = 0;
 	/* first check validity of out= if present */
 	outname[0] = '\0'; /* null unless specified */
-	if ((s = findstatement(step, "output")))
+	if ((s = findstatement(step, (char*) "output")))
 	{
-		if (!getoption(step + s, "out", outname, 1))
+		if (!getoption(step + s, (char*) "out", outname, 1))
 		{
 			fprintf(stderr, "sastrans: before %d: bad option for output in proc univariate.\n",
 					saslineno);
@@ -901,17 +901,17 @@ void univariatetrans(char *step, FILE *dapfile)
 		}
 		while (step[s] && step[s] != ';')
 		{
-			if (!linecmp(step + s, "out"))
+			if (!linecmp(step + s, (char*) "out"))
 			{			/* skip now, get it later */
 				s += 6; /* skip out= */
 				while (step[s] && step[s] != '\n')
 					s++;
 			}
-			else if (!linecmp(step + s, "pctlpts"))
+			else if (!linecmp(step + s, (char*) "pctlpts"))
 			{
 				statsreq = 1;
 				s += 8;
-				if (linecmp(step + s, "="))
+				if (linecmp(step + s, (char*) "="))
 				{
 					fprintf(stderr,
 							"sastrans: before %d: missing = after pctlpts in proc univariate.\n",
@@ -955,28 +955,28 @@ void univariatetrans(char *step, FILE *dapfile)
 	fputs("\", \"", dapfile);
 
 	/* now do "by" */
-	copylist(step, "by", dapfile);
+	copylist(step, (char*) "by", dapfile);
 	fputs("\");\n", dapfile);
 
 	/* now get normal, plot, and noprint options */
 	for (s = 0, noprint = 0, normal = 0, plot = 0; step[s] && step[s] != ';'; s++)
 	{
-		if (!linecmp(step + s, "noprint"))
+		if (!linecmp(step + s, (char*) "noprint"))
 		{
 			noprint = 1;
 			s += 7;
 		}
-		else if (!linecmp(step + s, "data"))
+		else if (!linecmp(step + s, (char*) "data"))
 		{ /* skip it */
 			for (s += 7; step[s] && step[s] != '\n'; s++)
 				;
 		}
-		else if (!linecmp(step + s, "normal"))
+		else if (!linecmp(step + s, (char*) "normal"))
 		{
 			normal = 1;
 			s += 6;
 		}
-		else if (!linecmp(step + s, "plot"))
+		else if (!linecmp(step + s, (char*) "plot"))
 		{
 			plot = 1;
 			s += 4;
@@ -995,7 +995,7 @@ void univariatetrans(char *step, FILE *dapfile)
 	{
 		fprintf(dapfile, "print(\"%s.pct\", \"\");\n", setname);
 		/* and to Wilcoxon signed rank for each variable */
-		if ((s = findstatement(step, "var")))
+		if ((s = findstatement(step, (char*) "var")))
 		{
 			while (step[s] && step[s] != ';')
 			{
@@ -1007,7 +1007,7 @@ void univariatetrans(char *step, FILE *dapfile)
 				}
 				s++; /* on to next variable */
 				fputs("\", \"", dapfile);
-				copylist(step, "by", dapfile);
+				copylist(step, (char*) "by", dapfile);
 				fputs("\");\n", dapfile);
 			}
 		}
@@ -1022,7 +1022,7 @@ void univariatetrans(char *step, FILE *dapfile)
 	/* now if normal, plot requested */
 	if (normal)
 	{
-		if ((s = findstatement(step, "var")))
+		if ((s = findstatement(step, (char*) "var")))
 		{
 			while (step[s] && step[s] != ';')
 			{ /* need to run each variable separately */
@@ -1036,7 +1036,7 @@ void univariatetrans(char *step, FILE *dapfile)
 					fputs("_saspict_[_sasnpicts_] = ", dapfile);
 				}
 				fprintf(dapfile, "normal(\"%s\", \"%s\", \"", setname, varname);
-				copylist(step, "by", dapfile);
+				copylist(step, (char*) "by", dapfile);
 				fprintf(dapfile, "\", %d);\n", (plot ? MAXPICTS : 0));
 				if (plot)
 					fputs("_saspictpage_[_sasnpicts_++] = 1;\n", dapfile);

@@ -339,15 +339,15 @@ void linreg1(double **xymat, int *varv,
   dap_ono = 0;
   if (xvarv[0] >= 0)
     dap_swap();
-  dap_free(invmem, "");
-  dap_free(inv, "");
-  dap_free(rss0, "");
-  dap_free(rss1, "");
-  dap_free(rss, "");
-  dap_free(f, "");
-  dap_free(fch, "");
-  dap_free(pred, "");
-  dap_free(sepred, "");
+  dap_free(invmem, (char*) "");
+  dap_free(inv, (char*) "");
+  dap_free(rss0, (char*) "");
+  dap_free(rss1, (char*) "");
+  dap_free(rss, (char*) "");
+  dap_free(f, (char*) "");
+  dap_free(fch, (char*) "");
+  dap_free(pred, (char*) "");
+  dap_free(sepred, (char*) "");
 }
 
 /* xname is dataset of x-values at which to write out OBS,PRED,LOWER, and UPPER values */
@@ -384,16 +384,16 @@ void linreg(char *fname, char *ylist, char *x0list, char *x1list,
     fputs("(linreg) No dataset name given.\n", dap_err);
     exit(1);
   }
-  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  xvarv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  xmarkv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  regname = dap_malloc(strlen(fname) + 5, "");
-  dap_suffix(regname, fname, ".reg");
+  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  xvarv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  xmarkv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  regname = dap_malloc(strlen(fname) + 5, (char*) "");
+  dap_suffix(regname, fname, (char*) ".reg");
   inset(fname);
-  dap_vd("_intercept_ -1", 0);                     /* allocate _intercept_ variable */
-  nx0 = dap_list("_intercept_", varv, dap_maxvar); /* and put in varv */
+  dap_vd((char*) "_intercept_ -1", 0);                     /* allocate _intercept_ variable */
+  nx0 = dap_list((char*) "_intercept_", varv, dap_maxvar); /* and put in varv */
   nx0 += dap_list(x0list, varv + 1, dap_maxvar);   /* now put in x0 vars */
   nx1 = dap_list(x1list, varv + nx0, dap_maxvar);  /* now put in x1 vars */
   nx = nx0 + nx1;
@@ -401,7 +401,7 @@ void linreg(char *fname, char *ylist, char *x0list, char *x1list,
   nvar = nx + ny;
   nmark = dap_list(marks, markv, dap_maxvar); /* get mark variable indexes */
   /* do some bookkeeping for covariance dataset */
-  covset = dap_malloc(strlen(fname) + 5, "");
+  covset = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(covset, fname);
   strcat(covset, ".cov");
   /* find maximum length of variable names */
@@ -421,20 +421,20 @@ void linreg(char *fname, char *ylist, char *x0list, char *x1list,
   param1n = dap_vd(paramstr, 0);
   sprintf(paramstr, "_param2_ %d", paramlen);
   param2n = dap_vd(paramstr, 0);
-  covn = dap_vd("_cov_ -1", 0);
-  partstr = dap_malloc(strlen(marks) + 1, "");
+  covn = dap_vd((char*) "_cov_ -1", 0);
+  partstr = dap_malloc(strlen(marks) + 1, (char*) "");
   for (v = 0; v < nmark; v++)
   {
     strcpy(partstr, dap_obs[0].do_nam[markv[v]]);
     sprintf(partstr + strlen(partstr), " %d", dap_obs[0].do_len[markv[v]]);
     partv[v] = dap_vd(partstr, 1);
   }
-  outset(covset, "");
+  outset(covset, (char*) "");
   /* now back to fname */
   dap_ono = 0;
   /* allocate memory for SS matrix and set up pointers for matrix entries */
-  xymem = (double *)dap_malloc(sizeof(double) * nvar * nvar, "");
-  xymat = (double **)dap_malloc(sizeof(double *) * nvar, "");
+  xymem = (double *)dap_malloc(sizeof(double) * nvar * nvar, (char*) "");
+  xymat = (double **)dap_malloc(sizeof(double *) * nvar, (char*) "");
   for (v = 0; v < nvar; v++)
     xymat[v] = xymem + v * nvar;
   dap_ono = 1;           /* now going to work with dataset xname of x-values */
@@ -486,7 +486,7 @@ void linreg(char *fname, char *ylist, char *x0list, char *x1list,
     for (v = 0; v < nvar; v++) /* and zero out entire xymat */
       xymat[v][w] = 0.0;
   }
-  outset(regname, ""); /* prepare writing of OBS,PRED,LOWER and UPPER values */
+  outset(regname, (char*) ""); /* prepare writing of OBS,PRED,LOWER and UPPER values */
   /* now we read in the data and create the SS matrix */
   for (nobs = 0, dap_mark(), more = 1; more; nobs++)
   {
@@ -532,16 +532,16 @@ void linreg(char *fname, char *ylist, char *x0list, char *x1list,
     for (w = 1; w < nvar; w++) /* zero row is sum of values except for _intercept_ */
       xymat[0][w] += dap_obs[0].do_dbl[varv[w]];
   }
-  dap_free(regname, "");
-  dap_free(varv, "");
-  dap_free(xvarv, "");
-  dap_free(markv, "");
-  dap_free(xmarkv, "");
-  dap_free(xymem, "");
-  dap_free(xymat, "");
-  dap_free(covset, "");
-  dap_free(partstr, "");
-  dap_free(partv, "");
+  dap_free(regname, (char*) "");
+  dap_free(varv, (char*) "");
+  dap_free(xvarv, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(xmarkv, (char*) "");
+  dap_free(xymem, (char*) "");
+  dap_free(xymat, (char*) "");
+  dap_free(covset, (char*) "");
+  dap_free(partstr, (char*) "");
+  dap_free(partv, (char*) "");
 }
 
 /* parse response specs for logistic regression */
@@ -553,7 +553,7 @@ void dap_parsey(char *yspec, int *varv)
   int vn;
   int ntrials;
 
-  vname = dap_malloc(dap_namelen + 1, "dap_namelen");
+  vname = dap_malloc(dap_namelen + 1, (char*) "dap_namelen");
   for (l = 0; yspec[l] == ' '; l++) /* skip leading blanks */
     ;
   for (i = 0; yspec[l + i] && yspec[l + i] != ' ' && yspec[l + i] != '/'; i++)
@@ -627,7 +627,7 @@ void dap_parsey(char *yspec, int *varv)
     fprintf(dap_err, "(parsey) Expected / in yspec at: %s\n", yspec + l);
     exit(1);
   }
-  dap_free(vname, "");
+  dap_free(vname, (char*) "");
 }
 
 static double vlen(double *v, int nv)
@@ -663,8 +663,8 @@ int dap_invert(double **a, int nrc)
   double tmp;
   double mult;
 
-  invmem = (double *)dap_malloc(sizeof(double) * nrc * nrc, "");
-  inv = (double **)dap_malloc(sizeof(double *) * nrc, "");
+  invmem = (double *)dap_malloc(sizeof(double) * nrc * nrc, (char*) "");
+  inv = (double **)dap_malloc(sizeof(double *) * nrc, (char*) "");
   for (r = 0; r < nrc; r++)
   {
     inv[r] = invmem + r * nrc;
@@ -721,8 +721,8 @@ int dap_invert(double **a, int nrc)
   for (r = 0; r < nrc; r++)
     for (c = 0; c < nrc; c++)
       a[r][c] = inv[r][c];
-  dap_free(invmem, "");
-  dap_free(inv, "");
+  dap_free(invmem, (char*) "");
+  dap_free(inv, (char*) "");
   return 1;
 }
 
@@ -751,11 +751,11 @@ static double irls(
   double tmp;
 
   /* allocate array for next value of parameter vector */
-  beta1 = (double *)dap_malloc(sizeof(double) * nx, "");
+  beta1 = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
   /* what's this? */
-  v = (double *)dap_malloc(sizeof(double) * nx, "");
+  v = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
   /* allocate array for beta change vector */
-  step = (double *)dap_malloc(sizeof(double) * nx, "");
+  step = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
   /* initialize parameter values all to zero: null model */
   for (i = 0; i < nx; i++)
     beta1[i] = 0.0;
@@ -845,9 +845,9 @@ static double irls(
   } while (++niter <= dap_maxiter && vdiff(beta1, beta0, nx) > dap_ctol * vlen(beta0, nx));
   if (niter > dap_maxiter)
     fprintf(dap_lst, "Failed to converge after %d iterations.\n", dap_maxiter);
-  dap_free(beta1, "");
-  dap_free(v, "");
-  dap_free(step, "");
+  dap_free(beta1, (char*) "");
+  dap_free(v, (char*) "");
+  dap_free(step, (char*) "");
   return loglike0;
 }
 
@@ -886,17 +886,17 @@ void logreg1(
   int v;
 
   /* allocate memory for covariance matrix */
-  covmem = (double *)dap_malloc(sizeof(double) * dap_maxvar * dap_maxvar, "");
+  covmem = (double *)dap_malloc(sizeof(double) * dap_maxvar * dap_maxvar, (char*) "");
   /* allocate and assign pointers for covariance matrix */
-  cov = (double **)dap_malloc(sizeof(double *) * dap_maxvar, "");
+  cov = (double **)dap_malloc(sizeof(double *) * dap_maxvar, (char*) "");
   for (i = 0; i < dap_maxvar; i++)
     cov[i] = covmem + i * dap_maxvar;
   /* allocate parameter vector */
-  beta = (double *)dap_malloc(sizeof(double) * nx, "");
+  beta = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
   /* get back to the part of the dataset we're working on */
   dap_swap();
   /* get index of _type_ variable */
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(logreg1) Missing _type_ variable.\n");
     exit(1);
@@ -927,7 +927,7 @@ void logreg1(
   /* run iterative reweighted least squares on full model */
   loglike1 = irls(x, y, pr, beta, cov, nx, nobs);
   /* don't need probability array any more */
-  dap_free(pr, "");
+  dap_free(pr, (char*) "");
   /* now print results and output estimates and SEs, later output the covariance matrix */
   dap_ono = 2;
   /* set up partvars for covariance matrix dataset */
@@ -1033,9 +1033,9 @@ void logreg1(
   if (xvarv[0] >= 0)
     dap_swap();
   /* free allocated memory */
-  dap_free(covmem, "");
-  dap_free(cov, "");
-  dap_free(beta, "");
+  dap_free(covmem, (char*) "");
+  dap_free(cov, (char*) "");
+  dap_free(beta, (char*) "");
 }
 
 /* Run logistic regression on a dataset */
@@ -1080,21 +1080,21 @@ void logreg(
     exit(1);
   }
   /* allocate arrays */
-  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  xvarv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  xmarkv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
+  varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  xvarv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  xmarkv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
   /* allocate string for name of output dataset, 5 for ".reg" with null */
-  regname = dap_malloc(strlen(fname) + 5, "");
+  regname = dap_malloc(strlen(fname) + 5, (char*) "");
   /* and assign name */
-  dap_suffix(regname, fname, ".lgr");
+  dap_suffix(regname, fname, (char*) ".lgr");
   /* set of arrays of variables indices */
   inset(fname);
   /* allocate intercept variable */
-  dap_vd("_intercept_ -1", 0);
+  dap_vd((char*) "_intercept_ -1", 0);
   /* find numbers of variables and assign indices to arrays */
-  nx0 = dap_list("_intercept_", varv, dap_maxvar);
+  nx0 = dap_list((char*) "_intercept_", varv, dap_maxvar);
   nx0 += dap_list(x0list, varv + 1, dap_maxvar);
   nx1 = dap_list(x1list, varv + nx0, dap_maxvar);
   /* total number of x-variables, including intercept */
@@ -1102,20 +1102,20 @@ void logreg(
   /* parse the y-specifications and assign their variable indices */
   dap_parsey(yspec, varv + nx);
   /* allocate memory of array of explanatory x-vectors */
-  xmem = (double *)dap_malloc(sizeof(double) * nx * dap_maxval, "dap_maxval");
+  xmem = (double *)dap_malloc(sizeof(double) * nx * dap_maxval, (char*) "dap_maxval");
   /* and allocate and assign pointers */
-  x = (double **)dap_malloc(sizeof(double *) * nx, "");
+  x = (double **)dap_malloc(sizeof(double *) * nx, (char*) "");
   for (v = 0; v < nx; v++)
     x[v] = xmem + v * dap_maxval;
   /* allocate array for response variable values */
-  ymem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxval, "dap_maxval");
+  ymem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxval, (char*) "dap_maxval");
   /* and assign pointers: y[0] for response variable, y[1] for number of cases */
   y[0] = ymem;
   y[1] = ymem + dap_maxval;
   /* set up partitioning for main dataset */
   nmark = dap_list(marks, markv, dap_maxvar);
   /* do some bookkeeping for covariance dataset */
-  covset = dap_malloc(strlen(fname) + 5, "");
+  covset = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(covset, fname);
   strcat(covset, ".cov");
   /* find maximum length of variable names */
@@ -1133,15 +1133,15 @@ void logreg(
   param1n = dap_vd(paramstr, 0);
   sprintf(paramstr, "_param2_ %d", paramlen);
   param2n = dap_vd(paramstr, 0);
-  covn = dap_vd("_cov_ -1", 0);
-  partstr = dap_malloc(strlen(marks) + 1, "");
+  covn = dap_vd((char*) "_cov_ -1", 0);
+  partstr = dap_malloc(strlen(marks) + 1, (char*) "");
   for (v = 0; v < nmark; v++)
   {
     strcpy(partstr, dap_obs[0].do_nam[markv[v]]);
     sprintf(partstr + strlen(partstr), " %d", dap_obs[0].do_len[markv[v]]);
     partv[v] = dap_vd(partstr, 1);
   }
-  outset(covset, "");
+  outset(covset, (char*) "");
   /* now switch to xname dataset */
   dap_ono = 1;
   if (xname && xname[0]) /* if caller wants predicted values */
@@ -1185,7 +1185,7 @@ void logreg(
   }
   /* back to main dataset */
   dap_ono = 0;
-  outset(regname, "");
+  outset(regname, (char*) "");
   /* for each observation; use dap_mark for backing up in dataset */
   for (nobs = 0, dap_mark(), more = 1; more; nobs++)
   {
@@ -1218,17 +1218,17 @@ void logreg(
     }
   }
   /* release all allocated memory */
-  dap_free(regname, "");
-  dap_free(varv, "");
-  dap_free(xvarv, "");
-  dap_free(markv, "");
-  dap_free(xmarkv, "");
-  dap_free(xmem, "");
-  dap_free(x, "");
-  dap_free(ymem, "");
-  dap_free(covset, "");
-  dap_free(partstr, "");
-  dap_free(partv, "");
+  dap_free(regname, (char*) "");
+  dap_free(varv, (char*) "");
+  dap_free(xvarv, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(xmarkv, (char*) "");
+  dap_free(xmem, (char*) "");
+  dap_free(x, (char*) "");
+  dap_free(ymem, (char*) "");
+  dap_free(covset, (char*) "");
+  dap_free(partstr, (char*) "");
+  dap_free(partv, (char*) "");
 }
 
 class value
@@ -1296,9 +1296,9 @@ static void nonpar1(value *val, int nval, char **level,
   kolr = 0;
   kolval = 0.0;
   dap_swap();
-  levnobs = (int *)dap_malloc(sizeof(int) * nlevels, "");
-  sumr = (double *)dap_malloc(sizeof(double) * nlevels, "");
-  rank1 = (int *)dap_malloc(sizeof(int) * dap_maxex2, "dap_maxex2");
+  levnobs = (int *)dap_malloc(sizeof(int) * nlevels, (char*) "");
+  sumr = (double *)dap_malloc(sizeof(double) * nlevels, (char*) "");
+  rank1 = (int *)dap_malloc(sizeof(int) * dap_maxex2, (char*) "dap_maxex2");
   dn = (double)nval;
   if (nvar == 2)
   {
@@ -1537,9 +1537,9 @@ static void nonpar1(value *val, int nval, char **level,
               nval - 1);
     }
   }
-  dap_free(levnobs, "");
-  dap_free(rank1, "");
-  dap_free(sumr, "");
+  dap_free(levnobs, (char*) "");
+  dap_free(rank1, (char*) "");
+  dap_free(sumr, (char*) "");
   dap_swap();
 }
 
@@ -1583,9 +1583,9 @@ void nonparam(char *fname, char *variables, char *marks)
     fputs("(nonparam) No dataset name given.\n", dap_err);
     exit(1);
   }
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-  levmem = dap_malloc(dap_maxlev * (dap_strlen + 1), "dap_maxlev, dap_strlen");
-  level = (char **)dap_malloc(sizeof(char *) * dap_maxlev, "dap_maxlev");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+  levmem = dap_malloc(dap_maxlev * (dap_strlen + 1), (char*) "dap_maxlev, dap_strlen");
+  level = (char **)dap_malloc(sizeof(char *) * dap_maxlev, (char*) "dap_maxlev");
   for (nlevels = 0; nlevels < dap_maxlev; nlevels++)
     level[nlevels] = levmem + nlevels * (dap_strlen + 1);
   inset(fname);
@@ -1613,7 +1613,7 @@ void nonparam(char *fname, char *variables, char *marks)
     exit(1);
   }
   nmark = dap_list(marks, markv, dap_maxvar);
-  val = (value *)dap_malloc(sizeof(value) * dap_maxval, "dap_maxval");
+  val = (value *)dap_malloc(sizeof(value) * dap_maxval, (char*) "dap_maxval");
   for (more = 1, nlevels = 0, nval = 0, nobs = 0; more; nobs++)
   {
     more = step();
@@ -1652,8 +1652,8 @@ void nonparam(char *fname, char *variables, char *marks)
       }
     }
   }
-  dap_free(val, "");
-  dap_free(markv, "");
-  dap_free(levmem, "");
-  dap_free(level, "");
+  dap_free(val, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(levmem, (char*) "");
+  dap_free(level, (char*) "");
 }

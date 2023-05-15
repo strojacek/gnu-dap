@@ -71,15 +71,15 @@ static void pctile2(double ***val, int nobs,
 	int typen;
 
 	dap_swap();
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fprintf(dap_err, "(pctile2) missing _type_ variable\n");
 		exit(1);
 	}
-	pctptmem = (int *)dap_malloc(sizeof(int) * nvar * (9 + MAXPCTPT), "");
-	pctpt = (int **)dap_malloc(sizeof(int *) * nvar, "");
-	excessmem = (int *)dap_malloc(sizeof(int) * nvar * (9 + MAXPCTPT), "");
-	excess = (int **)dap_malloc(sizeof(int *) * nvar, "");
+	pctptmem = (int *)dap_malloc(sizeof(int) * nvar * (9 + MAXPCTPT), (char*) "");
+	pctpt = (int **)dap_malloc(sizeof(int *) * nvar, (char*) "");
+	excessmem = (int *)dap_malloc(sizeof(int) * nvar * (9 + MAXPCTPT), (char*) "");
+	excess = (int **)dap_malloc(sizeof(int *) * nvar, (char*) "");
 	for (pn = 0; pn < MAXPCTPT && stats[NSTATS - MAXPCTPT + pn]; pn++)
 	{
 		if (sscanf(dap_sttnm[NSTATS - MAXPCTPT + pn] + 1,
@@ -186,10 +186,10 @@ static void pctile2(double ***val, int nobs,
 		output();
 	}
 	dap_swap();
-	dap_free(pctptmem, "");
-	dap_free(pctpt, "");
-	dap_free(excessmem, "");
-	dap_free(excess, "");
+	dap_free(pctptmem, (char*) "");
+	dap_free(pctpt, (char*) "");
+	dap_free(excessmem, (char*) "");
+	dap_free(excess, (char*) "");
 }
 
 static void pctile1(double ***val, int nobs, int nvar, int *varv, int *stats)
@@ -206,7 +206,7 @@ static void pctile1(double ***val, int nobs, int nvar, int *varv, int *stats)
 	int typen;
 
 	dap_swap();
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fprintf(dap_err, "(pctile1) missing _type_ variable\n");
 		exit(1);
@@ -334,13 +334,13 @@ void pctiles(char *fname, char *varlist, char *statlist, char *marks)
 		fputs("(pctiles) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	outname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(outname, fname, ".pct");
-	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	wtvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+	outname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(outname, fname, (char*) ".pct");
+	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	wtvar = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
 	/* outlist = dap_malloc(strlen(varlist) + strlen(marks) + 2, ""); ?? */
-	outlist = dap_malloc(dap_listlen + 1, "");
+	outlist = dap_malloc(dap_listlen + 1, (char*) "");
 	inset(fname);
 	dap_stats(statlist, stats);
 	nvar = dap_mnsparse(varlist, outlist, varv, wtvar, stats);
@@ -351,9 +351,9 @@ void pctiles(char *fname, char *varlist, char *statlist, char *marks)
 	}
 	outset(outname, outlist);
 	nmark = dap_list(marks, markv, dap_maxvar);
-	valmem = (double *)dap_malloc(sizeof(double) * nvar * 2 * dap_maxval, "");
-	valpair = (double **)dap_malloc(sizeof(double *) * nvar * dap_maxval, "");
-	val = (double ***)dap_malloc(sizeof(double *) * nvar, "");
+	valmem = (double *)dap_malloc(sizeof(double) * nvar * 2 * dap_maxval, (char*) "");
+	valpair = (double **)dap_malloc(sizeof(double *) * nvar * dap_maxval, (char*) "");
+	val = (double ***)dap_malloc(sizeof(double *) * nvar, (char*) "");
 	for (v = 0, weighted = 0; v < nvar; v++)
 	{
 		if (wtvar[v] >= 0)
@@ -400,14 +400,14 @@ void pctiles(char *fname, char *varlist, char *statlist, char *marks)
 			}
 		}
 	}
-	dap_free(outname, "");
-	dap_free(varv, "");
-	dap_free(markv, "");
-	dap_free(wtvar, "");
-	dap_free(outlist, "");
-	dap_free(valmem, "");
-	dap_free(valpair, "");
-	dap_free(val, "");
+	dap_free(outname, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(wtvar, (char*) "");
+	dap_free(outlist, (char*) "");
+	dap_free(valmem, (char*) "");
+	dap_free(valpair, (char*) "");
+	dap_free(val, (char*) "");
 }
 
 static void corr1(int *varv, int nvar, double **cormat, double ss[], int nobs)
@@ -422,10 +422,10 @@ static void corr1(int *varv, int nvar, double **cormat, double ss[], int nobs)
 		return;
 	dap_swap();
 	nf = sqrt((double)(nobs - 2));
-	varn[0] = dap_varnum("_var1_");
-	varn[1] = dap_varnum("_var2_");
-	varn[2] = dap_varnum("_corr_");
-	typen = dap_varnum("_type_");
+	varn[0] = dap_varnum((char*) "_var1_");
+	varn[1] = dap_varnum((char*) "_var2_");
+	varn[2] = dap_varnum((char*) "_corr_");
+	typen = dap_varnum((char*) "_type_");
 	for (v = 0; v < nvar; v++)
 		for (w = 0; w < v; w++)
 			cormat[v][w] = cormat[w][v];
@@ -503,19 +503,19 @@ void corr(char *fname, char *varlist, char *marks)
 		fputs("(corr) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	outname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(outname, fname, ".cor");
-	outlist = dap_malloc(strlen(marks) + 22, "");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	outname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(outname, fname, (char*) ".cor");
+	outlist = dap_malloc(strlen(marks) + 22, (char*) "");
 	inset(fname);
 	nvar = dap_list(varlist, varv, dap_maxvar);
-	cormem = (double *)dap_malloc(sizeof(double) * nvar * nvar, "");
-	cormat = (double **)dap_malloc(sizeof(double *) * nvar, "");
+	cormem = (double *)dap_malloc(sizeof(double) * nvar * nvar, (char*) "");
+	cormat = (double **)dap_malloc(sizeof(double *) * nvar, (char*) "");
 	for (v = 0; v < nvar; v++)
 		cormat[v] = cormem + v * nvar;
-	sum = (double *)dap_malloc(sizeof(double) * nvar, "");
-	ss = (double *)dap_malloc(sizeof(double) * nvar, "");
+	sum = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
+	ss = (double *)dap_malloc(sizeof(double) * nvar, (char*) "");
 	strcpy(outlist, marks);
 	for (v = 0; v < nvar; v++)
 	{
@@ -590,14 +590,14 @@ void corr(char *fname, char *varlist, char *marks)
 			}
 		}
 	}
-	dap_free(markv, "");
-	dap_free(varv, "");
-	dap_free(outname, "");
-	dap_free(outlist, "");
-	dap_free(cormem, "");
-	dap_free(cormat, "");
-	dap_free(sum, "");
-	dap_free(ss, "");
+	dap_free(markv, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(outname, (char*) "");
+	dap_free(outlist, (char*) "");
+	dap_free(cormem, (char*) "");
+	dap_free(cormat, (char*) "");
+	dap_free(sum, (char*) "");
+	dap_free(ss, (char*) "");
 }
 
 /* codes for type of grouping */
@@ -631,7 +631,7 @@ static int groupparse(char *varspec, int varv[], int classtype[])
 
 	if (!varspec)
 		return 0;
-	varname = dap_malloc(dap_namelen + 1, "");
+	varname = dap_malloc(dap_namelen + 1, (char*) "");
 	for (s = 0; varspec[s] == ' '; s++) /* skip leading blanks */
 		;
 	for (nvar = 0, number = 0; varspec[s];)
@@ -757,7 +757,7 @@ static int groupparse(char *varspec, int varv[], int classtype[])
 		while (varspec[s] == ' ') /* on to next */
 			s++;
 	}
-	dap_free(varname, "");
+	dap_free(varname, (char*) "");
 	if (number < 0) /* if were just finding count, fraction, or percent */
 		return -4 * nvar + number;
 	return nvar;
@@ -837,12 +837,12 @@ void group(char *fname, char *varspec, char *marks)
 		fputs("(group) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	outname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(outname, fname, ".grp");
-	grpname = dap_malloc(dap_namelen + 3, ""); /* +3 for two '_' and null */
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	ctype = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+	outname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(outname, fname, (char*) ".grp");
+	grpname = dap_malloc(dap_namelen + 3, (char*) ""); /* +3 for two '_' and null */
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	ctype = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
 	inset(fname);
 	nmark = dap_list(marks, markv, dap_maxvar);
 	/* construct vector of variable ids (varv) and grouping types (ctype) */
@@ -854,7 +854,7 @@ void group(char *fname, char *varspec, char *marks)
 	}
 	else
 		number = 0; /* indicates true grouping */
-	grpv = (int *)dap_malloc(sizeof(int) * (number ? 1 : nvar), "");
+	grpv = (int *)dap_malloc(sizeof(int) * (number ? 1 : nvar), (char*) "");
 	if (!number) /* true grouping requires: */
 	{
 		strcpy(grpname, "_"); /* variable names for group variables */
@@ -868,18 +868,18 @@ void group(char *fname, char *varspec, char *marks)
 	}
 	else /* counting, etc., simply requires one new variable */
 	{
-		grpv[0] = dap_vd("_N_ -1", 0);
+		grpv[0] = dap_vd((char*) "_N_ -1", 0);
 		varv[0] = grpv[0];
 	}
-	outset(outname, "");
+	outset(outname, (char*) "");
 	nummem = NULL;
 	numval = NULL;
 	if (!number) /* if true grouping, need some memory to sort and manipulate the numbers */
 	{
-		nummem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxval, "dap_maxval");
-		numval = (double **)dap_malloc(nvar * dap_maxval * sizeof(double *), "dap_maxval");
-		ptmem = (double *)dap_malloc(sizeof(double) * nvar * (dap_maxbars + 1), "dap_maxbars");
-		point = (double **)dap_malloc(sizeof(double *) * nvar, "");
+		nummem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxval, (char*) "dap_maxval");
+		numval = (double **)dap_malloc(nvar * dap_maxval * sizeof(double *), (char*) "dap_maxval");
+		ptmem = (double *)dap_malloc(sizeof(double) * nvar * (dap_maxbars + 1), (char*) "dap_maxbars");
+		point = (double **)dap_malloc(sizeof(double *) * nvar, (char*) "");
 		for (v = 0; v < nvar; v++) /* set up pointers for array referencing */
 		{
 			numval[v] = nummem + v * dap_maxval;
@@ -1014,17 +1014,17 @@ void group(char *fname, char *varspec, char *marks)
 	}
 	if (!number)
 	{
-		dap_free(nummem, "");
-		dap_free(numval, "");
-		dap_free(ptmem, "");
-		dap_free(point, "");
+		dap_free(nummem, (char*) "");
+		dap_free(numval, (char*) "");
+		dap_free(ptmem, (char*) "");
+		dap_free(point, (char*) "");
 	}
-	dap_free(outname, "");
-	dap_free(grpname, "");
-	dap_free(grpv, "");
-	dap_free(markv, "");
-	dap_free(varv, "");
-	dap_free(ctype, "");
+	dap_free(outname, (char*) "");
+	dap_free(grpname, (char*) "");
+	dap_free(grpv, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(ctype, (char*) "");
 }
 
 #define NFREQSTAT 13
@@ -1073,7 +1073,7 @@ static void statparse(char *stats, int *statv)
 	int i;
 	char *stat;
 
-	stat = dap_malloc(dap_namelen + 1, "");
+	stat = dap_malloc(dap_namelen + 1, (char*) "");
 	for (s = 0; s < NFREQSTAT; s++)
 		statv[s] = 0;
 	for (s = 0; stats[s] == ' '; s++)
@@ -1127,7 +1127,7 @@ static void statparse(char *stats, int *statv)
 		while (stats[s] == ' ')
 			s++;
 	}
-	dap_free(stat, "");
+	dap_free(stat, (char*) "");
 }
 
 static int findlev(int v, char **level, int *nlevels)
@@ -1137,7 +1137,7 @@ static int findlev(int v, char **level, int *nlevels)
 	char *s;
 
 	if (!str)
-		str = dap_malloc(21, "");
+		str = dap_malloc(21, (char*) "");
 	if (dap_obs[0].do_len[v] > 0)
 		s = dap_obs[0].do_str[v];
 	else
@@ -1215,16 +1215,16 @@ static void freq2(double **tab, char **level[2],
 
 	sum = 0.0;
 	oneprob = 0.0;
-	expmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, "");
-	expect = (double **)dap_malloc(sizeof(double *) * dap_maxlev, "");
+	expmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, (char*) "");
+	expect = (double **)dap_malloc(sizeof(double *) * dap_maxlev, (char*) "");
 	for (l = 0; l < dap_maxlev; l++)
 		expect[l] = expmem + l * dap_maxlev;
-	rowsum = (double *)dap_malloc(sizeof(double) * dap_maxlev, "");
-	colsum = (double *)dap_malloc(sizeof(double) * dap_maxlev, "");
-	amem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, "");
-	dmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, "");
-	a = (double **)dap_malloc(sizeof(double *) * dap_maxlev, "");
-	d = (double **)dap_malloc(sizeof(double *) * dap_maxlev, "");
+	rowsum = (double *)dap_malloc(sizeof(double) * dap_maxlev, (char*) "");
+	colsum = (double *)dap_malloc(sizeof(double) * dap_maxlev, (char*) "");
+	amem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, (char*) "");
+	dmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, (char*) "");
+	a = (double **)dap_malloc(sizeof(double *) * dap_maxlev, (char*) "");
+	d = (double **)dap_malloc(sizeof(double *) * dap_maxlev, (char*) "");
 	for (l = 0; l < dap_maxlev; l++)
 	{
 		a[l] = amem + l * dap_maxlev;
@@ -1561,14 +1561,14 @@ static void freq2(double **tab, char **level[2],
 				2.0 * uv / (hx + hy), var);
 	}
 	dap_swap();
-	dap_free(expmem, "");
-	dap_free(expect, "");
-	dap_free(rowsum, "");
-	dap_free(colsum, "");
-	dap_free(amem, "");
-	dap_free(a, "");
-	dap_free(dmem, "");
-	dap_free(d, "");
+	dap_free(expmem, (char*) "");
+	dap_free(expect, (char*) "");
+	dap_free(rowsum, (char*) "");
+	dap_free(colsum, (char*) "");
+	dap_free(amem, (char*) "");
+	dap_free(a, (char*) "");
+	dap_free(dmem, (char*) "");
+	dap_free(d, (char*) "");
 }
 
 static int freqparse(char *varlist, int *varv, int *wt)
@@ -1582,7 +1582,7 @@ static int freqparse(char *varlist, int *varv, int *wt)
 	wt[0] = -1;
 	if (!varlist)
 		return 0;
-	mname = dap_malloc(dap_namelen + 1, "");
+	mname = dap_malloc(dap_namelen + 1, (char*) "");
 	for (m = 0; varlist[m] == ' '; m++)
 		;
 	for (nvars = 0, wtvar = 0; varlist[m];)
@@ -1630,7 +1630,7 @@ static int freqparse(char *varlist, int *varv, int *wt)
 		while (varlist[m] == ' ')
 			m++;
 	}
-	dap_free(mname, "");
+	dap_free(mname, (char*) "");
 	return nvars;
 }
 
@@ -1702,18 +1702,18 @@ void freq(char *fname, char *varlist, char *stats, char *marks)
 		fputs("(freq) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	outname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(outname, fname, ".frq");
-	outlist = dap_malloc(dap_listlen + 1, "");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	tabmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, "");
-	tab = (double **)dap_malloc(sizeof(double *) * dap_maxlev, "");
+	outname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(outname, fname, (char*) ".frq");
+	outlist = dap_malloc(dap_listlen + 1, (char*) "");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	tabmem = (double *)dap_malloc(sizeof(double) * dap_maxlev * dap_maxlev, (char*) "");
+	tab = (double **)dap_malloc(sizeof(double *) * dap_maxlev, (char*) "");
 	for (l1 = 0; l1 < dap_maxlev; l1++)
 		tab[l1] = tabmem + l1 * dap_maxlev;
-	levmem = dap_malloc(2 * dap_maxlev * (dap_strlen + 1), "");
-	level[0] = (char **)dap_malloc(sizeof(char *) * dap_maxlev, "");
-	level[1] = (char **)dap_malloc(sizeof(char *) * dap_maxlev, "");
+	levmem = dap_malloc(2 * dap_maxlev * (dap_strlen + 1), (char*) "");
+	level[0] = (char **)dap_malloc(sizeof(char *) * dap_maxlev, (char*) "");
+	level[1] = (char **)dap_malloc(sizeof(char *) * dap_maxlev, (char*) "");
 	for (l1 = 0; l1 < dap_maxlev; l1++)
 	{
 		level[0][l1] = levmem + l1 * (dap_strlen + 1);
@@ -1721,7 +1721,7 @@ void freq(char *fname, char *varlist, char *stats, char *marks)
 	}
 	statparse(stats, statv);
 	inset(fname);
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fputs("(freq) Missing _type_ variable.\n", dap_err);
 		exit(1);
@@ -1735,7 +1735,7 @@ void freq(char *fname, char *varlist, char *stats, char *marks)
 			dap_err);
 		exit(1);
 	}
-	celln = dap_vd("_cell_ -1", 0);
+	celln = dap_vd((char*) "_cell_ -1", 0);
 	for (v = 0; v < nvar; v++)
 	{
 		if (!v)
@@ -1808,15 +1808,15 @@ void freq(char *fname, char *varlist, char *stats, char *marks)
 		else
 			sumcount += 1.0;
 	}
-	dap_free(outname, "");
-	dap_free(outlist, "");
-	dap_free(markv, "");
-	dap_free(varv, "");
-	dap_free(tabmem, "");
-	dap_free(tab, "");
-	dap_free(levmem, "");
-	dap_free(level[0], "");
-	dap_free(level[1], "");
+	dap_free(outname, (char*) "");
+	dap_free(outlist, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(tabmem, (char*) "");
+	dap_free(tab, (char*) "");
+	dap_free(levmem, (char*) "");
+	dap_free(level[0], (char*) "");
+	dap_free(level[1], (char*) "");
 }
 
 static void trim1(double *vpct, int nvar, double **val,
@@ -1846,7 +1846,7 @@ static int trimparse(char *trimspec, int *varv, double *vpct)
 
 	if (!trimspec)
 		return 0;
-	varname = dap_malloc(dap_namelen + 1, "");
+	varname = dap_malloc(dap_namelen + 1, (char*) "");
 	for (n = 0; trimspec[n] == ' '; n++)
 		;
 	for (nvar = 0; trimspec[n];)
@@ -1923,7 +1923,7 @@ static int trimparse(char *trimspec, int *varv, double *vpct)
 		while (trimspec[n] == ' ')
 			n++;
 	}
-	dap_free(varname, "");
+	dap_free(varname, (char*) "");
 	return nvar;
 }
 
@@ -1948,19 +1948,19 @@ void trim(char *fname, char *trimspec, char *marks)
 		fputs("(trim) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	outname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(outname, fname, ".trm");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	vpct = (double *)dap_malloc(sizeof(double) * dap_maxvar, "");
-	vmin = (double *)dap_malloc(sizeof(double) * dap_maxvar, "");
-	vmax = (double *)dap_malloc(sizeof(double) * dap_maxvar, "");
+	outname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(outname, fname, (char*) ".trm");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	varv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	vpct = (double *)dap_malloc(sizeof(double) * dap_maxvar, (char*) "");
+	vmin = (double *)dap_malloc(sizeof(double) * dap_maxvar, (char*) "");
+	vmax = (double *)dap_malloc(sizeof(double) * dap_maxvar, (char*) "");
 	inset(fname);
 	nmark = dap_list(marks, markv, dap_maxvar);
 	nvar = trimparse(trimspec, varv, vpct);
-	outset(outname, "");
-	valmem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxval, "");
-	val = (double **)dap_malloc(sizeof(double *) * nvar, "");
+	outset(outname, (char*) "");
+	valmem = (double *)dap_malloc(sizeof(double) * nvar * dap_maxval, (char*) "");
+	val = (double **)dap_malloc(sizeof(double *) * nvar, (char*) "");
 	for (v = 0; v <= nvar; v++)
 		val[v] = valmem + v * dap_maxval;
 	for (dap_mark(), nobs = 0, more = 1; more; nobs++)
@@ -2005,12 +2005,12 @@ void trim(char *fname, char *trimspec, char *marks)
 			exit(1);
 		}
 	}
-	dap_free(outname, "");
-	dap_free(markv, "");
-	dap_free(varv, "");
-	dap_free(vpct, "");
-	dap_free(valmem, "");
-	dap_free(val, "");
-	dap_free(vmin, "");
-	dap_free(vmax, "");
+	dap_free(outname, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(vpct, (char*) "");
+	dap_free(valmem, (char*) "");
+	dap_free(val, (char*) "");
+	dap_free(vmin, (char*) "");
+	dap_free(vmax, (char*) "");
 }

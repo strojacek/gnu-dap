@@ -70,8 +70,8 @@ static int rowred(double **coeff, int rterm[], int byterm,
 
 	nterms = 0;
 	elimrow = 0;
-	misscol = (int *)dap_malloc(sizeof(int) * ncells, "");
-	term = (int *)dap_malloc(sizeof(int) * ncells, "");
+	misscol = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
+	term = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
 	if (byterm)
 	{
 		nterms = 0;
@@ -233,8 +233,8 @@ static int rowred(double **coeff, int rterm[], int byterm,
 			}
 		}
 	}
-	dap_free(misscol, "");
-	dap_free(term, "");
+	dap_free(misscol, (char*) "");
+	dap_free(term, (char*) "");
 	if (elimrow == ncols)
 		return elimrow;
 	fputs("error terms insufficient to impute missing cells\n", dap_err);
@@ -289,7 +289,7 @@ static int orthog(double **coeff, int row0, int row1, int row2,
 	int df;
 
 	nterms = 0;
-	term = (int *)dap_malloc(sizeof(int) * ncells, "");
+	term = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
 	if (row2 >= row0)
 		updown = 1;
 	else
@@ -407,7 +407,7 @@ static int orthog(double **coeff, int row0, int row1, int row2,
 			cr += updown;
 		}
 	}
-	dap_free(term, "");
+	dap_free(term, (char*) "");
 	return df;
 }
 
@@ -473,7 +473,7 @@ static int testparse(char *test, char *termv, int *varv, int nvars)
 	int firstv;	 /* first variable in term */
 
 	term = 0;
-	vname = dap_malloc(dap_namelen + 1, "");
+	vname = dap_malloc(dap_namelen + 1, (char*) "");
 	if (!test || !test[0])
 		return 0;
 	/* compute the maximum possible number of terms for nvars variables with crossing */
@@ -530,7 +530,7 @@ static int testparse(char *test, char *termv, int *varv, int nvars)
 			firstv = 1;
 		}
 	}
-	dap_free(vname, "");
+	dap_free(vname, (char*) "");
 	return nterms;
 }
 
@@ -607,12 +607,12 @@ static int ems(double **coeff, int **level, int ncells,
 	double tmp;
 	int factor; /* ?? */
 
-	cum = (double *)dap_malloc(sizeof(double) * ncells, "");
-	emsc = (double *)dap_malloc(sizeof(double) * ncells, "");
-	lensq = (double *)dap_malloc(sizeof(double) * ncells, "");
-	effrow = (int *)dap_malloc(sizeof(int) * ncells, "");
-	factlev = (int *)dap_malloc(sizeof(int) * ncells, "");
-	used = (int *)dap_malloc(sizeof(int) * ncells, "");
+	cum = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	emsc = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	lensq = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	effrow = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
+	factlev = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
+	used = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
 	for (r = 0; r < nrows; r++)
 		emsc[r] = 0.0;
 	emscoeff++; /* room for error */
@@ -731,12 +731,12 @@ static int ems(double **coeff, int **level, int ncells,
 			factor++;
 		}
 	}
-	dap_free(cum, "");
-	dap_free(effrow, "");
-	dap_free(factlev, "");
-	dap_free(emsc, "");
-	dap_free(lensq, "");
-	dap_free(used, "");
+	dap_free(cum, (char*) "");
+	dap_free(effrow, (char*) "");
+	dap_free(factlev, (char*) "");
+	dap_free(emsc, (char*) "");
+	dap_free(lensq, (char*) "");
+	dap_free(used, (char*) "");
 	return factor;
 }
 
@@ -884,16 +884,16 @@ static void ftest1(double **coeff, int **level, int ncells,
 	ndenterm = 0;
 	ss = 0.0;
 	df = 0.0;
-	sumcheck("ftest1", coeff, ncells, nerrors, ncontrasts, rterm);
-	indep = (int *)dap_malloc(sizeof(int) * (nerrors + ncontrasts), "");
+	sumcheck((char*) "ftest1", coeff, ncells, nerrors, ncontrasts, rterm);
+	indep = (int *)dap_malloc(sizeof(int) * (nerrors + ncontrasts), (char*) "");
 	if (nden)
 	{
-		emsmem = (double *)dap_malloc(sizeof(double) * 2 * ncells * ncells, "");
-		emscoeff = (double **)dap_malloc(sizeof(double *) * 2 * ncells, "");
+		emsmem = (double *)dap_malloc(sizeof(double) * 2 * ncells * ncells, (char*) "");
+		emscoeff = (double **)dap_malloc(sizeof(double *) * 2 * ncells, (char*) "");
 		for (cr = 0; cr < 2 * ncells; cr++)
 			emscoeff[cr] = emsmem + cr * ncells;
 	}
-	termv = (int *)dap_malloc(sizeof(int) * ncells, "");
+	termv = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
 	denom = 0.0;
 	for (cr = 0; cr < nerrors + ncontrasts; cr++)
 		indep[cr] = 0;
@@ -1063,11 +1063,11 @@ static void ftest1(double **coeff, int **level, int ncells,
 	output();
 	if (nden)
 	{
-		dap_free(emsmem, "");
-		dap_free(emscoeff, "");
+		dap_free(emsmem, (char*) "");
+		dap_free(emscoeff, (char*) "");
 	}
-	dap_free(indep, "");
-	dap_free(termv, "");
+	dap_free(indep, (char*) "");
+	dap_free(termv, (char*) "");
 }
 
 static void puttest(char *testv, int ntest, int *varv, int nvars)
@@ -1140,14 +1140,14 @@ void ftest(char *fname, char *variables, char *numerator, char *denominator, cha
 	int err;
 	int con;
 
-	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-	rterm = (int *)dap_malloc(sizeof(int) * (dap_maxcell - 1), "");
-	numv = dap_malloc(dap_maxcell, "");
-	denv = dap_malloc(dap_maxcell, "");
-	levmem = dap_malloc((dap_maxtreat + 1) * dap_maxlev * (dap_strlen + 1), "");
-	levptr = (char **)dap_malloc(sizeof(char *) * (dap_maxtreat + 1) * dap_maxlev, "");
-	levval = (char ***)dap_malloc(sizeof(char **) * (dap_maxtreat + 1), "");
+	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+	rterm = (int *)dap_malloc(sizeof(int) * (dap_maxcell - 1), (char*) "");
+	numv = dap_malloc(dap_maxcell, (char*) "");
+	denv = dap_malloc(dap_maxcell, (char*) "");
+	levmem = dap_malloc((dap_maxtreat + 1) * dap_maxlev * (dap_strlen + 1), (char*) "");
+	levptr = (char **)dap_malloc(sizeof(char *) * (dap_maxtreat + 1) * dap_maxlev, (char*) "");
+	levval = (char ***)dap_malloc(sizeof(char **) * (dap_maxtreat + 1), (char*) "");
 	for (v = 0; v < dap_maxtreat + 1; v++)
 	{
 		levval[v] = levptr + v * dap_maxlev;
@@ -1155,32 +1155,32 @@ void ftest(char *fname, char *variables, char *numerator, char *denominator, cha
 			levval[v][l] = levmem + v * dap_maxlev * (dap_strlen + 1) +
 						   l * (dap_strlen + 1);
 	}
-	nlevels = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "");
-	levelmem = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1) * dap_maxcell, "");
-	level = (int **)dap_malloc(sizeof(int *) * (dap_maxtreat + 1), "");
+	nlevels = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "");
+	levelmem = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1) * dap_maxcell, (char*) "");
+	level = (int **)dap_malloc(sizeof(int *) * (dap_maxtreat + 1), (char*) "");
 	for (v = 0; v < dap_maxtreat + 1; v++)
 		level[v] = levelmem + v * dap_maxcell;
-	comem = (double *)dap_malloc(sizeof(double) * dap_maxcell * dap_maxcell, "dap_maxcell");
-	coeff = (double **)dap_malloc(sizeof(double *) * dap_maxcell, "dap_maxcell");
+	comem = (double *)dap_malloc(sizeof(double) * dap_maxcell * dap_maxcell, (char*) "dap_maxcell");
+	coeff = (double **)dap_malloc(sizeof(double *) * dap_maxcell, (char*) "dap_maxcell");
 	for (ncells = 0; ncells < dap_maxcell; ncells++)
 		coeff[ncells] = comem + ncells * dap_maxcell;
-	mean = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
-	nobs = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
-	vari = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
+	mean = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
+	nobs = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
+	vari = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
 	if (!fname)
 	{
 		fputs("(ftest) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	tstname = dap_malloc(strlen(fname) + 5, "");
-	dap_suffix(tstname, fname, "<tst");
+	tstname = dap_malloc(strlen(fname) + 5, (char*) "");
+	dap_suffix(tstname, fname, (char*) "<tst");
 	inset(fname);
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fprintf(dap_err, "(ftest) no _type_ variable\n");
 		exit(1);
 	}
-	if ((termn = dap_varnum("_term_")) < 0)
+	if ((termn = dap_varnum((char*) "_term_")) < 0)
 	{
 		fprintf(dap_err, "(ftest) no _term_ variable\n");
 		exit(1);
@@ -1206,7 +1206,7 @@ void ftest(char *fname, char *variables, char *numerator, char *denominator, cha
 			exit(1);
 		}
 	}
-	outset(tstname, "");
+	outset(tstname, (char*) "");
 	if (numerator && numerator[0])
 	{
 		nnum = testparse(numerator, numv, varv, nvars);
@@ -1421,23 +1421,23 @@ void ftest(char *fname, char *variables, char *numerator, char *denominator, cha
 			more = step();
 		}
 	}
-	dap_free(comem, "");
-	dap_free(coeff, "");
-	dap_free(tstname, "");
-	dap_free(varv, "");
-	dap_free(markv, "");
-	dap_free(rterm, "");
-	dap_free(numv, "");
-	dap_free(denv, "");
-	dap_free(levmem, "");
-	dap_free(levptr, "");
-	dap_free(levval, "");
-	dap_free(nlevels, "");
-	dap_free(levelmem, "");
-	dap_free(level, "");
-	dap_free(mean, "");
-	dap_free(nobs, "");
-	dap_free(vari, "");
+	dap_free(comem, (char*) "");
+	dap_free(coeff, (char*) "");
+	dap_free(tstname, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(rterm, (char*) "");
+	dap_free(numv, (char*) "");
+	dap_free(denv, (char*) "");
+	dap_free(levmem, (char*) "");
+	dap_free(levptr, (char*) "");
+	dap_free(levval, (char*) "");
+	dap_free(nlevels, (char*) "");
+	dap_free(levelmem, (char*) "");
+	dap_free(level, (char*) "");
+	dap_free(mean, (char*) "");
+	dap_free(nobs, (char*) "");
+	dap_free(vari, (char*) "");
 }
 
 static void putlev(int *nlevels, int *varv, int nvars, char ***levval)
@@ -1481,10 +1481,10 @@ static void maketerm(int nterm, char *termv, int nvars, int *varv,
 	int nbits;
 
 	row = 0;
-	nest = (int *)dap_malloc(sizeof(int) * ncells, "");
-	iv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
-	rlevel = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
-	change = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
+	nest = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
+	iv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
+	rlevel = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
+	change = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
 	for (tn = 1; tn <= nterm; tn++)
 		nest[tn] = tn;
 	for (tn = 0x1; tn <= nterm; tn = (tn << 1))
@@ -1596,10 +1596,10 @@ static void maketerm(int nterm, char *termv, int nvars, int *varv,
 			}
 		}
 	}
-	dap_free(nest, "");
-	dap_free(iv, "");
-	dap_free(rlevel, "");
-	dap_free(change, "");
+	dap_free(nest, (char*) "");
+	dap_free(iv, (char*) "");
+	dap_free(rlevel, (char*) "");
+	dap_free(change, (char*) "");
 }
 
 static void eff1(int incells, char ***levval, int *nlevels,
@@ -1640,7 +1640,7 @@ static void eff1(int incells, char ***levval, int *nlevels,
 	mean1 = 0.0;
 	vari1 = 0.0;
 	scmp = &stcmp;
-	level = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
+	level = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
 	for (v = 1; v < nvars; v++)
 		qsort(levval[v], nlevels[v], sizeof(char *), scmp);
 	for (v = 1, ncells = 1, sumlev = 0; v < nvars; v++)
@@ -1649,18 +1649,18 @@ static void eff1(int incells, char ***levval, int *nlevels,
 		sumlev += nlevels[v];
 		level[v] = 0;
 	}
-	clevmem = (int *)dap_malloc(sizeof(int) * nvars * ncells, "");
-	clevel = (int **)dap_malloc(sizeof(int *) * nvars, "");
+	clevmem = (int *)dap_malloc(sizeof(int) * nvars * ncells, (char*) "");
+	clevel = (int **)dap_malloc(sizeof(int *) * nvars, (char*) "");
 	for (v = 0; v < nvars; v++)
 		clevel[v] = clevmem + v * ncells;
-	nobs = (double *)dap_malloc(sizeof(double) * ncells, "");
-	mean = (double *)dap_malloc(sizeof(double) * ncells, "");
-	vari = (double *)dap_malloc(sizeof(double) * ncells, "");
-	rterm = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), "");
-	indep = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), "");
-	nonz = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), "");
-	comem = (double *)dap_malloc(sizeof(double) * (ncells + sumlev) * ncells, "");
-	coeff = (double **)dap_malloc(sizeof(double *) * (ncells + sumlev), "");
+	nobs = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	mean = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	vari = (double *)dap_malloc(sizeof(double) * ncells, (char*) "");
+	rterm = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), (char*) "");
+	indep = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), (char*) "");
+	nonz = (int *)dap_malloc(sizeof(int) * (ncells + sumlev - 1), (char*) "");
+	comem = (double *)dap_malloc(sizeof(double) * (ncells + sumlev) * ncells, (char*) "");
+	coeff = (double **)dap_malloc(sizeof(double *) * (ncells + sumlev), (char*) "");
 	for (r = 0; r < ncells + sumlev; r++)
 		coeff[r] = comem + r * ncells;
 	for (celli = 0, celln = 0; celli < incells; celli++, celln++)
@@ -1841,17 +1841,17 @@ static void eff1(int incells, char ***levval, int *nlevels,
 				break;
 		}
 	}
-	dap_free(comem, "");
-	dap_free(coeff, "");
-	dap_free(level, "");
-	dap_free(clevmem, "");
-	dap_free(clevel, "");
-	dap_free(nobs, "");
-	dap_free(mean, "");
-	dap_free(vari, "");
-	dap_free(rterm, "");
-	dap_free(indep, "");
-	dap_free(nonz, "");
+	dap_free(comem, (char*) "");
+	dap_free(coeff, (char*) "");
+	dap_free(level, (char*) "");
+	dap_free(clevmem, (char*) "");
+	dap_free(clevel, (char*) "");
+	dap_free(nobs, (char*) "");
+	dap_free(mean, (char*) "");
+	dap_free(vari, (char*) "");
+	dap_free(rterm, (char*) "");
+	dap_free(indep, (char*) "");
+	dap_free(nonz, (char*) "");
 }
 
 void effects(char *fname, char *varlist, char *model, char *marks)
@@ -1876,16 +1876,16 @@ void effects(char *fname, char *varlist, char *model, char *marks)
 	int more;
 
 	conname = dap_malloc(strlen(fname) + 5, fname);
-	outlist = dap_malloc(strlen(varlist) + strlen(marks) + 9, "");
-	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-	termv = dap_malloc(dap_maxcell, "dap_maxcell");
+	outlist = dap_malloc(strlen(varlist) + strlen(marks) + 9, (char*) "");
+	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+	termv = dap_malloc(dap_maxcell, (char*) "dap_maxcell");
 	levmem = dap_malloc((dap_maxtreat + 1) * dap_maxlev * (dap_strlen + 1),
-						"dap_maxtreat, dap_maxlev, dap_strlen");
+						(char*) "dap_maxtreat, dap_maxlev, dap_strlen");
 	levptr = (char **)dap_malloc(sizeof(char *) * (dap_maxtreat + 1) * dap_maxlev,
-								 "dap_maxtreat, dap_maxlev");
+								 (char*) "dap_maxtreat, dap_maxlev");
 	levval = (char ***)dap_malloc(sizeof(char **) * (dap_maxtreat + 1),
-								  "dap_maxtreat");
+								  (char*) "dap_maxtreat");
 	for (v = 0; v < dap_maxtreat + 1; v++)
 	{
 		levval[v] = levptr + v * dap_maxlev;
@@ -1893,20 +1893,20 @@ void effects(char *fname, char *varlist, char *model, char *marks)
 			levval[v][l] = levmem + v * dap_maxlev * (dap_strlen + 1) +
 						   l * (dap_strlen + 1);
 	}
-	nlevels = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
+	nlevels = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
 	if (!fname)
 	{
 		fputs("(effects) No dataset name given.\n", dap_err);
 		exit(1);
 	}
-	dap_suffix(conname, fname, ".con");
+	dap_suffix(conname, fname, (char*) ".con");
 	inset(fname);
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fputs("(effects) no _type_ variable\n", dap_err);
 		exit(1);
 	}
-	termn = dap_vd("_term_ 0", 0);
+	termn = dap_vd((char*) "_term_ 0", 0);
 	nvars = dap_list(varlist, varv, dap_maxtreat + 1);
 	if (nvars > dap_maxtreat + 1)
 	{
@@ -1984,16 +1984,16 @@ void effects(char *fname, char *varlist, char *model, char *marks)
 		}
 	}
 	if (model && model[0])
-		ftest(conname, varlist, "", "", marks);
-	dap_free(conname, "");
-	dap_free(outlist, "");
-	dap_free(varv, "");
-	dap_free(markv, "");
-	dap_free(termv, "");
-	dap_free(levval, "");
-	dap_free(nlevels, "");
-	dap_free(levmem, "");
-	dap_free(levptr, "");
+		ftest(conname, varlist, (char*) "", (char*) "", marks);
+	dap_free(conname, (char*) "");
+	dap_free(outlist, (char*) "");
+	dap_free(varv, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(termv, (char*) "");
+	dap_free(levval, (char*) "");
+	dap_free(nlevels, (char*) "");
+	dap_free(levmem, (char*) "");
+	dap_free(levptr, (char*) "");
 }
 
 /* Compute LS means, differences, and probabilities for treatment comparisons */
@@ -2044,13 +2044,13 @@ static void lsmeans1(
 	pt = 0.0;
 	dap_swap(); /* get back to part just ended */
 	/* array allocations and pointer setup */
-	indep = (int *)dap_malloc(sizeof(int) * ncells, "");
-	lsmean = (double *)dap_malloc(sizeof(double) * nlevels, "");
-	effinvn = (double *)dap_malloc(sizeof(double) * nlevels, "");
-	diffmem = (double *)dap_malloc(sizeof(double) * nlevels * nlevels, "");
-	probmem = (double *)dap_malloc(sizeof(double) * nlevels * nlevels, "");
-	diff = (double **)dap_malloc(sizeof(double *) * nlevels, "");
-	prob = (double **)dap_malloc(sizeof(double *) * nlevels, "");
+	indep = (int *)dap_malloc(sizeof(int) * ncells, (char*) "");
+	lsmean = (double *)dap_malloc(sizeof(double) * nlevels, (char*) "");
+	effinvn = (double *)dap_malloc(sizeof(double) * nlevels, (char*) "");
+	diffmem = (double *)dap_malloc(sizeof(double) * nlevels * nlevels, (char*) "");
+	probmem = (double *)dap_malloc(sizeof(double) * nlevels * nlevels, (char*) "");
+	diff = (double **)dap_malloc(sizeof(double *) * nlevels, (char*) "");
+	prob = (double **)dap_malloc(sizeof(double *) * nlevels, (char*) "");
 	for (l1 = 0; l1 < nlevels; l1++)
 	{
 		diff[l1] = diffmem + l1 * nlevels;
@@ -2059,7 +2059,7 @@ static void lsmeans1(
 	/* end array allocations and pointer setup */
 
 	/* check that row sums for error terms in coeff array are zero */
-	sumcheck("lsmeans1", coeff, ncells, nerrors, 0, NULL);
+	sumcheck((char*) "lsmeans1", coeff, ncells, nerrors, 0, NULL);
 	for (cr = 0; cr < nerrors + nlsmeans; cr++)
 		indep[cr] = 0;
 
@@ -2298,13 +2298,13 @@ static void lsmeans1(
 				alpha, pt);
 		break;
 	}
-	dap_free(indep, "");
-	dap_free(lsmean, "");
-	dap_free(effinvn, "");
-	dap_free(diffmem, "");
-	dap_free(diff, "");
-	dap_free(probmem, "");
-	dap_free(prob, "");
+	dap_free(indep, (char*) "");
+	dap_free(lsmean, (char*) "");
+	dap_free(effinvn, (char*) "");
+	dap_free(diffmem, (char*) "");
+	dap_free(diff, (char*) "");
+	dap_free(probmem, (char*) "");
+	dap_free(prob, (char*) "");
 	dap_swap();
 }
 
@@ -2357,22 +2357,22 @@ void lsmeans(char *fname, char *method, double alpha, char *varlist, char *treat
 		exit(1);
 	}
 	lsmname = dap_malloc(strlen(fname) + 5, fname);
-	dap_suffix(lsmname, fname, ".lsm");
+	dap_suffix(lsmname, fname, (char*) ".lsm");
 	lsmsrt = dap_malloc(strlen(lsmname) + 5, lsmname);
-	dap_suffix(lsmsrt, lsmname, ".srt");
-	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
-	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "dap_maxvar");
-	levmem = dap_malloc(dap_maxlev * (dap_strlen + 1), "dap_maxlev, dap_strlen");
-	levval = (char **)dap_malloc(sizeof(char *) * dap_maxlev, "dap_maxlev");
+	dap_suffix(lsmsrt, lsmname, (char*) ".srt");
+	varv = (int *)dap_malloc(sizeof(int) * (dap_maxtreat + 1), (char*) "dap_maxtreat");
+	markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "dap_maxvar");
+	levmem = dap_malloc(dap_maxlev * (dap_strlen + 1), (char*) "dap_maxlev, dap_strlen");
+	levval = (char **)dap_malloc(sizeof(char *) * dap_maxlev, (char*) "dap_maxlev");
 	for (l = 0; l < dap_maxlev; l++)
 		levval[l] = levmem + l * (dap_strlen + 1);
-	comem = (double *)dap_malloc(sizeof(double) * dap_maxcell * dap_maxcell, "dap_maxcell");
-	coeff = (double **)dap_malloc(sizeof(double *) * dap_maxcell, "dap_maxcell");
+	comem = (double *)dap_malloc(sizeof(double) * dap_maxcell * dap_maxcell, (char*) "dap_maxcell");
+	coeff = (double **)dap_malloc(sizeof(double *) * dap_maxcell, (char*) "dap_maxcell");
 	for (ncells = 0; ncells < dap_maxcell; ncells++)
 		coeff[ncells] = comem + ncells * dap_maxcell;
-	mean = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
-	nobs = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
-	vari = (double *)dap_malloc(sizeof(double) * dap_maxcell, "dap_maxcell");
+	mean = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
+	nobs = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
+	vari = (double *)dap_malloc(sizeof(double) * dap_maxcell, (char*) "dap_maxcell");
 	inset(fname);
 	if (!varlist || !varlist[0])
 	{
@@ -2394,11 +2394,11 @@ void lsmeans(char *fname, char *method, double alpha, char *varlist, char *treat
 	strcpy(treat2, "_");
 	strcat(treat2, treat);
 	/* + 10 is to make sure that later use for dap_vd is OK */
-	varstr = dap_malloc(strlen(treat2) + strlen(dap_obs[0].do_nam[varv[0]]) + 10, "");
+	varstr = dap_malloc(strlen(treat2) + strlen(dap_obs[0].do_nam[varv[0]]) + 10, (char*) "");
 	sprintf(varstr, "%s %d", treat2, dap_obs[0].do_len[treatn]);
 	treat2n = dap_vd(varstr, 0);
-	lsm1 = dap_vd("_lsm_ -1", 0);
-	lsm2 = dap_vd("_LSMEAN_ -1", 0);
+	lsm1 = dap_vd((char*) "_lsm_ -1", 0);
+	lsm2 = dap_vd((char*) "_LSMEAN_ -1", 0);
 	for (r = 0, varstr[0] = '_'; dap_obs[0].do_nam[varv[0]][r]; r++)
 	{
 		if (r < dap_namelen - 1)
@@ -2408,17 +2408,17 @@ void lsmeans(char *fname, char *method, double alpha, char *varlist, char *treat
 	resp2n = dap_vd(varstr, 0);
 	sprintf(varstr, "_stat_ %d", DBL);
 	statn = dap_vd(varstr, 0);
-	if ((typen = dap_varnum("_type_")) < 0)
+	if ((typen = dap_varnum((char*) "_type_")) < 0)
 	{
 		fprintf(dap_err, "(lsmeans) no _type_ variable\n");
 		exit(1);
 	}
-	if (dap_varnum("_term_") < 0)
+	if (dap_varnum((char*) "_term_") < 0)
 	{
 		fprintf(dap_err, "(lsmeans) no _term_ variable\n");
 		exit(1);
 	}
-	outset(lsmname, "");
+	outset(lsmname, (char*) "");
 	if (!method || !method[0])
 	{
 		fputs("(lsmeans) no method specified.\n", dap_err);
@@ -2555,9 +2555,9 @@ void lsmeans(char *fname, char *method, double alpha, char *varlist, char *treat
 			}
 		}
 	}
-	args1 = dap_malloc(strlen(marks) + strlen(treat2) + strlen(treat) + 10 + 15, "");
+	args1 = dap_malloc(strlen(marks) + strlen(treat2) + strlen(treat) + 10 + 15, (char*) "");
 	sprintf(args1, "%s _type_ _LSMEAN_ %s _lsm_ %s", marks, treat2, treat);
-	sort(lsmname, args1, "");
+	sort(lsmname, args1, (char*) "");
 	sprintf(args1, "_type_ _LSMEAN_ %s", treat2);
 	args2 = dap_malloc(strlen(treat) + 8 + 6, treat);
 	sprintf(args2, "_lsm_ %s _stat_", treat);
@@ -2566,19 +2566,19 @@ void lsmeans(char *fname, char *method, double alpha, char *varlist, char *treat
 	if (*format == 's')
 		format++;
 	table(lsmsrt, args1, args2, format, marks);
-	dap_free(varv, "");
-	dap_free(markv, "");
-	dap_free(lsmname, "");
-	dap_free(lsmsrt, "");
-	dap_free(varstr, "");
-	dap_free(treat2, "");
-	dap_free(args1, "");
-	dap_free(args2, "");
-	dap_free(levmem, "");
-	dap_free(levval, "");
-	dap_free(comem, "");
-	dap_free(coeff, "");
-	dap_free(mean, "");
-	dap_free(nobs, "");
-	dap_free(vari, "");
+	dap_free(varv, (char*) "");
+	dap_free(markv, (char*) "");
+	dap_free(lsmname, (char*) "");
+	dap_free(lsmsrt, (char*) "");
+	dap_free(varstr, (char*) "");
+	dap_free(treat2, (char*) "");
+	dap_free(args1, (char*) "");
+	dap_free(args2, (char*) "");
+	dap_free(levmem, (char*) "");
+	dap_free(levval, (char*) "");
+	dap_free(comem, (char*) "");
+	dap_free(coeff, (char*) "");
+	dap_free(mean, (char*) "");
+	dap_free(nobs, (char*) "");
+	dap_free(vari, (char*) "");
 }

@@ -22,9 +22,9 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include "externs.h"
 
 extern FILE *dap_err;

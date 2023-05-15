@@ -53,11 +53,11 @@ void dap_initpict()
 	double *ptmem;
 	int p;
 
-	ptmem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxpts, "dap_maxpts");
-	ptbuf = (double **)dap_malloc(sizeof(double *) * dap_maxpts, "dap_maxpts");
+	ptmem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxpts, (char*) "dap_maxpts");
+	ptbuf = (double **)dap_malloc(sizeof(double *) * dap_maxpts, (char*) "dap_maxpts");
 	for (p = 0; p < dap_maxpts; p++)
 		ptbuf[p] = ptmem + p * 2;
-	charbuf = dap_malloc(dap_maxchar + 1, "dap_maxchar");
+	charbuf = dap_malloc(dap_maxchar + 1, (char*) "dap_maxchar");
 }
 
 static double (*pict_newpoint(double x, double y))[2]
@@ -181,14 +181,14 @@ void pict_page()
 
 void pict_clearpict(pict *p)
 {
-	dap_free(p->pict_txt, "");
+	dap_free(p->pict_txt, (char*) "");
 	p->pict_txt = NULL;
-	dap_free(p->pict_font, "");
+	dap_free(p->pict_font, (char*) "");
 	p->pict_font = NULL;
-	dap_free(p->pict_tpt[0], "");
-	dap_free(p->pict_tang, "");
+	dap_free(p->pict_tpt[0], (char*) "");
+	dap_free(p->pict_tang, (char*) "");
 	p->pict_tang = NULL;
-	dap_free(p->pict_pos[0], "");
+	dap_free(p->pict_pos[0], (char*) "");
 }
 
 void pict_initpict(pict *prev, pict *p)
@@ -199,18 +199,18 @@ void pict_initpict(pict *prev, pict *p)
 
 	p->pict_npts = 0;
 	p->pict_ntxt = 0;
-	p->pict_txt = (char **)dap_malloc(sizeof(char *) * dap_maxntxt, "dap_maxntxt");
+	p->pict_txt = (char **)dap_malloc(sizeof(char *) * dap_maxntxt, (char*) "dap_maxntxt");
 	strcpy(p->pict_type, "LINE");
 	p->pict_dash = 0.0;
-	p->pict_font = dap_malloc(dap_maxfont + 1, "dap_maxfont");
+	p->pict_font = dap_malloc(dap_maxfont + 1, (char*) "dap_maxfont");
 	strcpy(p->pict_font, "Helvetica-Bold");
-	dblmem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxntxt, "dap_maxntxt");
-	p->pict_tpt = (double **)dap_malloc(sizeof(double *) * dap_maxntxt, "dap_maxntxt");
+	dblmem = (double *)dap_malloc(sizeof(double) * 2 * dap_maxntxt, (char*) "dap_maxntxt");
+	p->pict_tpt = (double **)dap_malloc(sizeof(double *) * dap_maxntxt, (char*) "dap_maxntxt");
 	for (t = 0; t < dap_maxntxt; t++)
 		p->pict_tpt[t] = dblmem + 2 * t;
-	p->pict_tang = (double *)dap_malloc(sizeof(double) * dap_maxntxt, "dap_maxntxt");
-	charmem = dap_malloc(3 * dap_maxntxt, "dap_maxntxt");
-	p->pict_pos = (char **)dap_malloc(sizeof(char *) * dap_maxntxt, "dap_maxntxt");
+	p->pict_tang = (double *)dap_malloc(sizeof(double) * dap_maxntxt, (char*) "dap_maxntxt");
+	charmem = dap_malloc(3 * dap_maxntxt, (char*) "dap_maxntxt");
+	p->pict_pos = (char **)dap_malloc(sizeof(char *) * dap_maxntxt, (char*) "dap_maxntxt");
 	for (t = 0; t < dap_maxntxt; t++)
 		p->pict_pos[t] = charmem + 3 * t;
 	p->pict_fs = 12.0;
@@ -763,8 +763,8 @@ static pict *show1(pict *p)
 	if (!show1init) /* if initial bookkeeping not done yet */
 	{
 		show1init = 1;
-		tpart = dap_malloc(dap_maxtxt + 1, "dap_maxtxt");
-		baret = dap_malloc(dap_maxtxt + 1, "dap_maxtxt");
+		tpart = dap_malloc(dap_maxtxt + 1, (char*) "dap_maxtxt");
+		baret = dap_malloc(dap_maxtxt + 1, (char*) "dap_maxtxt");
 	}
 	if (p->pict_npts > 0) /* if there are points, not just text, to display */
 	{

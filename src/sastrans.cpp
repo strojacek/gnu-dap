@@ -37,25 +37,25 @@ extern void surveyselecttrans(char *step, FILE *dapfile);
 extern void unget1c(int c, FILE *dotc, FILE *dapc);
 static char *keyword[] = /* SAS keywords inside data step */
     {
-        "set",
-        "infile",
-        "input",
-        "length",
-        "merge",
-        "by",
-        "drop",
-        "keep",
-        "output",
-        "do",
-        "end",
-        "if",
-        "then",
-        "else",
-        "while",
-        "to",
-        "cards",
-        "datalines",
-        ""};
+       (char*) "set",
+        (char*) "infile",
+        (char*) "input",
+        (char*) "length",
+        (char*) "merge",
+        (char*) "by",
+        (char*) "drop",
+        (char*) "keep",
+        (char*) "output",
+        (char*) "do",
+        (char*) "end",
+        (char*) "if",
+        (char*) "then",
+        (char*) "else",
+        (char*) "while",
+        (char*) "to",
+        (char*) "cards",
+        (char*) "datalines",
+        (char*) ""};
 
 int iskeyword(char *str)
 {
@@ -332,9 +332,9 @@ int getstep(FILE *sasfile, char *step)
     if (!(statelen = getstatement(sasfile, statement)))
       return 0;
   }
-  if (!linecmp(statement, "data"))
+  if (!linecmp(statement, (char*) "data"))
     steptype = DATA;
-  else if (!linecmp(statement, "proc"))
+  else if (!linecmp(statement, (char*) "proc"))
     steptype = PROC;
   else
     return 0;
@@ -342,10 +342,10 @@ int getstep(FILE *sasfile, char *step)
   s = statelen;
   while ((statelen = getstatement(sasfile, statement)))
   {
-    if (!linecmp(statement, "data") &&
+    if (!linecmp(statement, (char*) "data") &&
         (alpha(statement[5]) || statement[5] == ';' || statement[5] == '('))
       break;
-    else if (!linecmp(statement, "proc") && alpha(statement[5]))
+    else if (!linecmp(statement, (char*) "proc") && alpha(statement[5]))
       break;
     if (s + statelen + 1 < STEPLEN)
     {
@@ -387,32 +387,32 @@ int opfix(char *token, FILE *dapfile)
 
   if (inquote1 || inquote2)
     return lineput(token, dapfile) + 1;
-  else if (!linecmp(token, "="))
+  else if (!linecmp(token, (char*) "="))
   {
     fputs("==", dapfile);
     return 2;
   }
-  else if (!linecmp(token, "^=") || !linecmp(token, "~="))
+  else if (!linecmp(token, (char*) "^=") || !linecmp(token, (char*) "~="))
   {
     fputs("!=", dapfile);
     return 3;
   }
-  else if (!linecmp(token, "&"))
+  else if (!linecmp(token, (char*) "&"))
   {
     fputs("&&", dapfile);
     return 2;
   }
-  else if (!linecmp(token, "|"))
+  else if (!linecmp(token, (char*) "|"))
   {
     fputs("||", dapfile);
     return 2;
   }
-  else if (!linecmp(token, "^") || !linecmp(token, "~"))
+  else if (!linecmp(token, (char*) "^") || !linecmp(token, (char*) "~"))
   {
     fputs("!", dapfile);
     return 2;
   }
-  else if (!strncmp(token, "first.", 6))
+  else if (!strncmp(token, (char*) "first.", 6))
   {
     putc('_', dapfile);
     for (t = 6; token[t] && token[t] != '\n'; t++)
@@ -420,12 +420,12 @@ int opfix(char *token, FILE *dapfile)
     putc('_', dapfile);
     return t + 1;
   }
-  else if (!linecmp(token, "["))
+  else if (!linecmp(token, (char*) "["))
   {
     fputs("[(int)(", dapfile); /* C-style array subscripting */
     return 2;
   }
-  else if (!linecmp(token, "]"))
+  else if (!linecmp(token, (char*) "]"))
   {
     fputs(")-1]", dapfile); /* C-style array subscripting */
     return 2;
@@ -438,11 +438,11 @@ char *nonaction(char *step) /* is not an action statement? */
 {
   static char type[TOKENLEN + 1];
 
-  if (!linecmp(step, "set") || !linecmp(step, "infile") ||
-      !linecmp(step, "input") || !linecmp(step, "length") ||
-      !linecmp(step, "merge") || !linecmp(step, "by") ||
-      !linecmp(step, "drop") || !linecmp(step, "keep") ||
-      !linecmp(step, "title"))
+  if (!linecmp(step, (char*) "set") || !linecmp(step, (char*) "infile") ||
+      !linecmp(step, (char*) "input") || !linecmp(step, (char*) "length") ||
+      !linecmp(step, (char*) "merge") || !linecmp(step, (char*) "by") ||
+      !linecmp(step, (char*) "drop") || !linecmp(step, (char*) "keep") ||
+      !linecmp(step, (char*) "title"))
   {
     linecpy(type, step);
     return type;
@@ -471,44 +471,44 @@ int statementtrans(char *step, FILE *dapfile, int *isoutput)
       exit(1);
     }
   }
-  else if (!linecmp(step, "output"))
+  else if (!linecmp(step, (char*) "output"))
   {
     fputs("output();\n", dapfile);
     s += 7;
     *isoutput = 1;
-    statementtype = "output";
+    statementtype = (char*) "output";
   }
-  else if (!linecmp(step, "end"))
+  else if (!linecmp(step, (char*) "end"))
   {
     fputs("}\n", dapfile);
     s += 4;
-    statementtype = "end";
+    statementtype = (char*) "end";
   }
-  else if (!linecmp(step, "if"))
+  else if (!linecmp(step, (char*) "if"))
   {
     s += 3;
     fputs("if (", dapfile);
-    while (step[s] && linecmp(step + s, "then"))
+    while (step[s] && linecmp(step + s, (char*) "then"))
       s += opfix(step + s, dapfile);
     fputs(")\n", dapfile);
     s += 5; /* get past the then */
     s += statementtrans(step + s, dapfile, isoutput) - 2;
     /* need - 2 because recursive call picked up the ; */
-    statementtype = "if";
+    statementtype = (char*) "if";
   }
-  else if (!linecmp(step, "else"))
+  else if (!linecmp(step, (char*) "else"))
   {
     fputs("else\n", dapfile);
     s += 5;
     return s;
   }
-  else if (!linecmp(step + s, "do")) /* for do or do while */
+  else if (!linecmp(step + s, (char*) "do")) /* for do or do while */
   {
     s += 3;
-    if (!linecmp(step + s, "while")) /* yes, it's a do while */
+    if (!linecmp(step + s, (char*) "while")) /* yes, it's a do while */
     {
       s += 6;
-      if (linecmp(step + s, "("))
+      if (linecmp(step + s, (char*) "("))
       {
         fprintf(stderr,
                 "sastrans: before %d: missing ( after do while\n", saslineno);
@@ -516,16 +516,16 @@ int statementtrans(char *step, FILE *dapfile, int *isoutput)
       }
       s += 2;
       fputs("while (", dapfile);
-      while (step[s] && linecmp(step + s, ")"))
+      while (step[s] && linecmp(step + s, (char*) ")"))
         s += opfix(step + s, dapfile);
       fputs(")\n{\n", dapfile);
       s += 2; /* get past the ) */
-      statementtype = "do while";
+      statementtype = (char*) "do while";
     }
     else /* no, just a do */
     {
       fputs("{\n", dapfile);
-      statementtype = "do";
+      statementtype = (char*) "do";
     }
   }
   else /* assignment? */
@@ -544,9 +544,9 @@ int statementtrans(char *step, FILE *dapfile, int *isoutput)
     }
     putc(';', dapfile);
     putc('\n', dapfile);
-    statementtype = "assignment";
+    statementtype = (char*) "assignment";
   }
-  if (linecmp(step + s, ";"))
+  if (linecmp(step + s, (char*) ";"))
   {
     fprintf(stderr,
             "sastrans: before %d: missing ; after %s statement in data step\n",
@@ -561,7 +561,7 @@ void globaltrans(char *statement, FILE *dapfile)
 {
   int s; /* index to statement */
 
-  if (!linecmp(statement, "title"))
+  if (!linecmp(statement, (char*) "title"))
   {
     fputs("title(", dapfile);
     if (statement[6] == '"')
@@ -639,24 +639,24 @@ void datatrans(char *step, FILE *dapfile)
   bymark = isby(step); /* get this out of the way */
 
   /* first take care of globals */
-  if ((s = findstatement(step, "title")))
+  if ((s = findstatement(step, (char*) "title")))
     globaltrans(step + s - 6, dapfile);
 
   /* then we look for the input file name */
   inputisnull = 0; /* not NULL until proven guilty */
   inputcolumn = 0; /* not unless columns found */
   delim[0] = '\0';
-  if ((inputisfile = findstatement(step, "infile")))
+  if ((inputisfile = findstatement(step, (char*) "infile")))
   {
     s = inputisfile + linecpy(inputname, step + inputisfile) + 1;
     fprintf(dapfile, "infile(%s, ", inputname);
-    if ((sincr = getoption(step + s, "delimiter", delim, 1)) ||
-        (sincr = getoption(step + s, "dlm", delim, 1)))
+    if ((sincr = getoption(step + s, (char*) "delimiter", delim, 1)) ||
+        (sincr = getoption(step + s, (char*) "dlm", delim, 1)))
     {
       s += sincr;
       fputs(delim, dapfile);
     }
-    else if ((sic = findstatement(step, "input"))) /* do we have column input? */
+    else if ((sic = findstatement(step, (char*) "input"))) /* do we have column input? */
     {
       while (step[sic] && step[sic] != ';')
       {
@@ -708,7 +708,7 @@ void datatrans(char *step, FILE *dapfile)
       fputs("\" \"", dapfile);
     fputs(")\n{\n", dapfile);
   }
-  else if ((s = findstatement(step, "set")))
+  else if ((s = findstatement(step, (char*) "set")))
   {
     s += linecpy(inputname, step + s) + 1;
     fprintf(dapfile, "inset (\"%s\")\n{\n", inputname);
@@ -720,22 +720,22 @@ void datatrans(char *step, FILE *dapfile)
       exit(1);
     }
   }
-  else if ((s = findstatement(step, "merge")))
+  else if ((s = findstatement(step, (char*) "merge")))
   {
     fputs("merge (\"", dapfile);
     for (setnum = 0; setnum < 2; setnum++)
     {
       s += linecpy(inputname, step + s) + 1;
       fprintf(dapfile, "%s\", \"", inputname);
-      if (!linecmp(step + s, "(")) /* have "drop" or "keep" */
+      if (!linecmp(step + s, (char*) "(")) /* have "drop" or "keep" */
       {
         s += 2;
-        if (!linecmp(step + s, "keep") || !linecmp(step + s, "drop"))
+        if (!linecmp(step + s, (char*) "keep") || !linecmp(step + s, (char*) "drop"))
         {
           if (step[s] == 'd') /* for drop */
             putc('!', dapfile);
           s += 5;
-          if (linecmp(step + s, "="))
+          if (linecmp(step + s, (char*) "="))
           {
             fprintf(stderr,
                     "sastrans: before %d: missing = after keep or drop option in merge statement.\n",
@@ -783,7 +783,7 @@ void datatrans(char *step, FILE *dapfile)
   }
 
   /* now we look for length statement declaring string variables */
-  if ((s = findstatement(step, "length")))
+  if ((s = findstatement(step, (char*) "length")))
   {
     fputs("char ", dapfile);
     firstdec = 1;
@@ -804,7 +804,7 @@ void datatrans(char *step, FILE *dapfile)
                 saslineno, varname);
         exit(1);
       }
-      if (linecmp(step + s, "$"))
+      if (linecmp(step + s, (char*) "$"))
       {
         fprintf(stderr,
                 "sastrans: before %d: missing $ in length statement for %s\n",
@@ -839,7 +839,7 @@ void datatrans(char *step, FILE *dapfile)
   /* first see if there are any */
   isdouble = 0;
   /* check "input" statement */
-  if ((s = findstatement(step, "input")))
+  if ((s = findstatement(step, (char*) "input")))
   {
     while (step[s] && step[s] != ';')
     {
@@ -909,7 +909,7 @@ void datatrans(char *step, FILE *dapfile)
     fputs("double ", dapfile);
     firstdec = 1;
     /* now do vars from input statement, if exists */
-    if ((s = findstatement(step, "input")))
+    if ((s = findstatement(step, (char*) "input")))
     {
       while (step[s] && step[s] != ';')
       {
@@ -1004,7 +1004,7 @@ void datatrans(char *step, FILE *dapfile)
   /* now, if input is file, look for input statement */
   if (inputisfile)
   {
-    if ((s = findstatement(step, "input")))
+    if ((s = findstatement(step, (char*) "input")))
     {
       fputs("input(\"", dapfile);
       while (step[s] && step[s] != ';')
@@ -1071,12 +1071,12 @@ void datatrans(char *step, FILE *dapfile)
   if (step[s] == '(') /* output dataset options */
   {
     s += 2;
-    if (!linecmp(step + s, "drop"))
+    if (!linecmp(step + s, (char*) "drop"))
     {
       dropping = 1;
       putc('!', dapfile);
     }
-    else if (!linecmp(step + s, "keep"))
+    else if (!linecmp(step + s, (char*) "keep"))
       keeping = 1;
     else
     {
@@ -1086,7 +1086,7 @@ void datatrans(char *step, FILE *dapfile)
       exit(1);
     }
     s += 5;
-    if (linecmp(step + s, "="))
+    if (linecmp(step + s, (char*) "="))
     {
       fprintf(stderr,
               "sastrans: before %d: missing = after option name in data statement.\n",
@@ -1111,7 +1111,7 @@ void datatrans(char *step, FILE *dapfile)
       exit(1);
     }
   }
-  else if ((s = findstatement(step, "drop")))
+  else if ((s = findstatement(step, (char*) "drop")))
   {
     dropping = 1;
     putc('!', dapfile);
@@ -1131,7 +1131,7 @@ void datatrans(char *step, FILE *dapfile)
       s++;
     }
   }
-  else if ((s = findstatement(step, "keep")))
+  else if ((s = findstatement(step, (char*) "keep")))
   {
     keeping = 1;
     s += putlines(step + s, dapfile, ';');
@@ -1167,7 +1167,7 @@ void datatrans(char *step, FILE *dapfile)
   if ((s = bymark) >= 0)
   {
     fputs("dap_list(\"", dapfile);
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     fprintf(dapfile, "\", _partv_, %d);\n", nby);
     /* and mark first obs */
     fputs("_firstobs_ = 1;\n", dapfile);
@@ -1181,7 +1181,7 @@ void datatrans(char *step, FILE *dapfile)
 
   if (!inputisnull)
   {
-    if (inputisfile && (s = getoption(step + inputisfile, "firstobs", skip, 1)))
+    if (inputisfile && (s = getoption(step + inputisfile, (char*) "firstobs", skip, 1)))
       fprintf(dapfile, "skip(%s - 1);\n", skip);
     fputs("while (step())\n{\n", dapfile);
     if ((s = bymark) >= 0)
@@ -1231,44 +1231,44 @@ void proctrans(char *step, FILE *dapfile)
   fflush(stderr);
 
   /* look for globals */
-  if (linecmp(step + 5, "dap") && (s = findstatement(step, "title")))
+  if (linecmp(step + 5, (char*) "dap") && (s = findstatement(step, (char*) "title")))
     globaltrans(step + s - 6, dapfile);
 
-  if (!linecmp(step + 5, "print"))
+  if (!linecmp(step + 5, (char*) "print"))
     printtrans(step + 11, dapfile);
-  else if (!linecmp(step + 5, "means"))
+  else if (!linecmp(step + 5, (char*) "means"))
     meanstrans(step + 11, dapfile);
-  else if (!linecmp(step + 5, "sort"))
+  else if (!linecmp(step + 5, (char*) "sort"))
     sorttrans(step + 10, dapfile);
-  else if (!linecmp(step + 5, "chart"))
+  else if (!linecmp(step + 5, (char*) "chart"))
     charttrans(step + 11, dapfile);
-  else if (!linecmp(step + 5, "datasets"))
+  else if (!linecmp(step + 5, (char*) "datasets"))
     datasetstrans(step + 14, dapfile);
-  else if (!linecmp(step + 5, "freq"))
+  else if (!linecmp(step + 5, (char*) "freq"))
     freqtrans(step + 10, dapfile);
-  else if (!linecmp(step + 5, "tabulate"))
+  else if (!linecmp(step + 5, (char*) "tabulate"))
     tabulatetrans(step + 14, dapfile);
-  else if (!linecmp(step + 5, "corr"))
+  else if (!linecmp(step + 5, (char*) "corr"))
     corrtrans(step + 10, dapfile);
-  else if (!linecmp(step + 5, "plot"))
+  else if (!linecmp(step + 5, (char*) "plot"))
     plottrans(step + 10, dapfile);
-  else if (!linecmp(step + 5, "rank"))
+  else if (!linecmp(step + 5, (char*) "rank"))
     ranktrans(step + 10, dapfile);
-  else if (!linecmp(step + 5, "univariate"))
+  else if (!linecmp(step + 5, (char*) "univariate"))
     univariatetrans(step + 16, dapfile);
-  else if (!linecmp(step + 5, "glm"))
+  else if (!linecmp(step + 5, (char*) "glm"))
     glmtrans(step + 9, dapfile);
-  else if (!linecmp(step + 5, "logistic"))
+  else if (!linecmp(step + 5, (char*) "logistic"))
     logistictrans(step + 14, dapfile);
-  else if (!linecmp(step + 5, "npar1way"))
+  else if (!linecmp(step + 5, (char*) "npar1way"))
     npar1waytrans(step + 14, dapfile);
-  else if (!linecmp(step + 5, "reg"))
+  else if (!linecmp(step + 5, (char*) "reg"))
     regtrans(step + 9, dapfile);
-  else if (!linecmp(step + 5, "dap"))
+  else if (!linecmp(step + 5, (char*) "dap"))
     daptrans(step + 9, dapfile);
-  else if (!linecmp(step + 5, "import"))
+  else if (!linecmp(step + 5, (char*) "import"))
     importtrans(step + 9, dapfile);
-  else if (!linecmp(step + 5, "surveyselect"))
+  else if (!linecmp(step + 5, (char*) "surveyselect"))
     surveyselecttrans(step + 9, dapfile);
   else
   {
@@ -1316,7 +1316,7 @@ int isby(char *step)
 
   for (s = 0; step[s]; s += 2)
   {
-    if (!linecmp(step + s, "by"))
+    if (!linecmp(step + s, (char*) "by"))
       return s + 3;
     else
     {
@@ -1345,7 +1345,7 @@ int getoption(char *step, char *key, char *optvalue, int equals)
     if (!linecmp(step + s, key))
     {
       s += keylen + 1;
-      if (!linecmp(step + s, "="))
+      if (!linecmp(step + s, (char*) "="))
       {
         s += 2;
         if (optvalue)
@@ -1391,7 +1391,7 @@ void countparts(char *step, char *setname, FILE *dapfile)
   fprintf(dapfile, "sort(\"%s\", \"", setname);
   strcpy(sortname, setname);
   strcat(sortname, ".srt");
-  copylist(step, "by", dapfile);
+  copylist(step, (char*) "by", dapfile);
   fputs("\", \"u\");\n", dapfile);
   fprintf(dapfile, "inset(\"%s\")\n{\n", sortname);
   fputs("for (_saspictcnt_[_sasnpicts_] = 0; step(); _saspictcnt_[_sasnpicts_]++)\n;\n}\n",

@@ -221,9 +221,9 @@ double dap_maximize(double (*f)(double xx[]), int nx, double x[],
   int t;
   int nsteps;
 
-  x1 = (double *)dap_malloc(sizeof(double) * nx, "");
-  x2 = (double *)dap_malloc(sizeof(double) * nx, "");
-  dir = (double *)dap_malloc(sizeof(double) * nx, "");
+  x1 = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
+  x2 = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
+  dir = (double *)dap_malloc(sizeof(double) * nx, (char*) "");
   tr = 0;
   if (trace && trace[0])
   {
@@ -322,8 +322,8 @@ double dap_maximize(double (*f)(double xx[]), int nx, double x[],
       vcopy(x, x1, nx);
     }
   }
-  dap_free(x1, "");
-  dap_free(x2, "");
-  dap_free(dir, "");
+  dap_free(x1, (char*) "");
+  dap_free(x2, (char*) "");
+  dap_free(dir, (char*) "");
   return f0;
 }

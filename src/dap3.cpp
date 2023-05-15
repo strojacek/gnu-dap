@@ -55,11 +55,11 @@ static void plot1(double x[], double y[], int nobs,
     titlelen = 0;
   if (!title0)
   {
-    title0 = dap_malloc(dap_linelen + titlelen + 1, "dap_linelen");
+    title0 = dap_malloc(dap_linelen + titlelen + 1, (char*) "dap_linelen");
     if (dap_title)
       strcpy(title0, dap_title);
   }
-  title1 = dap_malloc(dap_linelen + titlelen + 1, "dap_linelen");
+  title1 = dap_malloc(dap_linelen + titlelen + 1, (char*) "dap_linelen");
   for (s = 0; style[s] == ' '; s++)
     ;
   overlay = 0;
@@ -74,7 +74,7 @@ static void plot1(double x[], double y[], int nobs,
   }
   while (style[s] == ' ')
     s++;
-  axspec = dap_malloc(3 + strlen(style), "");
+  axspec = dap_malloc(3 + strlen(style), (char*) "");
   strcpy(axspec, style + s);
   if (overlay == -1)
   {
@@ -155,11 +155,11 @@ static void plot1(double x[], double y[], int nobs,
   dap_swap();
   if (doaxes)
   {
-    dap_free(title0, "");
+    dap_free(title0, (char*) "");
     title0 = NULL;
   }
-  dap_free(title1, "");
-  dap_free(axspec, "");
+  dap_free(title1, (char*) "");
+  dap_free(axspec, (char*) "");
 }
 
 /* Parse variable names with optional axis renaming
@@ -280,11 +280,11 @@ pict *plot(char *fname, char *xyvar, char *marks,
   int overlay;
   int more;
 
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-  p = (pict *)dap_malloc(2 * nplots * sizeof(pict), "");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+  p = (pict *)dap_malloc(2 * nplots * sizeof(pict), (char*) "");
   a = p + nplots;
-  x = (double *)dap_malloc(dap_maxval * sizeof(double), "");
-  y = (double *)dap_malloc(dap_maxval * sizeof(double), "");
+  x = (double *)dap_malloc(dap_maxval * sizeof(double), (char*) "");
+  y = (double *)dap_malloc(dap_maxval * sizeof(double), (char*) "");
   if (!fname)
   {
     fputs("(plot) No dataset name given.\n", dap_err);
@@ -296,9 +296,9 @@ pict *plot(char *fname, char *xyvar, char *marks,
     fputs("(plot) No x and y variable list given.\n", dap_err);
     exit(1);
   }
-  xyname = dap_malloc(2 * (dap_namelen + 1), "");
-  xname = dap_malloc(dap_linelen + 1, "");
-  yname = dap_malloc(dap_linelen + 1, "");
+  xyname = dap_malloc(2 * (dap_namelen + 1), (char*) "");
+  xname = dap_malloc(dap_linelen + 1, (char*) "");
+  yname = dap_malloc(dap_linelen + 1, (char*) "");
   plotparse(xyvar, xyname, xname, yname);
   nmark = dap_list(marks, markv, dap_maxvar);
   if (dap_list(xyname, xyv, dap_maxvar) != 2)
@@ -369,12 +369,12 @@ pict *plot(char *fname, char *xyvar, char *marks,
       exit(1);
     }
   }
-  dap_free(x, "");
-  dap_free(y, "");
-  dap_free(markv, "");
-  dap_free(xyname, "");
-  dap_free(xname, "");
-  dap_free(yname, "");
+  dap_free(x, (char*) "");
+  dap_free(y, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(xyname, (char*) "");
+  dap_free(xname, (char*) "");
+  dap_free(yname, (char*) "");
   return p;
 }
 
@@ -621,7 +621,7 @@ static void normal1(double x[], double y[], int nobs,
   if (p) /* if q-q plot requested, we have pointer to linked list of picts
           * and we need to allocate caption string: 47??
           */
-    caption = dap_malloc(dap_linelen + titlelen + 47, "dap_linelen");
+    caption = dap_malloc(dap_linelen + titlelen + 47, (char*) "dap_linelen");
   qsort((void *)y, (size_t)nobs, (size_t)sizeof(double), cmp);
   /* q-q plot has denominator n + 1/4, numerator rank - 3/8 */
   dnobsp25 = ((double)nobs) + 0.25;
@@ -649,14 +649,14 @@ static void normal1(double x[], double y[], int nobs,
   }
   if (3 <= nobs && nobs <= 2000)
   {
-    swa = (double *)dap_malloc(nobs / 2 * sizeof(double), "");
+    swa = (double *)dap_malloc(nobs / 2 * sizeof(double), (char*) "");
     geta(swa, nobs);                        /* compute Shapiro-Wilk "a" coefficients */
     for (w = 0.0, k = 0; k < nobs / 2; k++) /* compute W */
       w += swa[k] * (y[k] - y[nobs - 1 - k]);
     w *= w / ss;
     if ((prob = probw(nobs, w, swa[0])) < 0.001)
       prob = 0.001;
-    dap_free(swa, "");
+    dap_free(swa, (char*) "");
     if (p) /* if q-q plot requested */
       sprintf(caption, "q-q plot: W|0| = %.4f, P[W < W|0|] = %.3f", w, prob);
     dap_head(markv, nmark);
@@ -698,7 +698,7 @@ static void normal1(double x[], double y[], int nobs,
     strcpy(l[pn].pict_type, "LINE");
     pict_line(l + pn, minx, sd * minx + sum, maxx, sd * maxx + sum);
     p[pn].pict_r = 0.05 *
-                   pict_autoaxes(p + pn, "z", varlabel, "-0 NXDIGITS3", NULL, NULL, caption, PORTRAIT);
+                   pict_autoaxes(p + pn, (char*) "z", varlabel, (char*) "-0 NXDIGITS3", NULL, NULL, caption, PORTRAIT);
     free(caption);
   }
   dap_swap();
@@ -724,19 +724,19 @@ pict *normal(char *fname, char *variable, char *marks, int nplots)
   int vy;
   int more;
 
-  varname = dap_malloc(dap_namelen + 1, "");
-  varlabel = dap_malloc(dap_linelen + 1, "");
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
+  varname = dap_malloc(dap_namelen + 1, (char*) "");
+  varlabel = dap_malloc(dap_linelen + 1, (char*) "");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
   if (nplots)
   {
-    p = (pict *)dap_malloc(3 * nplots * sizeof(pict), "");
+    p = (pict *)dap_malloc(3 * nplots * sizeof(pict), (char*) "");
     l = p + nplots;
     a = p + 2 * nplots;
   }
   else
     p = (pict *)NULL;
-  x = (double *)dap_malloc(dap_maxval * sizeof(double), "");
-  y = (double *)dap_malloc(dap_maxval * sizeof(double), "");
+  x = (double *)dap_malloc(dap_maxval * sizeof(double), (char*) "");
+  y = (double *)dap_malloc(dap_maxval * sizeof(double), (char*) "");
   if (!variable)
   {
     fputs("(normal) No variable specified.\n", dap_err);
@@ -827,11 +827,11 @@ pict *normal(char *fname, char *variable, char *marks, int nplots)
       exit(1);
     }
   }
-  dap_free(x, "");
-  dap_free(y, "");
-  dap_free(varname, "");
-  dap_free(varlabel, "");
-  dap_free(markv, "");
+  dap_free(x, (char*) "");
+  dap_free(y, (char*) "");
+  dap_free(varname, (char*) "");
+  dap_free(varlabel, (char*) "");
+  dap_free(markv, (char*) "");
   return p;
 }
 
@@ -884,11 +884,11 @@ static void histo1(double x[], double xw[][2], int nobs, int varv[], int nbars,
   else
     titlelen = 0;
   /* this could bomb, but probably won't */
-  caption = dap_malloc(titlelen + dap_linelen + 1, "");
-  axspec = dap_malloc(strlen(style) + 1, "");
-  word = dap_malloc(dap_namelen + 1, "");
-  h = (double *)dap_malloc(sizeof(double) * dap_maxbars, "");
-  part = (double *)dap_malloc(sizeof(double) * (dap_maxbars + 1), "");
+  caption = dap_malloc(titlelen + dap_linelen + 1, (char*) "");
+  axspec = dap_malloc(strlen(style) + 1, (char*) "");
+  word = dap_malloc(dap_namelen + 1, (char*) "");
+  h = (double *)dap_malloc(sizeof(double) * dap_maxbars, (char*) "");
+  part = (double *)dap_malloc(sizeof(double) * (dap_maxbars + 1), (char*) "");
   if (!nbars)
   {
     fputs("(histo1) Number of bars is zero.\n", dap_err);
@@ -1105,11 +1105,11 @@ static void histo1(double x[], double xw[][2], int nobs, int varv[], int nbars,
     }
   }
   pict_autoaxes(p + pn, xname, htitle, axspec, xfunct, NULL, caption, PORTRAIT);
-  dap_free(caption, "");
-  dap_free(axspec, "");
-  dap_free(word, "");
-  dap_free(h, "");
-  dap_free(part, "");
+  dap_free(caption, (char*) "");
+  dap_free(axspec, (char*) "");
+  dap_free(word, (char*) "");
+  dap_free(h, (char*) "");
+  dap_free(part, (char*) "");
 }
 
 /* Display histogram */
@@ -1133,10 +1133,10 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
   int nnan;
   int more;
 
-  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-  xwname = dap_malloc(2 * (dap_namelen + 1), "");
-  xname = dap_malloc(dap_linelen + 1, "");
-  p = (pict *)dap_malloc(2 * nplots * sizeof(pict), "");
+  markv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+  xwname = dap_malloc(2 * (dap_namelen + 1), (char*) "");
+  xname = dap_malloc(dap_linelen + 1, (char*) "");
+  p = (pict *)dap_malloc(2 * nplots * sizeof(pict), (char*) "");
   a = p + nplots;
   if (!fname)
   {
@@ -1163,12 +1163,12 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
   }
   if (nvar == 1)
   {
-    x = (double *)dap_malloc(dap_maxval * sizeof(double), "");
+    x = (double *)dap_malloc(dap_maxval * sizeof(double), (char*) "");
     xw = (double(*)[2])NULL;
   }
   else if (nvar == 2)
   {
-    xw = (double(*)[2])dap_malloc(dap_maxval * 2 * sizeof(double), "");
+    xw = (double(*)[2])dap_malloc(dap_maxval * 2 * sizeof(double), (char*) "");
     x = (double *)NULL;
   }
   else
@@ -1244,12 +1244,12 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
     }
   }
   if (nvar == 1)
-    dap_free(x, "");
+    dap_free(x, (char*) "");
   else
-    dap_free(xw, "");
-  dap_free(markv, "");
-  dap_free(xwname, "");
-  dap_free(xname, "");
+    dap_free(xw, (char*) "");
+  dap_free(markv, (char*) "");
+  dap_free(xwname, (char*) "");
+  dap_free(xname, (char*) "");
   return p;
 }
 
@@ -1279,8 +1279,8 @@ pict *plotlinreg(char *fname, char *ylist0, char *x1list0, char *style,
   int pn;
   char *plotstyle;
 
-  ylist = dap_malloc(strlen(ylist0) + 1, "");
-  x1list = dap_malloc(strlen(x1list0) + 1, "");
+  ylist = dap_malloc(strlen(ylist0) + 1, (char*) "");
+  x1list = dap_malloc(strlen(x1list0) + 1, (char*) "");
   for (l = 0; ylist0[l] && ylist0[l] != '`'; l++)
     ylist[l] = ylist0[l];
   ylist[l] = '\0';
@@ -1288,7 +1288,7 @@ pict *plotlinreg(char *fname, char *ylist0, char *x1list0, char *style,
     x1list[l] = x1list0[l];
   x1list[l] = '\0';
   inset(fname);
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(plotlinreg) missing type variable in %s\n", fname);
     exit(1);
@@ -1316,31 +1316,31 @@ pict *plotlinreg(char *fname, char *ylist0, char *x1list0, char *style,
   }
   dap_list(ylist, varv, 1);  /* check that it's only 1 variable */
   dap_list(x1list, varv, 1); /* check that it's only 1 variable */
-  mnsname = dap_malloc(strlen(fname) + 5, "");
+  mnsname = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(mnsname, fname);
   strcat(mnsname, ".mns");
-  regname = dap_malloc(strlen(fname) + 5, "");
+  regname = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(regname, fname);
   strcat(regname, ".reg");
-  srtname = dap_malloc(strlen(regname) + 5, "");
+  srtname = dap_malloc(strlen(regname) + 5, (char*) "");
   strcpy(srtname, regname);
   strcat(srtname, ".srt");
-  means(fname, x1list, "STEP100", marks);
-  linreg(fname, ylist, "", x1list, marks, mnsname, level);
-  dataset(fname, regname, "APPEND");
-  srtarg = dap_malloc(strlen(marks) + strlen(x1list) + 9, "");
+  means(fname, x1list, (char*) "STEP100", marks);
+  linreg(fname, ylist, (char*) "", x1list, marks, mnsname, level);
+  dataset(fname, regname, (char*) "APPEND");
+  srtarg = dap_malloc(strlen(marks) + strlen(x1list) + 9, (char*) "");
   strcpy(srtarg, marks);
   strcat(srtarg, " _type_ ");
   strcat(srtarg, x1list);
-  sort(regname, srtarg, "");
-  plotvars = dap_malloc(strlen(x1list0) + strlen(ylist0) + 2, "");
+  sort(regname, srtarg, (char*) "");
+  plotvars = dap_malloc(strlen(x1list0) + strlen(ylist0) + 2, (char*) "");
   strcpy(plotvars, x1list0);
   strcat(plotvars, " ");
   strcat(plotvars, ylist0);
-  plotmarks = dap_malloc(strlen(marks) + strlen("_type_") + 2, "");
+  plotmarks = dap_malloc(strlen(marks) + strlen("_type_") + 2, (char*) "");
   strcpy(plotmarks, marks);
   strcat(plotmarks, " _type_");
-  plotstyle = dap_malloc(strlen(style) + 4, "");
+  plotstyle = dap_malloc(strlen(style) + 4, (char*) "");
   strcpy(plotstyle, "o4 ");
   strcat(plotstyle, style);
   p = plot(srtname, plotvars, plotmarks, plotstyle, NULL, NULL, 4 * nmarks);
@@ -1352,15 +1352,15 @@ pict *plotlinreg(char *fname, char *ylist0, char *x1list0, char *style,
     p[4 * pn + sortord[0]].pict_dash = 4.0;
     p[4 * pn + sortord[3]].pict_dash = 4.0;
   }
-  dap_free(ylist, "");
-  dap_free(x1list, "");
-  dap_free(mnsname, "");
-  dap_free(regname, "");
-  dap_free(srtarg, "");
-  dap_free(srtname, "");
-  dap_free(plotvars, "");
-  dap_free(plotmarks, "");
-  dap_free(plotstyle, "");
+  dap_free(ylist, (char*) "");
+  dap_free(x1list, (char*) "");
+  dap_free(mnsname, (char*) "");
+  dap_free(regname, (char*) "");
+  dap_free(srtarg, (char*) "");
+  dap_free(srtname, (char*) "");
+  dap_free(plotvars, (char*) "");
+  dap_free(plotmarks, (char*) "");
+  dap_free(plotstyle, (char*) "");
   return p;
 }
 
@@ -1394,8 +1394,8 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
   char *plotstyle;
   int l0, l; /* index to variable name strings */
 
-  yspec = dap_malloc(strlen(yspec0) + 1, "");
-  x1list = dap_malloc(strlen(x1list0) + 1, "");
+  yspec = dap_malloc(strlen(yspec0) + 1, (char*) "");
+  x1list = dap_malloc(strlen(x1list0) + 1, (char*) "");
   for (l0 = 0, l = 0; yspec0[l0] && yspec0[l0] != '`';)
     yspec[l++] = yspec0[l0++];
   if (yspec0[l0] == '`')
@@ -1409,29 +1409,29 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
   for (l = 0; x1list0[l] && x1list0[l] != '`'; l++)
     x1list[l] = x1list0[l];
   x1list[l] = '\0';
-  trlname = dap_malloc(strlen(fname) + 5, "");
+  trlname = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(trlname, fname);
   strcat(trlname, ".trl");
-  grpname = dap_malloc(strlen(trlname) + 5, "");
+  grpname = dap_malloc(strlen(trlname) + 5, (char*) "");
   strcpy(grpname, trlname);
   strcat(grpname, ".grp");
-  srtname = dap_malloc(strlen(grpname) + 5, "");
+  srtname = dap_malloc(strlen(grpname) + 5, (char*) "");
   strcpy(srtname, grpname);
   strcat(srtname, ".srt");
-  mnsname = dap_malloc(strlen(srtname) + 5, "");
+  mnsname = dap_malloc(strlen(srtname) + 5, (char*) "");
   strcpy(mnsname, srtname);
   strcat(mnsname, ".mns");
-  lgrname = dap_malloc(strlen(fname) + 5, "");
+  lgrname = dap_malloc(strlen(fname) + 5, (char*) "");
   strcpy(lgrname, fname);
   strcat(lgrname, ".lgr");
-  grparg = dap_malloc(strlen(x1list) + 14, "");
-  grpvar = dap_malloc(strlen(marks) + strlen(x1list) + 3, "");
-  casevar = dap_malloc(strlen(yspec) + 1, "");
-  casevar0 = dap_malloc(strlen(yspec0) + 1, "");
-  mnsarg = dap_malloc(strlen(yspec) + 12 + strlen(x1list), "");
-  srtarg = dap_malloc(strlen(marks) + strlen(x1list) + 9, "");
-  plotvars = dap_malloc(strlen(x1list0) + strlen(yspec0) + 2, "");
-  plotmarks = dap_malloc(strlen(marks) + strlen("_type_") + 2, "");
+  grparg = dap_malloc(strlen(x1list) + 14, (char*) "");
+  grpvar = dap_malloc(strlen(marks) + strlen(x1list) + 3, (char*) "");
+  casevar = dap_malloc(strlen(yspec) + 1, (char*) "");
+  casevar0 = dap_malloc(strlen(yspec0) + 1, (char*) "");
+  mnsarg = dap_malloc(strlen(yspec) + 12 + strlen(x1list), (char*) "");
+  srtarg = dap_malloc(strlen(marks) + strlen(x1list) + 9, (char*) "");
+  plotvars = dap_malloc(strlen(x1list0) + strlen(yspec0) + 2, (char*) "");
+  plotmarks = dap_malloc(strlen(marks) + strlen("_type_") + 2, (char*) "");
   inset(fname);
   dap_list(x1list, varv, 1); /* check that it's only 1 variable */
   strcpy(grpvar, marks);
@@ -1453,7 +1453,7 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
   inset(fname);
   sprintf(varspec, "_ntrials %d", DBL);
   trialsn = dap_vd(varspec, 0);
-  outset(trlname, "");
+  outset(trlname, (char*) "");
   dap_parsey(yspec, varv);
   while (step())
   {
@@ -1469,16 +1469,16 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
 
   group(trlname, grparg, marks);
 
-  sort(grpname, grpvar, "");
+  sort(grpname, grpvar, (char*) "");
 
   strcpy(mnsarg, casevar);
   strcat(mnsarg, " _ntrials ");
   strcat(mnsarg, x1list);
-  means(srtname, mnsarg, "MEAN", grpvar);
+  means(srtname, mnsarg, (char*) "MEAN", grpvar);
 
   inset(mnsname);
-  outset(grpname, "");
-  trialsn = dap_varnum("_ntrials");
+  outset(grpname, (char*) "");
+  trialsn = dap_varnum((char*) "_ntrials");
   dap_list(casevar, varv, 1);
   while (step())
   {
@@ -1486,20 +1486,20 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
     output();
   }
 
-  means(fname, x1list, "STEP100", marks);
+  means(fname, x1list, (char*) "STEP100", marks);
 
   strcpy(mnsname, fname);
   strcat(mnsname, ".mns");
 
-  logreg(fname, yspec, "", x1list, marks, mnsname, level);
+  logreg(fname, yspec, (char*) "", x1list, marks, mnsname, level);
 
-  dataset(grpname, lgrname, "APPEND");
+  dataset(grpname, lgrname, (char*) "APPEND");
 
   strcpy(srtarg, marks);
   strcat(srtarg, " _type_ ");
   strcat(srtarg, x1list);
 
-  sort(lgrname, srtarg, "");
+  sort(lgrname, srtarg, (char*) "");
 
   strcpy(srtname, lgrname);
   strcat(srtname, ".srt");
@@ -1511,7 +1511,7 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
   strcpy(plotmarks, marks);
   strcat(plotmarks, " _type_");
 
-  plotstyle = dap_malloc(strlen(style) + 4, "");
+  plotstyle = dap_malloc(strlen(style) + 4, (char*) "");
   strcpy(plotstyle, "o4 ");
   strcat(plotstyle, style);
 
@@ -1524,22 +1524,22 @@ pict *plotlogreg(char *fname, char *yspec0, char *x1list0, char *style,
     p[4 * pn + 0].pict_dash = 4.0;
     p[4 * pn + 3].pict_dash = 4.0;
   }
-  dap_free(yspec, "");
-  dap_free(x1list, "");
-  dap_free(trlname, "");
-  dap_free(grpname, "");
-  dap_free(grparg, "");
-  dap_free(grpvar, "");
-  dap_free(mnsarg, "");
-  dap_free(mnsname, "");
-  dap_free(lgrname, "");
-  dap_free(srtarg, "");
-  dap_free(srtname, "");
-  dap_free(plotvars, "");
-  dap_free(plotmarks, "");
-  dap_free(casevar, "");
-  dap_free(casevar0, "");
-  dap_free(plotstyle, "");
+  dap_free(yspec, (char*) "");
+  dap_free(x1list, (char*) "");
+  dap_free(trlname, (char*) "");
+  dap_free(grpname, (char*) "");
+  dap_free(grparg, (char*) "");
+  dap_free(grpvar, (char*) "");
+  dap_free(mnsarg, (char*) "");
+  dap_free(mnsname, (char*) "");
+  dap_free(lgrname, (char*) "");
+  dap_free(srtarg, (char*) "");
+  dap_free(srtname, (char*) "");
+  dap_free(plotvars, (char*) "");
+  dap_free(plotmarks, (char*) "");
+  dap_free(casevar, (char*) "");
+  dap_free(casevar0, (char*) "");
+  dap_free(plotstyle, (char*) "");
   return p;
 }
 
@@ -1583,49 +1583,49 @@ pict *plotmeans(char *dataset, char *meanvar0, char *varlist0, char *errbar,
   partv = NULL;
   mean = 0.0;
   err = 0.0;
-  meanvar = dap_malloc(strlen(meanvar0) + 1, ""); /* copy meanvar0, truncate `name-spec` */
+  meanvar = dap_malloc(strlen(meanvar0) + 1, (char*) ""); /* copy meanvar0, truncate `name-spec` */
   strcpy(meanvar, meanvar0);
   for (l = 0; meanvar[l] && meanvar[l] != '`'; l++)
     ;
   meanvar[l] = '\0';
-  varlist = dap_malloc(strlen(varlist0) + 1, ""); /* copy varlist0, truncate `name-spec` */
+  varlist = dap_malloc(strlen(varlist0) + 1, (char*) ""); /* copy varlist0, truncate `name-spec` */
   strcpy(varlist, varlist0);
   for (l = 0; varlist[l] && varlist[l] != '`'; l++)
     ;
   varlist[l] = '\0';
   if (partvars && partvars[0])
   {
-    partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "");
-    mnslist = dap_malloc(strlen(varlist) + strlen(partvars) + 2, "");
+    partv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "");
+    mnslist = dap_malloc(strlen(varlist) + strlen(partvars) + 2, (char*) "");
     strcpy(mnslist, partvars);
     strcat(mnslist, " ");
     strcat(mnslist, varlist);
-    plotparts = dap_malloc(strlen(partvars) + 8, "");
+    plotparts = dap_malloc(strlen(partvars) + 8, (char*) "");
     strcpy(plotparts, partvars);
     strcat(plotparts, " _type_");
   }
   else
   {
     mnslist = varlist;
-    plotparts = "_type_";
+    plotparts = (char*) "_type_";
   }
-  mnsname = dap_malloc(strlen(dataset) + 5, "");
+  mnsname = dap_malloc(strlen(dataset) + 5, (char*) "");
   strcpy(mnsname, dataset);
   strcat(mnsname, ".mns");
-  errname = dap_malloc(strlen(dataset) + 5, "");
+  errname = dap_malloc(strlen(dataset) + 5, (char*) "");
   strcpy(errname, dataset);
   strcat(errname, ".err");
-  srtname = dap_malloc(strlen(errname) + 5, "");
+  srtname = dap_malloc(strlen(errname) + 5, (char*) "");
   strcpy(srtname, errname);
   strcat(srtname, ".srt");
-  ebar = dap_malloc(strlen(errbar) + 6, "");
+  ebar = dap_malloc(strlen(errbar) + 6, (char*) "");
   strcpy(ebar, "MEAN ");
   strcat(ebar, errbar);
-  overstr = dap_malloc(8 + strlen(style), "");
+  overstr = dap_malloc(8 + strlen(style), (char*) "");
   if (noverlay < 1)
     noverlay = 1;
   sprintf(overstr, "o%d %s", 2 * noverlay, style);
-  srtarg = dap_malloc(strlen(mnslist) + 8, "");
+  srtarg = dap_malloc(strlen(mnslist) + 8, (char*) "");
   if (partvars && partvars[0])
   {
     strcpy(srtarg, partvars);
@@ -1635,7 +1635,7 @@ pict *plotmeans(char *dataset, char *meanvar0, char *varlist0, char *errbar,
     srtarg[0] = '\0';
   strcat(srtarg, "_type_ ");
   strcat(srtarg, varlist);
-  plotvars = dap_malloc(strlen(meanvar0) + strlen(varlist0) + 2, "");
+  plotvars = dap_malloc(strlen(meanvar0) + strlen(varlist0) + 2, (char*) "");
   strcpy(plotvars, varlist0);
   strcat(plotvars, " ");
   strcat(plotvars, meanvar0);
@@ -1659,14 +1659,14 @@ pict *plotmeans(char *dataset, char *meanvar0, char *varlist0, char *errbar,
     scale = 1.0;
   means(dataset, meanvar, ebar, mnslist);
   inset(mnsname);
-  outset(errname, "");
+  outset(errname, (char*) "");
   dap_list(varlist, meanv, 1); /* check that there's only one */
   dap_list(meanvar, meanv, 1);
   if (partvars && partvars[0])
     npartv = dap_list(partvars, partv, dap_maxvar);
   else
     npartv = 0;
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(stderr, "%s: missing _type_ variable for plotmeans\n", dap_dapname);
     exit(1);
@@ -1696,22 +1696,22 @@ pict *plotmeans(char *dataset, char *meanvar0, char *varlist0, char *errbar,
     if (dap_newpart(partv, npartv))
       nparts++;
   }
-  sort(errname, srtarg, "");
+  sort(errname, srtarg, (char*) "");
   p = plot(srtname, plotvars, plotparts, overstr, NULL, NULL, 2 * nparts);
   for (pn = 0; pn < nparts; pn++)
     strcpy(p[2 * pn].pict_type, "IBEA");
   if (partvars && partvars[0])
   {
-    dap_free(partv, "");
-    dap_free(mnslist, "");
-    dap_free(plotparts, "");
+    dap_free(partv, (char*) "");
+    dap_free(mnslist, (char*) "");
+    dap_free(plotparts, (char*) "");
   }
-  dap_free(mnsname, "");
-  dap_free(errname, "");
-  dap_free(srtname, "");
-  dap_free(ebar, "");
-  dap_free(overstr, "");
-  dap_free(srtarg, "");
-  dap_free(plotvars, "");
+  dap_free(mnsname, (char*) "");
+  dap_free(errname, (char*) "");
+  dap_free(srtname, (char*) "");
+  dap_free(ebar, (char*) "");
+  dap_free(overstr, (char*) "");
+  dap_free(srtarg, (char*) "");
+  dap_free(plotvars, (char*) "");
   return p;
 }

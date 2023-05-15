@@ -366,7 +366,7 @@ static void ticks(
   double tmin, tmax; /* (possibly) transformed min, max */
 
   if (!lab)
-    lab = dap_malloc(dap_maxtxt + 1, "dap_maxtxt");
+    lab = dap_malloc(dap_maxtxt + 1, (char*) "dap_maxtxt");
   if (nticks > 1)
     space = (max - min) / (double)(nticks - 1);
   else
@@ -454,8 +454,8 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
   yscale = 1.0;
   captoff = 0.0;
   /* allocate tick arrays */
-  xticks = (tick *)dap_malloc(sizeof(tick) * dap_maxntxt, "dap_maxntxt");
-  yticks = (tick *)dap_malloc(sizeof(tick) * dap_maxntxt, "dap_maxntxt");
+  xticks = (tick *)dap_malloc(sizeof(tick) * dap_maxntxt, (char*) "dap_maxntxt");
+  yticks = (tick *)dap_malloc(sizeof(tick) * dap_maxntxt, (char*) "dap_maxntxt");
   /* default is nothing specified: make NaNs, -1 */
   specxmin = 0.0 / 0.0;
   specxmax = 0.0 / 0.0;
@@ -806,16 +806,16 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
         nyticks, ylabpos, ylab, yfunct);
   pict_axes(pp, minx, maxx, xticks, nxticks,
             miny, maxy, yticks, nyticks, as, bpos, lpos, tpos, rpos);
-  pict_text(pp, caption, 0.5 * (minx + maxx), miny - captoff, 0.0, "ct ");
+  pict_text(pp, caption, 0.5 * (minx + maxx), miny - captoff, 0.0, (char*) "ct ");
   if (autopos)
   {
     pict_scale(p, 0.5 * (minx + maxx), 0.5 * (miny + maxy), xscale, yscale);
     pict_translate(p, LEFT + 0.5 * (width - (minx + maxx)),
                    BOTTOM + 0.5 * (height - (miny + maxy)));
   }
-  dap_free(xticks, "");
-  dap_free(yticks, "");
-  dap_free(word, "");
+  dap_free(xticks, (char*) "");
+  dap_free(yticks, (char*) "");
+  dap_free(word, (char*) "");
   return sqrt((width * width + height * height) / RADIUSFACTOR);
 }
 
@@ -899,51 +899,51 @@ void pict_save(pict *p, int npicts, char *dataset)
     fprintf(dap_err, "(pict_save) maximum string length too long: %d\n", maxlen);
     exit(1);
   }
-  pict_font = dap_malloc(maxlen + 1, "");
-  pict_txt = dap_malloc(maxlen + 1, "");
+  pict_font = dap_malloc(maxlen + 1, (char*) "");
+  pict_txt = dap_malloc(maxlen + 1, (char*) "");
 
   /* first write out basic structure */
   infile(NULL, NULL);
-  dap_vd("pict_npts 0", 0);
-  dap_il("pict_npts", &pict_npts);
-  dap_vd("pict_type 5", 0);
-  dap_sl("pict_type", pict_type);
-  dap_vd("pict_dash -1", 0);
-  dap_dl("pict_dash", &pict_dash);
-  dap_vd("pict_minx -1", 0);
-  dap_dl("pict_minx", &pict_minx);
-  dap_vd("pict_maxx -1", 0);
-  dap_dl("pict_maxx", &pict_maxx);
-  dap_vd("pict_miny -1", 0);
-  dap_dl("pict_miny", &pict_miny);
-  dap_vd("pict_maxy -1", 0);
-  dap_dl("pict_maxy", &pict_maxy);
-  dap_vd("pict_ntxt 0", 0);
-  dap_il("pict_ntxt", &pict_ntxt);
+  dap_vd((char*) "pict_npts 0", 0);
+  dap_il((char*) "pict_npts", &pict_npts);
+  dap_vd((char*) "pict_type 5", 0);
+  dap_sl((char*) "pict_type", pict_type);
+  dap_vd((char*) "pict_dash -1", 0);
+  dap_dl((char*) "pict_dash", &pict_dash);
+  dap_vd((char*) "pict_minx -1", 0);
+  dap_dl((char*) "pict_minx", &pict_minx);
+  dap_vd((char*) "pict_maxx -1", 0);
+  dap_dl((char*) "pict_maxx", &pict_maxx);
+  dap_vd((char*) "pict_miny -1", 0);
+  dap_dl((char*) "pict_miny", &pict_miny);
+  dap_vd((char*) "pict_maxy -1", 0);
+  dap_dl((char*) "pict_maxy", &pict_maxy);
+  dap_vd((char*) "pict_ntxt 0", 0);
+  dap_il((char*) "pict_ntxt", &pict_ntxt);
   sprintf(strspec, "pict_font %d", maxlen);
   dap_vd(strspec, 0);
-  dap_sl("pict_font", pict_font);
-  dap_vd("pict_fs -1", 0);
-  dap_dl("pict_fs", &pict_fs);
-  dap_vd("pict_lw -1", 0);
-  dap_dl("pict_lw", &pict_lw);
-  dap_vd("pict_r -1", 0);
-  dap_dl("pict_r", &pict_r);
-  dap_vd("pict_lgray -1", 0);
-  dap_dl("pict_lgray", &pict_lgray);
-  dap_vd("pict_fgray -1", 0);
-  dap_dl("pict_fgray", &pict_fgray);
-  dap_vd("pict_next 0", 0);
-  dap_il("pict_next", &pict_next);
-  dap_vd("pict_patt 0", 0);
-  dap_il("pict_patt", &pict_patt);
-  outname = dap_malloc(strlen(dataset) + 9, ""); /* max 10000 picts */
+  dap_sl((char*) "pict_font", pict_font);
+  dap_vd((char*) "pict_fs -1", 0);
+  dap_dl((char*) "pict_fs", &pict_fs);
+  dap_vd((char*) "pict_lw -1", 0);
+  dap_dl((char*) "pict_lw", &pict_lw);
+  dap_vd((char*) "pict_r -1", 0);
+  dap_dl((char*) "pict_r", &pict_r);
+  dap_vd((char*) "pict_lgray -1", 0);
+  dap_dl((char*) "pict_lgray", &pict_lgray);
+  dap_vd((char*) "pict_fgray -1", 0);
+  dap_dl((char*) "pict_fgray", &pict_fgray);
+  dap_vd((char*) "pict_next 0", 0);
+  dap_il((char*) "pict_next", &pict_next);
+  dap_vd((char*) "pict_patt 0", 0);
+  dap_il((char*) "pict_patt", &pict_patt);
+  outname = dap_malloc(strlen(dataset) + 9, (char*) ""); /* max 10000 picts */
   for (pn = 0, p = firstp; p; pn++)
   {
     if (pn < MAXPICTSAVE)
     {
       sprintf(outname, "%s.pic%04d", dataset, pn);
-      outset(outname, "");
+      outset(outname, (char*) "");
       pict_npts = p->pict_npts;
       strcpy(pict_type, p->pict_type);
       pict_dash = p->pict_dash;
@@ -997,12 +997,12 @@ void pict_save(pict *p, int npicts, char *dataset)
       p = p->pict_next;
   }
   infile(NULL, NULL);
-  dap_vd("pict_pt[0] -1 pict_pt[1] - 1", 0);
-  dap_dl("pict_pt", pict_pt);
+  dap_vd((char*) "pict_pt[0] -1 pict_pt[1] - 1", 0);
+  dap_dl((char*) "pict_pt", pict_pt);
   for (pn = 0, p = firstp; p; pn++)
   {
     sprintf(outname, "%s.pts%04d", dataset, pn);
-    outset(outname, "");
+    outset(outname, (char*) "");
     for (ptn = 0; ptn < p->pict_npts; ptn++)
     {
       pict_pt[0] = p->pict_pt[ptn][0];
@@ -1020,17 +1020,17 @@ void pict_save(pict *p, int npicts, char *dataset)
   infile(NULL, NULL);
   sprintf(strspec, "pict_txt %d", maxlen);
   dap_vd(strspec, 0);
-  dap_sl("pict_txt", pict_txt);
-  dap_vd("pict_tpt[0] -1 pict_tpt[1] -1", 0);
-  dap_dl("pict_tpt", pict_tpt);
-  dap_vd("pict_tang -1", 0);
-  dap_dl("pict_tang", &pict_tang);
-  dap_vd("pict_pos 3", 0);
-  dap_sl("pict_pos", pict_pos);
+  dap_sl((char*) "pict_txt", pict_txt);
+  dap_vd((char*) "pict_tpt[0] -1 pict_tpt[1] -1", 0);
+  dap_dl((char*) "pict_tpt", pict_tpt);
+  dap_vd((char*) "pict_tang -1", 0);
+  dap_dl((char*) "pict_tang", &pict_tang);
+  dap_vd((char*) "pict_pos 3", 0);
+  dap_sl((char*) "pict_pos", pict_pos);
   for (pn = 0, p = firstp; p; pn++)
   {
     sprintf(outname, "%s.txt%04d", dataset, pn);
-    outset(outname, "");
+    outset(outname, (char*) "");
     for (ptn = 0; ptn < p->pict_ntxt; ptn++)
     {
       strcpy(pict_txt, p->pict_txt[ptn]);
@@ -1063,9 +1063,9 @@ void pict_save(pict *p, int npicts, char *dataset)
     else
       p = p->pict_next;
   }
-  dap_free(outname, "");
-  dap_free(pict_font, "");
-  dap_free(pict_txt, "");
+  dap_free(outname, (char*) "");
+  dap_free(pict_font, (char*) "");
+  dap_free(pict_txt, (char*) "");
 }
 
 pict *pict_rest(char *dataset)
@@ -1102,13 +1102,13 @@ pict *pict_rest(char *dataset)
   double *dblmem;
   char *charmem;
 
-  inname = dap_malloc(strlen(dataset) + 9, "");
+  inname = dap_malloc(strlen(dataset) + 9, (char*) "");
   for (pn = 0, npicts = 0;; npicts++)
   {
     sprintf(inname, "%s.pic%04d", dataset, pn);
     inset(inname);
     step();
-    if ((pict_next = dap_varnum("pict_next")) < 0)
+    if ((pict_next = dap_varnum((char*) "pict_next")) < 0)
     {
       fprintf(dap_err, "(pict_rest) no pict_next in %s\n", inname);
       exit(1);
@@ -1122,98 +1122,98 @@ pict *pict_rest(char *dataset)
       ++pn;
   }
   npicts++;
-  p = (pict *)dap_malloc(sizeof(pict) * npicts, "");
+  p = (pict *)dap_malloc(sizeof(pict) * npicts, (char*) "");
   for (pn = 0; pn < npicts; pn++)
   {
     sprintf(inname, "%s.pic%04d", dataset, pn);
     inset(inname);
     step();
-    if ((pict_npts = dap_varnum("pict_npts")) < 0)
+    if ((pict_npts = dap_varnum((char*) "pict_npts")) < 0)
     {
       fputs("(pict_rest) missing pict_npts\n", dap_err);
       exit(1);
     }
     p[pn].pict_npts = dap_obs[0].do_int[pict_npts];
-    if ((pict_type = dap_varnum("pict_type")) < 0)
+    if ((pict_type = dap_varnum((char*) "pict_type")) < 0)
     {
       fputs("(pict_rest) missing pict_type\n", dap_err);
       exit(1);
     }
     strcpy(p[pn].pict_type, dap_obs[0].do_str[pict_type]);
-    if ((pict_dash = dap_varnum("pict_dash")) < 0)
+    if ((pict_dash = dap_varnum((char*) "pict_dash")) < 0)
     {
       fputs("(pict_rest) missing pict_dash\n", dap_err);
       exit(1);
     }
     p[pn].pict_dash = dap_obs[0].do_dbl[pict_dash];
-    if ((pict_minx = dap_varnum("pict_minx")) < 0)
+    if ((pict_minx = dap_varnum((char*) "pict_minx")) < 0)
     {
       fputs("(pict_rest) missing pict_minx\n", dap_err);
       exit(1);
     }
     p[pn].pict_minx = dap_obs[0].do_dbl[pict_minx];
-    if ((pict_maxx = dap_varnum("pict_maxx")) < 0)
+    if ((pict_maxx = dap_varnum((char*) "pict_maxx")) < 0)
     {
       fputs("(pict_rest) missing pict_maxx\n", dap_err);
       exit(1);
     }
     p[pn].pict_maxx = dap_obs[0].do_dbl[pict_maxx];
-    if ((pict_miny = dap_varnum("pict_miny")) < 0)
+    if ((pict_miny = dap_varnum((char*) "pict_miny")) < 0)
     {
       fputs("(pict_rest) missing pict_miny\n", dap_err);
       exit(1);
     }
     p[pn].pict_miny = dap_obs[0].do_dbl[pict_miny];
-    if ((pict_maxy = dap_varnum("pict_maxy")) < 0)
+    if ((pict_maxy = dap_varnum((char*) "pict_maxy")) < 0)
     {
       fputs("(pict_rest) missing pict_maxy\n", dap_err);
       exit(1);
     }
     p[pn].pict_maxy = dap_obs[0].do_dbl[pict_maxy];
-    if ((pict_ntxt = dap_varnum("pict_ntxt")) < 0)
+    if ((pict_ntxt = dap_varnum((char*) "pict_ntxt")) < 0)
     {
       fputs("(pict_rest) missing pict_ntxt\n", dap_err);
       exit(1);
     }
     p[pn].pict_ntxt = dap_obs[0].do_int[pict_ntxt];
-    if ((pict_font = dap_varnum("pict_font")) < 0)
+    if ((pict_font = dap_varnum((char*) "pict_font")) < 0)
     {
       fputs("(pict_rest) missing pict_font\n", dap_err);
       exit(1);
     }
-    p[pn].pict_font = dap_malloc(strlen(dap_obs[0].do_str[pict_font]) + 1, "");
+    p[pn].pict_font = dap_malloc(strlen(dap_obs[0].do_str[pict_font]) + 1, (char*) "");
     strcpy(p[pn].pict_font, dap_obs[0].do_str[pict_font]);
-    if ((pict_fs = dap_varnum("pict_fs")) < 0)
+    if ((pict_fs = dap_varnum((char*) "pict_fs")) < 0)
     {
       fputs("(pict_rest) missing pict_fs\n", dap_err);
       exit(1);
     }
     p[pn].pict_fs = dap_obs[0].do_dbl[pict_fs];
-    if ((pict_lw = dap_varnum("pict_lw")) < 0)
+    if ((pict_lw = dap_varnum((char*) "pict_lw")) < 0)
     {
       fputs("(pict_rest) missing pict_lw\n", dap_err);
       exit(1);
     }
     p[pn].pict_lw = dap_obs[0].do_dbl[pict_lw];
-    if ((pict_r = dap_varnum("pict_r")) < 0)
+    if ((pict_r = dap_varnum((char*) "pict_r")) < 0)
     {
       fputs("(pict_rest) missing pict_r\n", dap_err);
       exit(1);
     }
     p[pn].pict_r = dap_obs[0].do_dbl[pict_r];
-    if ((pict_lgray = dap_varnum("pict_lgray")) < 0)
+    if ((pict_lgray = dap_varnum((char*) "pict_lgray")) < 0)
     {
       fputs("(pict_rest) missing pict_lgray\n", dap_err);
       exit(1);
     }
     p[pn].pict_lgray = dap_obs[0].do_dbl[pict_lgray];
-    if ((pict_fgray = dap_varnum("pict_fgray")) < 0)
+    if ((pict_fgray = dap_varnum((char*) "pict_fgray")) < 0)
     {
       fputs("(pict_rest) missing pict_fgray\n", dap_err);
       exit(1);
     }
     p[pn].pict_fgray = dap_obs[0].do_dbl[pict_fgray];
-    if ((pict_next = dap_varnum("pict_next")) < 0)
+    if ((pict_next = dap_varnum((char*) "pict_next")) < 0)
     {
       fputs("(pict_rest) missing pict_next\n", dap_err);
       exit(1);
@@ -1230,7 +1230,7 @@ pict *pict_rest(char *dataset)
       p[pn].pict_next = p + pn + 1;
     else
       p[pn].pict_next = NULL;
-    if ((pict_patt = dap_varnum("pict_patt")) < 0)
+    if ((pict_patt = dap_varnum((char*) "pict_patt")) < 0)
     {
       fputs("(pict_rest) missing pict_patt\n", dap_err);
       exit(1);
@@ -1247,7 +1247,7 @@ pict *pict_rest(char *dataset)
   {
     sprintf(inname, "%s.pts%04d", dataset, pn);
     inset(inname);
-    if ((pict_pt = dap_arrnum("pict_pt", &dim)) < 0)
+    if ((pict_pt = dap_arrnum((char*) "pict_pt", &dim)) < 0)
     {
       fputs("(pict_rest) missing pict_pt\n", dap_err);
       exit(1);
@@ -1271,26 +1271,26 @@ pict *pict_rest(char *dataset)
     inset(inname);
     npts = p[pn].pict_ntxt;
     p[pn].pict_txt =
-        (char **)dap_malloc(sizeof(char *) * dap_maxntxt, "dap_maxntxt");
+        (char **)dap_malloc(sizeof(char *) * dap_maxntxt, (char*) "dap_maxntxt");
     dblmem =
-        (double *)dap_malloc(sizeof(double) * 2 * dap_maxntxt, "dap_maxntxt");
+        (double *)dap_malloc(sizeof(double) * 2 * dap_maxntxt, (char*) "dap_maxntxt");
     p[pn].pict_tpt =
-        (double **)dap_malloc(sizeof(double *) * dap_maxntxt, "dap_maxntxt");
+        (double **)dap_malloc(sizeof(double *) * dap_maxntxt, (char*) "dap_maxntxt");
     for (ptn = 0; ptn < dap_maxntxt; ptn++)
       p[pn].pict_tpt[ptn] = dblmem + 2 * ptn;
     p[pn].pict_tang =
-        (double *)dap_malloc(sizeof(double) * dap_maxntxt, "dap_maxntxt");
-    charmem = dap_malloc(3 * dap_maxntxt, "dap_maxntxt");
+        (double *)dap_malloc(sizeof(double) * dap_maxntxt, (char*) "dap_maxntxt");
+    charmem = dap_malloc(3 * dap_maxntxt, (char*) "dap_maxntxt");
     p[pn].pict_pos =
-        (char **)dap_malloc(sizeof(char *) * dap_maxntxt, "dap_maxntxt");
+        (char **)dap_malloc(sizeof(char *) * dap_maxntxt, (char*) "dap_maxntxt");
     for (ptn = 0; ptn < dap_maxntxt; ptn++)
       p[pn].pict_pos[ptn] = charmem + 3 * ptn;
-    if ((pict_txt = dap_varnum("pict_txt")) < 0)
+    if ((pict_txt = dap_varnum((char*) "pict_txt")) < 0)
     {
       fputs("(pict_rest) missing pict_txt\n", dap_err);
       exit(1);
     }
-    if ((pict_tpt = dap_arrnum("pict_tpt", &dim)) < 0)
+    if ((pict_tpt = dap_arrnum((char*) "pict_tpt", &dim)) < 0)
     {
       fputs("(pict_rest) missing pict_tpt\n", dap_err);
       exit(1);
@@ -1300,12 +1300,12 @@ pict *pict_rest(char *dataset)
       fprintf(dap_err, "(pict_rest) bad dimension for pict_tpt: %d\n", dim);
       exit(1);
     }
-    if ((pict_tang = dap_varnum("pict_tang")) < 0)
+    if ((pict_tang = dap_varnum((char*) "pict_tang")) < 0)
     {
       fputs("(pict_rest) missing pict_tang\n", dap_err);
       exit(1);
     }
-    if ((pict_pos = dap_varnum("pict_pos")) < 0)
+    if ((pict_pos = dap_varnum((char*) "pict_pos")) < 0)
     {
       fputs("(pict_rest) missing pict_pos\n", dap_err);
       exit(1);
@@ -1318,6 +1318,6 @@ pict *pict_rest(char *dataset)
                 dap_obs[0].do_dbl[pict_tang], dap_obs[0].do_str[pict_pos]);
     }
   }
-  dap_free(inname, "");
+  dap_free(inname, (char*) "");
   return p;
 }

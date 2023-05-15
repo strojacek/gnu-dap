@@ -36,18 +36,18 @@ void charttrans(char *step, FILE *dapfile)
   char setname[TOKENLEN + 1];
   char varname[TOKENLEN + 1 + 1]; /* +1 to accomodate + or - */
 
-  if (!(s = getoption(step, "data", setname, 1)))
+  if (!(s = getoption(step, (char*) "data", setname, 1)))
     strcpy(setname, sastmp);
   if (isby(step) >= 0)
     countparts(step, setname, dapfile);
   else
     fputs("_saspictcnt_[_sasnpicts_] = 1;\n", dapfile);
   fprintf(dapfile, "_saspict_[_sasnpicts_] = histogram(\"%s\", \"", setname);
-  if ((s = findstatement(step, "vbar")))
+  if ((s = findstatement(step, (char*) "vbar")))
   {
     s += linecpy(varname, step + s) + 1;
     fprintf(dapfile, "%s ", varname);
-    if ((s = getoption(step + s, "freq", varname, 0))) /* weight or freq variable */
+    if ((s = getoption(step + s, (char*) "freq", varname, 0))) /* weight or freq variable */
       fputs(varname, dapfile);
     fputs("\", \"", dapfile);
   }
@@ -57,21 +57,21 @@ void charttrans(char *step, FILE *dapfile)
             saslineno);
     exit(1);
   }
-  copylist(step, "by", dapfile);
+  copylist(step, (char*) "by", dapfile);
   fputs("\", ", dapfile);
-  s = findstatement(step, "vbar");
-  if (getoption(step + s, "levels", varname, 1)) /* shouldn't really use varname... */
+  s = findstatement(step, (char*) "vbar");
+  if (getoption(step + s, (char*) "levels", varname, 1)) /* shouldn't really use varname... */
     fputs(varname, dapfile);
   else
     fputs("10", dapfile);
   fputs(", \"", dapfile);
   /* STYLE, XFUNCT, NPLOTS) */
   fputs("== ", dapfile);
-  if (getoption(step + s, "type", varname, 1)) /* shouldn't really use varname... */
+  if (getoption(step + s, (char*) "type", varname, 1)) /* shouldn't really use varname... */
   {
-    if (!linecmp(varname, "freq"))
+    if (!linecmp(varname, (char*) "freq"))
       strcpy(varname, "COUNT");
-    else if (!linecmp(varname, "percent") || !linecmp(varname, "pct"))
+    else if (!linecmp(varname, (char*) "percent") || !linecmp(varname, (char*) "pct"))
       strcpy(varname, "PERCENT");
     else
     {
@@ -82,9 +82,9 @@ void charttrans(char *step, FILE *dapfile)
     }
     fputs(varname, dapfile);
   }
-  if ((sincr = getoption(step + s, "axis", varname, 1))) /* min if another, else max */
+  if ((sincr = getoption(step + s, (char*) "axis", varname, 1))) /* min if another, else max */
   {
-    if (!linecmp(varname, "+") || !linecmp(varname, "-"))
+    if (!linecmp(varname, (char*) "+") || !linecmp(varname, (char*) "-"))
     { /* '+', '-' are tokens, but need to attach to number */
       s += sincr;
       s += linecpy(varname + 1, step + s) + 1;
@@ -122,12 +122,12 @@ void plottrans(char *step, FILE *dapfile)
   char xname[TOKENLEN + 1]; /* name of x-variable */
   char yname[TOKENLEN + 1]; /* name of y-variable */
 
-  if (!(s = getoption(step, "data", setname, 1)))
+  if (!(s = getoption(step, (char*) "data", setname, 1)))
     strcpy(setname, sastmp);
 
   by = isby(step); /* so we don't have to do this over and over */
 
-  for (s = 0; (sincr = findstatement(step + s, "plot")); s += 2)
+  for (s = 0; (sincr = findstatement(step + s, (char*) "plot")); s += 2)
   {
     if (by >= 0)
       countparts(step, setname, dapfile);
@@ -143,7 +143,7 @@ void plottrans(char *step, FILE *dapfile)
               saslineno, yname);
       exit(1);
     }
-    if (linecmp(step + s, "*"))
+    if (linecmp(step + s, (char*) "*"))
     {
       fprintf(stderr,
               "sastrans: before %d: missing * after vertical variable name in plot statement in proc plot.\n",
@@ -161,7 +161,7 @@ void plottrans(char *step, FILE *dapfile)
     }
     fprintf(dapfile, "%s %s\", \"", xname, yname);
 
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     fputs("\", \"", dapfile);
 
     /* STYLE, XFUNCT, YFUNCT, NPLOTS) */
@@ -171,7 +171,7 @@ void plottrans(char *step, FILE *dapfile)
       while (step[s] && step[s] != ';')
       {
         s += linecpy(xname, step + s) + 1; /* using xname, should have optname instead */
-        if (!linecmp(xname, "box"))
+        if (!linecmp(xname, (char*) "box"))
           fputs("== ", dapfile);
         else
         {

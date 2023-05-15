@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <cstdlib>
+#include <cstring>
 #include "dap_make.h"
 #include "externs.h"
 #include "typecompare.h"
@@ -1332,17 +1333,17 @@ void dataset(char oldname[], char newname[], char action[])
 	slevelmem = (char **)NULL; /* to prevent freeing if not assigned */
 	cellv = (int *)NULL;	   /* to prevent freeing if not assigned */
 	classv = (int *)NULL;	   /* to prevent freeing if not assigned */
-	outlist = dap_malloc(dap_listlen, "dataset: outlist");
-	oldvmem = dap_malloc(dap_maxvar * (dap_namelen + 1), "dataset: oldvmem");
-	oldvar = (char **)dap_malloc(sizeof(char *) * dap_maxvar, "dataset: oldvar");
+	outlist = dap_malloc(dap_listlen, (char*) "dataset: outlist");
+	oldvmem = dap_malloc(dap_maxvar * (dap_namelen + 1), (char*) "dataset: oldvmem");
+	oldvar = (char **)dap_malloc(sizeof(char *) * dap_maxvar, (char*) "dataset: oldvar");
 	for (v = 0; v < dap_maxvar; v++)
 		oldvar[v] = oldvmem + v * (dap_namelen + 1);
-	newvmem = dap_malloc(dap_maxvar * (dap_namelen + 1), "dataset: newvmem");
-	newvar = (char **)dap_malloc(sizeof(char *) * dap_maxvar, "dataset: newvar");
+	newvmem = dap_malloc(dap_maxvar * (dap_namelen + 1), (char*) "dataset: newvmem");
+	newvar = (char **)dap_malloc(sizeof(char *) * dap_maxvar, (char*) "dataset: newvar");
 	for (v = 0; v < dap_maxvar; v++)
 		newvar[v] = newvmem + v * (dap_namelen + 1);
-	dold = dap_malloc(strlen(oldname) + strlen(dap_setdir) + 2, "dataset: dold");
-	dnew = dap_malloc(strlen(newname) + strlen(dap_setdir) + 2, "dataset: dnew");
+	dold = dap_malloc(strlen(oldname) + strlen(dap_setdir) + 2, (char*) "dataset: dold");
+	dnew = dap_malloc(strlen(newname) + strlen(dap_setdir) + 2, (char*) "dataset: dnew");
 	dap_name(dold, oldname); /* set up dataset names */
 	dap_name(dnew, newname);
 	clearvar = NULL;
@@ -1453,10 +1454,10 @@ void dataset(char oldname[], char newname[], char action[])
 							dap_obs[0].do_nam[nv][0] = '0';
 						/* and change the name of oldvar to newvar */
 						dap_free(dap_obs[0].do_nam[vn],
-								 "dataset: dap_obs[0].do_nam[vn]");
+								 (char*) "dataset: dap_obs[0].do_nam[vn]");
 						dap_obs[0].do_nam[vn] =
 							dap_malloc(strlen(newvar[v]) + 1,
-									   "dataset: dap_obs[0].do_nam[vn]");
+									   (char*) "dataset: dap_obs[0].do_nam[vn]");
 						strcpy(dap_obs[0].do_nam[vn], newvar[v]);
 					}
 					else if ((vn = dap_arrnum(oldvar[v], &dim)) >= 0)
@@ -1475,11 +1476,11 @@ void dataset(char oldname[], char newname[], char action[])
 						{
 							sprintf(dimstr, "[%d]", c);
 							dap_free(dap_obs[0].do_nam[vn + c],
-									 "dataset: dap_obs[0].do_nam[vn + c]");
+									 (char*) "dataset: dap_obs[0].do_nam[vn + c]");
 							dap_obs[0].do_nam[vn + c] =
 								dap_malloc(strlen(newvar[v]) +
 											   strlen(dimstr) + 1,
-										   "dataset: dap_obs[0].do_nam[vn + c]");
+										   (char*) "dataset: dap_obs[0].do_nam[vn + c]");
 							strcpy(dap_obs[0].do_nam[vn + c], newvar[v]);
 							strcat(dap_obs[0].do_nam[vn + c], dimstr);
 						}
@@ -1498,13 +1499,13 @@ void dataset(char oldname[], char newname[], char action[])
 		}
 		else
 		{
-			if (!(doldf = dfopen(oldname, "r")))
+			if (!(doldf = dfopen(oldname, (char*) "r")))
 			{
 				fprintf(dap_err, "(dataset) can't read %s for copy.\n",
 						oldname);
 				exit(1);
 			}
-			if (!(dnewf = dfopen(newname, "w")))
+			if (!(dnewf = dfopen(newname, (char*) "w")))
 			{
 				fprintf(dap_err, "(dataset) can't write %s for copy.\n",
 						newname);
@@ -1520,7 +1521,7 @@ void dataset(char oldname[], char newname[], char action[])
 	{
 		inset(oldname);
 		/* make copy of cell variable names for dap_list */
-		celllist = dap_malloc(strlen(action), "dataset: celllist");
+		celllist = dap_malloc(strlen(action), (char*) "dataset: celllist");
 		for (v = 4, c = 0; action[v] && action[v] != ':';) /* get to : */
 			celllist[c++] = action[v++];
 		celllist[c] = '\0';
@@ -1531,31 +1532,31 @@ void dataset(char oldname[], char newname[], char action[])
 			exit(1);
 		}
 		ncell = c / 2; /* tentative, overestimate */
-		cellv = (int *)dap_malloc(sizeof(int) * ncell, "dataset: cellv");
+		cellv = (int *)dap_malloc(sizeof(int) * ncell, (char*) "dataset: cellv");
 		ncell = dap_list(celllist, cellv, ncell);
 		nclass = (strlen(action) - v) / 2; /* tentative, overestimate */
-		classv = (int *)dap_malloc(sizeof(int) * nclass, "dataset: classv");
+		classv = (int *)dap_malloc(sizeof(int) * nclass, (char*) "dataset: classv");
 		nclass = dap_list(action + v + 1, classv, nclass);
-		inlev = (int *)dap_malloc(sizeof(int) * nclass, "dataset: inlev");
-		outlev = (int *)dap_malloc(sizeof(int) * nclass, "dataset: outlev");
+		inlev = (int *)dap_malloc(sizeof(int) * nclass, (char*) "dataset: inlev");
+		outlev = (int *)dap_malloc(sizeof(int) * nclass, (char*) "dataset: outlev");
 		slevelmem = (char **)dap_malloc(sizeof(char *) * nclass * dap_maxlev,
-										"dataset: slevelmem");
-		slevel = (char ***)dap_malloc(sizeof(char **) * nclass, "dataset: slevel");
+										(char*) "dataset: slevelmem");
+		slevel = (char ***)dap_malloc(sizeof(char **) * nclass, (char*) "dataset: slevel");
 		dlevelmem = (double *)dap_malloc(sizeof(double) * nclass * dap_maxlev,
-										 "dataset: dlevelmem");
+										 (char*) "dataset: dlevelmem");
 		dlevel = (double **)dap_malloc(sizeof(double *) * nclass,
-									   "dataset: dlevel");
+									   (char*) "dataset: dlevel");
 		ilevelmem = (int *)dap_malloc(sizeof(int) * nclass * dap_maxlev,
-									  "dataset: ilevelmem");
-		ilevel = (int **)dap_malloc(sizeof(int *) * nclass, "dataset: ilevel");
-		nlevels = (int *)dap_malloc(sizeof(int) * nclass, "dataset: nlevels");
+									  (char*) "dataset: ilevelmem");
+		ilevel = (int **)dap_malloc(sizeof(int *) * nclass, (char*) "dataset: ilevel");
+		nlevels = (int *)dap_malloc(sizeof(int) * nclass, (char*) "dataset: nlevels");
 		for (c = 0; c < nclass; c++)
 		{
 			slevel[c] = slevelmem + c * dap_maxlev;
 			dlevel[c] = dlevelmem + c * dap_maxlev;
 			ilevel[c] = ilevelmem + c * dap_maxlev;
 		}
-		outset(newname, "");
+		outset(newname, (char*) "");
 		for (c = 0; c < nclass; c++) /* start with empty level lists */
 			nlevels[c] = 0;
 		for (dap_mark(); step();)
@@ -1581,7 +1582,7 @@ void dataset(char oldname[], char newname[], char action[])
 						{
 							slevel[c][nlevels[c]] =
 								dap_malloc(strlen(dap_obs[dap_ono].do_str[classv[c]]) + 1,
-										   "dataset: slevel[c][nlevels[c]]");
+										   (char*) "dataset: slevel[c][nlevels[c]]");
 							strcpy(slevel[c][nlevels[c]++],
 								   dap_obs[dap_ono].do_str[classv[c]]);
 						}
@@ -1664,7 +1665,7 @@ void dataset(char oldname[], char newname[], char action[])
 			for (v = 0; v < nlevels[c]; v++)
 			{
 				if (dap_obs[dap_ono].do_len[classv[c]] > 0)
-					dap_free(slevel[c][v], "dataset: slevel[c][v]");
+					dap_free(slevel[c][v], (char*) "dataset: slevel[c][v]");
 			}
 			nlevels[c] = 0;
 		}
@@ -1678,10 +1679,10 @@ void dataset(char oldname[], char newname[], char action[])
 				if (!strcmp(dfile[NDFILES + fold].dfile_name, oldname + 1))
 				{
 					dap_free(dfile[NDFILES + fold].dfile_name,
-							 "dataset: dfile[NDFILES + fold].dfile_name");
+							 (char*) "dataset: dfile[NDFILES + fold].dfile_name");
 					dfile[NDFILES + fold].dfile_name = NULL;
 					dap_free(rfile[fold].rfile_str,
-							 "dataset: rfile[fold].rfile_str");
+							 (char*) "dataset: rfile[fold].rfile_str");
 					break;
 				}
 			}
@@ -1691,16 +1692,16 @@ void dataset(char oldname[], char newname[], char action[])
 	}
 	else if (!strcmp(action, "APPEND"))
 	{
-		if (!(dap_out[0] = dfopen(newname, "r"))) /* no dataset to append to... */
+		if (!(dap_out[0] = dfopen(newname, (char*) "r"))) /* no dataset to append to... */
 		{										  /* ...so just copy. */
-			if (!(dap_out[0] = dfopen(newname, "w")))
+			if (!(dap_out[0] = dfopen(newname, (char*) "w")))
 			{
 				fprintf(dap_err,
 						"(dataset) Can't create new data set for append: %s\n",
 						newname);
 				exit(1);
 			}
-			if (!(dap_in[0] = dfopen(oldname, "r")))
+			if (!(dap_in[0] = dfopen(oldname, (char*) "r")))
 			{
 				fprintf(dap_err,
 						"(dataset) can't read old data set for append: %s\n",
@@ -1718,13 +1719,13 @@ void dataset(char oldname[], char newname[], char action[])
 		else /* really append */
 		{
 			inset(newname);						  /* to get variable list */
-			outset("dap_null", "");				  /* so don't output anywhere */
+			outset((char*) "dap_null", (char*) "");				  /* so don't output anywhere */
 			baseobs.do_nvar = dap_obs[0].do_nvar; /* save newname's nvar */
 			for (v = 0; v < baseobs.do_nvar; v++)
 			{ /* copy names, lens from newname */
 				baseobs.do_len[v] = dap_obs[0].do_len[v];
 				baseobs.do_nam[v] = dap_malloc(strlen(dap_obs[0].do_nam[v]) + 1,
-											   "dataset: baseobs.do_nam[v]");
+											   (char*) "dataset: baseobs.do_nam[v]");
 				strcpy(baseobs.do_nam[v], dap_obs[0].do_nam[v]);
 			}
 			dfclose(dap_out[0]);
@@ -1740,9 +1741,9 @@ void dataset(char oldname[], char newname[], char action[])
 			 * newname that are not in oldname
 			 */
 			varspec = dap_malloc(maxnamlen + dap_intlen + 2,
-								 "dataset: varspec");
+								 (char*) "dataset: varspec");
 			clearvar = (int *)dap_malloc(sizeof(int) * baseobs.do_nvar,
-										 "dataset: clearvar");
+										 (char*) "dataset: clearvar");
 			for (v = 0, nclear = 0; v < baseobs.do_nvar; v++)
 			{
 				if ((onum = dap_varnum(baseobs.do_nam[v])) < 0)
@@ -1767,7 +1768,7 @@ void dataset(char oldname[], char newname[], char action[])
 				}
 				dap_obs[0].do_out[dap_obs[0].do_ovar++] = onum;
 			}
-			if (!(dap_out[0] = dfopen(newname, "a")))
+			if (!(dap_out[0] = dfopen(newname, (char*) "a")))
 			{
 				fprintf(dap_err, "(dataset) can't append to new data set: %s\n",
 						newname);
@@ -1788,10 +1789,10 @@ void dataset(char oldname[], char newname[], char action[])
 			}
 			for (v = 0; v < baseobs.do_nvar; v++)
 			{
-				dap_free(baseobs.do_nam[v], "dataset: baseobs.do_nam[v]");
+				dap_free(baseobs.do_nam[v], (char*) "dataset: baseobs.do_nam[v]");
 				baseobs.do_nam[v] = NULL;
 			}
-			dap_free(varspec, "dataset: varspec");
+			dap_free(varspec, (char*) "dataset: varspec");
 		}
 	}
 	else
@@ -1799,32 +1800,32 @@ void dataset(char oldname[], char newname[], char action[])
 		fprintf(dap_err, "(dataset) unknown action: %s\n", action);
 		exit(1);
 	}
-	dap_free(dold, "dataset: dold");
-	dap_free(dnew, "dataset: dnew");
-	dap_free(oldvmem, "dataset: oldvmem");
-	dap_free(oldvar, "dataset: oldvar");
-	dap_free(newvmem, "dataset: newvmem");
-	dap_free(newvar, "dataset: newvar");
-	dap_free(outlist, "dataset: outlist");
+	dap_free(dold, (char*) "dataset: dold");
+	dap_free(dnew, (char*) "dataset: dnew");
+	dap_free(oldvmem, (char*) "dataset: oldvmem");
+	dap_free(oldvar, (char*) "dataset: oldvar");
+	dap_free(newvmem, (char*) "dataset: newvmem");
+	dap_free(newvar, (char*) "dataset: newvar");
+	dap_free(outlist, (char*) "dataset: outlist");
 	if (clearvar)
-		dap_free(clearvar, "dataset: clearvar");
+		dap_free(clearvar, (char*) "dataset: clearvar");
 	if (celllist)
-		dap_free(celllist, "dataset: celllist");
+		dap_free(celllist, (char*) "dataset: celllist");
 	if (cellv)
-		dap_free(cellv, "dataset: cellv");
+		dap_free(cellv, (char*) "dataset: cellv");
 	if (classv)
-		dap_free(classv, "dataset: classv");
+		dap_free(classv, (char*) "dataset: classv");
 	if (slevelmem) /* all of these allocated for FILL */
 	{
-		dap_free(slevelmem, "dataset: slevelmem");
-		dap_free(slevel, "dataset: slevel");
-		dap_free(dlevelmem, "dataset: dlevelmem");
-		dap_free(dlevel, "dataset: dlevel");
-		dap_free(ilevelmem, "dataset: ilevelmem");
-		dap_free(ilevel, "dataset: ilevel");
-		dap_free(inlev, "dataset: inlev");
-		dap_free(outlev, "dataset: outlev");
-		dap_free(nlevels, "dataset: nlevels");
+		dap_free(slevelmem, (char*) "dataset: slevelmem");
+		dap_free(slevel, (char*) "dataset: slevel");
+		dap_free(dlevelmem, (char*) "dataset: dlevelmem");
+		dap_free(dlevel, (char*) "dataset: dlevel");
+		dap_free(ilevelmem, (char*) "dataset: ilevelmem");
+		dap_free(ilevel, (char*) "dataset: ilevel");
+		dap_free(inlev, (char*) "dataset: inlev");
+		dap_free(outlev, (char*) "dataset: outlev");
+		dap_free(nlevels, (char*) "dataset: nlevels");
 	}
 }
 
@@ -1854,7 +1855,7 @@ int dap_clearobs(char *varspec)
 		{
 			if (dap_prev[dap_ono].do_str[v])
 				dap_free(dap_prev[dap_ono].do_str[v],
-						 "clearobs: dap_prev[dap_ono].do_str[v]");
+						 (char*) "clearobs: dap_prev[dap_ono].do_str[v]");
 			dap_prev[dap_ono].do_str[v] = NULL;
 		}
 	}
@@ -1866,21 +1867,21 @@ int dap_clearobs(char *varspec)
 	{
 		if (dap_obs[dap_ono].do_nam[v])
 			dap_free(dap_obs[dap_ono].do_nam[v],
-					 "clearobs: dap_obs[dap_ono].do_nam[v]");
+					 (char*) "clearobs: dap_obs[dap_ono].do_nam[v]");
 		dap_obs[dap_ono].do_nam[v] = NULL;
 		dap_obs[dap_ono].do_dl[v] = NULL;
 		dap_obs[dap_ono].do_il[v] = NULL;
 		if (!dap_obs[dap_ono].do_sl[v] && dap_obs[dap_ono].do_str[v])
 			dap_free(dap_obs[dap_ono].do_str[v],
-					 "clearobs: dap_obs[dap_ono].do_str[v]");
+					 (char*) "clearobs: dap_obs[dap_ono].do_str[v]");
 		dap_obs[dap_ono].do_str[v] = NULL;
 		dap_obs[dap_ono].do_sl[v] = 0;
 	}
 	if (varspec)
 		dap_vd(varspec, 1);
 	else
-		dap_vd("_type_ 8", 0);
-	if ((v = dap_varnum("_type_")) < 0)
+		dap_vd((char*) "_type_ 8", 0);
+	if ((v = dap_varnum((char*) "_type_")) < 0)
 	{
 		fputs("(clearobs) missing _type_ variable\n", dap_err);
 		exit(1);
@@ -1903,8 +1904,8 @@ void infile(char *ifname, char *idelim)
 	{
 		infinit = 1;
 		delimlen = (dap_linelen + 1) / 8 - 1;
-		delim = dap_malloc(delimlen + 1, "infile: delim");
-		fieldwd = (int *)dap_malloc(sizeof(int) * dap_maxvar, "infile: fieldwd");
+		delim = dap_malloc(delimlen + 1, (char*) "infile: delim");
+		fieldwd = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "infile: fieldwd");
 	}
 
 	if (dap_in[dap_ono])
@@ -1919,7 +1920,7 @@ void infile(char *ifname, char *idelim)
 	}
 	if (!ifname || !ifname[0])
 	{
-		fname = "/dev/null";
+		fname = (char*) "/dev/null";
 		strcpy(delim, "|");
 	}
 	else
@@ -1943,7 +1944,7 @@ void infile(char *ifname, char *idelim)
 	}
 
 	/* the 'f' says that it's not a dataset, so don't need to prepend directory */
-	if (!(dap_in[dap_ono] = dfopen(fname, "rf")))
+	if (!(dap_in[dap_ono] = dfopen(fname, (char*) "rf")))
 	{
 		fprintf(dap_err, "(infile) can't read data file: %s\n", fname);
 		exit(1);
@@ -1993,7 +1994,7 @@ void input(char varlist[])
 	int d;
 
 	if (!vname)
-		vname = dap_malloc(dap_namelen + 1, "input: vname");
+		vname = dap_malloc(dap_namelen + 1, (char*) "input: vname");
 	for (l = 0; varlist[l] == ' '; l++)
 		;
 	while (varlist[l])
@@ -2036,7 +2037,7 @@ void inset(char *fname)
 	double testd;
 
 	if (!varspec)
-		varspec = dap_malloc(dap_linelen + 1, "inset: varspec");
+		varspec = dap_malloc(dap_linelen + 1, (char*) "inset: varspec");
 	if (dap_in[dap_ono])
 	{
 		dfclose(dap_in[dap_ono]);
@@ -2049,7 +2050,7 @@ void inset(char *fname)
 	}
 	if (!fname)
 		return;
-	if (!(dap_in[dap_ono] = dfopen(fname, "r")))
+	if (!(dap_in[dap_ono] = dfopen(fname, (char*) "r")))
 	{
 		fprintf(dap_err, "(inset) can't read data set: %s\n", fname);
 		exit(1);
@@ -2089,8 +2090,8 @@ static void fixlist(char *varl, char *varlist)
 	if (!fixinit)
 	{
 		fixinit = 1;
-		vname = dap_malloc(dap_namelen + 1, "fixlist: vname");
-		outv = (int *)dap_malloc(sizeof(int) * dap_maxvar, "fixlist: outv");
+		vname = dap_malloc(dap_namelen + 1, (char*) "fixlist: vname");
+		outv = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "fixlist: outv");
 	}
 	if (!varl)
 	{
@@ -2196,10 +2197,10 @@ void outset(char *fname, char *varl)
 	if (!outinit)
 	{
 		outinit = 1;
-		varlist = dap_malloc(dap_listlen, "outset: varlist");
-		vname = dap_malloc(dap_listlen, "outset: vname");
+		varlist = dap_malloc(dap_listlen, (char*) "outset: varlist");
+		vname = dap_malloc(dap_listlen, (char*) "outset: vname");
 	}
-	if (!(dap_out[dap_ono] = dfopen(fname, "w")))
+	if (!(dap_out[dap_ono] = dfopen(fname, (char*) "w")))
 	{
 		fprintf(dap_err, "(outset) Can't write data set: %s\n", fname);
 		exit(1);
@@ -2306,7 +2307,7 @@ void outset(char *fname, char *varl)
 		for (v = 0; v < dap_obs[dap_ono].do_nvar; v++)
 			dap_obs[dap_ono].do_out[v] = v;
 	}
-	if (dap_varnum("_type_") < 0)
+	if (dap_varnum((char*) "_type_") < 0)
 	{
 		fprintf(dap_err, "(outset (%s)) missing _type_ variable\n", fname);
 		exit(1);
@@ -2343,7 +2344,7 @@ void output()
 	int v;
 	int first;
 
-	if ((v = dap_varnum("_type_")) < 0)
+	if ((v = dap_varnum((char*) "_type_")) < 0)
 	{
 		fprintf(dap_err, "(output) missing _type_ variable\n");
 		exit(1);
@@ -2376,7 +2377,7 @@ void output()
 		}
 		else
 		{
-			dputs(dap_obs[dap_ono].do_str[dap_obs[dap_ono].do_out[v]], "",
+			dputs(dap_obs[dap_ono].do_str[dap_obs[dap_ono].do_out[v]], (char*) "",
 				  dap_out[dap_ono]);
 		}
 		first = 0;
@@ -2414,8 +2415,8 @@ static int expand(char *varlist, int *varv, int maxvars)
 		fputs("(expand) Missing variable index list.\n", dap_err);
 		exit(1);
 	}
-	mname = dap_malloc(strlen(varlist) + 1, "expand: mname");
-	newname = dap_malloc(strlen(varlist) + 1, "expand: newname");
+	mname = dap_malloc(strlen(varlist) + 1, (char*) "expand: mname");
+	newname = dap_malloc(strlen(varlist) + 1, (char*) "expand: newname");
 	include = 1;
 	for (m = 0; varlist[m] == ' '; m++)
 		;
@@ -2463,10 +2464,10 @@ static int expand(char *varlist, int *varv, int maxvars)
 				if (newname[0])
 				{
 					dap_free(dap_obs[dap_ono].do_nam[arrn],
-							 "expand: dap_obs[dap_ono].do_nam[arrn]");
+							 (char*) "expand: dap_obs[dap_ono].do_nam[arrn]");
 					dap_obs[dap_ono].do_nam[arrn] =
 						dap_malloc(strlen(newname) + 6,
-								   "expand: dap_obs[dap_ono].do_nam[arrn]");
+								   (char*) "expand: dap_obs[dap_ono].do_nam[arrn]");
 					sprintf(dap_obs[dap_ono].do_nam[arrn],
 							"%s[%d]", newname, d);
 				}
@@ -2478,10 +2479,10 @@ static int expand(char *varlist, int *varv, int maxvars)
 			if (newname[0])
 			{
 				dap_free(dap_obs[dap_ono].do_nam[varv[nvars]],
-						 "expand: dap_obs[dap_ono].do_nam[varv[nvars]]");
+						 (char*) "expand: dap_obs[dap_ono].do_nam[varv[nvars]]");
 				dap_obs[dap_ono].do_nam[varv[nvars]] =
 					dap_malloc(strlen(newname) + 1,
-							   "expand: dap_obs[dap_ono].do_nam[varv[nvars]]");
+							   (char*) "expand: dap_obs[dap_ono].do_nam[varv[nvars]]");
 				strcpy(dap_obs[dap_ono].do_nam[varv[nvars]], newname);
 			}
 			nvars++;
@@ -2492,8 +2493,8 @@ static int expand(char *varlist, int *varv, int maxvars)
 			exit(1);
 		}
 	}
-	dap_free(mname, "expand: mname");
-	dap_free(newname, "expand: newname");
+	dap_free(mname, (char*) "expand: mname");
+	dap_free(newname, (char*) "expand: newname");
 	return include * nvars;
 }
 
@@ -2564,14 +2565,14 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 		fputs("(merge) Missing dataset name.\n", dap_err);
 		exit(1);
 	}
-	if (vars1 && index(vars1, '['))
+	if (vars1 && strchr(vars1, '['))
 	{
 		fprintf(dap_err,
 				"(merge) Variable lists may not contain individual array elements: %s\n",
 				vars1);
 		exit(1);
 	}
-	if (vars2 && index(vars2, '['))
+	if (vars2 && strchr(vars2, '['))
 	{
 		fprintf(dap_err,
 				"(merge) Variable lists may not contain individual array elements: %s\n",
@@ -2580,22 +2581,22 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 	}
 	vars1null = 0; /* non-NULL until proven NULL */
 	vars2null = 0;
-	outlist = dap_malloc(dap_listlen, "merge: outlist");
-	outlist1 = dap_malloc(dap_listlen, "merge: outlist1");
-	outlist2 = dap_malloc(dap_listlen, "merge:outlist2");
-	varv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: varv1");
-	varv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: varv2");
-	ovarv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: ovarv1");
-	ovarv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: ovarv2");
-	markv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: markv1");
-	markv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, "merge: markv2");
+	outlist = dap_malloc(dap_listlen, (char*) "merge: outlist");
+	outlist1 = dap_malloc(dap_listlen, (char*) "merge: outlist1");
+	outlist2 = dap_malloc(dap_listlen, (char*) "merge:outlist2");
+	varv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: varv1");
+	varv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: varv2");
+	ovarv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: ovarv1");
+	ovarv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: ovarv2");
+	markv1 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: markv1");
+	markv2 = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "merge: markv2");
 	dap_ono = 0;			/* take no chances! */
 	inset(fname1);			/* set up input from dataset 1 */
 	if (vars1 && !vars1[0]) /* vars1 null string: use all variables */
 	{
 		vars1null = 1;
 		/* in this case, need to make our own vars1 list */
-		vars1 = dap_malloc(dap_listlen, "merge: vars1");
+		vars1 = dap_malloc(dap_listlen, (char*) "merge: vars1");
 		vars1[0] = '\0';
 		for (v1 = 0; v1 < dap_obs[dap_ono].do_nvar; v1++)
 		{ /* copy all vars except _type_ */
@@ -2612,9 +2613,9 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 	{
 		exclude1 = 1;
 		nvar1 = -nvar1;
-		vars1a = dap_malloc(dap_listlen, "merge: vars1a");
+		vars1a = dap_malloc(dap_listlen, (char*) "merge: vars1a");
 		vars1a[0] = '\0';
-		varv1a = (int *)dap_malloc(dap_maxvar, "merge: varv1a");
+		varv1a = (int *)dap_malloc(dap_maxvar, (char*) "merge: varv1a");
 		for (v1 = 0, nvar1a = 0; v1 < dap_obs[dap_ono].do_nvar; v1++)
 		{ /* copy all vars except _type_ and excluded vars */
 			if (!strcmp(dap_obs[dap_ono].do_nam[v1], "_type_"))
@@ -2632,10 +2633,10 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 			}
 		}
 		if (vars1null)
-			dap_free(vars1, "merge: vars1");
+			dap_free(vars1, (char*) "merge: vars1");
 		vars1 = vars1a; /* reassign list; this won't happen if vars1 was NULL */
 		nvar1 = nvar1a;
-		dap_free(varv1, "merge: varv1");
+		dap_free(varv1, (char*) "merge: varv1");
 		varv1 = varv1a;
 	}
 	if (marks)
@@ -2648,7 +2649,7 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 	{
 		vars2null = 1;
 		/* in this case, need to make our own vars2 list */
-		vars2 = dap_malloc(dap_listlen, "merge: vars2");
+		vars2 = dap_malloc(dap_listlen, (char*) "merge: vars2");
 		vars2[0] = '\0';
 		for (v2 = 0; v2 < dap_obs[dap_ono].do_nvar; v2++)
 		{
@@ -2665,9 +2666,9 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 	{
 		exclude2 = 1;
 		nvar2 = -nvar2;
-		vars2a = dap_malloc(dap_listlen, "merge: vars2a");
+		vars2a = dap_malloc(dap_listlen, (char*) "merge: vars2a");
 		vars2a[0] = '\0';
-		varv2a = (int *)dap_malloc(dap_maxvar, "merge: varv2a");
+		varv2a = (int *)dap_malloc(dap_maxvar, (char*) "merge: varv2a");
 		for (v2 = 0, nvar2a = 0; v2 < dap_obs[dap_ono].do_nvar; v2++)
 		{ /* copy all vars except _type_ and excluded vars */
 			if (!strcmp(dap_obs[dap_ono].do_nam[v2], "_type_"))
@@ -2685,10 +2686,10 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 			}
 		}
 		if (vars2null)
-			dap_free(vars2, "merge: vars2");
+			dap_free(vars2, (char*) "merge: vars2");
 		vars2 = vars2a; /* reassign list; this won't happen if vars2 was NULL */
 		nvar2 = nvar2a;
-		dap_free(varv2, "merge: varv2");
+		dap_free(varv2, (char*) "merge: varv2");
 		varv2 = varv2a;
 	}
 	dap_list(marks, markv2, dap_maxvar);
@@ -2713,15 +2714,15 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 	dap_ono = 2;			/* the output dataset */
 	dap_obs[2].do_nvar = 0; /* start with nothing */
 	dap_obs[2].do_ovar = 0; /* except _type_ */
-	dap_obs[2].do_out[dap_obs[2].do_ovar++] = dap_vd("_type_ 8", 0);
+	dap_obs[2].do_out[dap_obs[2].do_ovar++] = dap_vd((char*) "_type_ 8", 0);
 	for (v2 = 0; v2 < nvar2; v2++)
 	{
 		if (dap_obs[2].do_nam[dap_obs[2].do_nvar])
 			dap_free(dap_obs[2].do_nam[dap_obs[2].do_nvar],
-					 "merge: dap_obs[2].do_nam[dap_obs[2].do_nvar]");
+					 (char*) "merge: dap_obs[2].do_nam[dap_obs[2].do_nvar]");
 		dap_obs[2].do_nam[dap_obs[2].do_nvar] =
 			dap_malloc(strlen(dap_obs[1].do_nam[varv2[v2]]) + 1,
-					   "merge: dap_obs[1].do_nam[varv2[v2]]");
+					   (char*) "merge: dap_obs[1].do_nam[varv2[v2]]");
 		strcpy(dap_obs[2].do_nam[dap_obs[2].do_nvar],
 			   dap_obs[1].do_nam[varv2[v2]]);
 		dap_obs[2].do_len[dap_obs[2].do_nvar] = dap_obs[1].do_len[varv2[v2]];
@@ -2751,10 +2752,10 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 		{
 			if (dap_obs[2].do_nam[dap_obs[2].do_nvar])
 				dap_free(dap_obs[2].do_nam[dap_obs[2].do_nvar],
-						 "merge: dap_obs[2].do_nam[dap_obs[2].do_nvar]");
+						 (char*) "merge: dap_obs[2].do_nam[dap_obs[2].do_nvar]");
 			dap_obs[2].do_nam[dap_obs[2].do_nvar] =
 				dap_malloc(strlen(dap_obs[0].do_nam[varv1[v1]]) + 1,
-						   "merge: dap_obs[0].do_nam[varv1[v1]]");
+						   (char*) "merge: dap_obs[0].do_nam[varv1[v1]]");
 			strcpy(dap_obs[2].do_nam[dap_obs[2].do_nvar],
 				   dap_obs[0].do_nam[varv1[v1]]);
 			dap_obs[2].do_len[dap_obs[2].do_nvar] = dap_obs[0].do_len[varv1[v1]];
@@ -2762,7 +2763,7 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 		}
 	}
 	outset(outname, outlist);
-	strcpy(dap_obs[2].do_str[dap_varnum("_type_")], "OBS");
+	strcpy(dap_obs[2].do_str[dap_varnum((char*) "_type_")], "OBS");
 	expand(outlist1, ovarv1, dap_maxvar);
 	expand(outlist2, ovarv2, dap_maxvar);
 	dap_ono = 0;	/* for reading first dataset */
@@ -2826,10 +2827,10 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 						{
 							if (dap_obs[2].do_str[ovarv1[v1]])
 								dap_free(dap_obs[2].do_str[ovarv1[v1]],
-										 "merge: dap_obs[2].do_str[ovarv1[v1]]");
+										 (char*) "merge: dap_obs[2].do_str[ovarv1[v1]]");
 							dap_obs[2].do_str[ovarv1[v1]] =
 								dap_malloc(strlen(dap_obs[0].do_str[varv1[v1]]) + 1,
-										   "merge: dap_obs[0].do_str[ovarv1[v1]]");
+										   (char*) "merge: dap_obs[0].do_str[ovarv1[v1]]");
 							strcpy(dap_obs[2].do_str[ovarv1[v1]],
 								   dap_obs[0].do_str[varv1[v1]]);
 						}
@@ -2846,10 +2847,10 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 						{
 							if (dap_obs[2].do_str[ovarv2[v2]])
 								dap_free(dap_obs[2].do_str[ovarv2[v2]],
-										 "merge: dap_obs[2].do_str[ovarv2[v2]]");
+										 (char*) "merge: dap_obs[2].do_str[ovarv2[v2]]");
 							dap_obs[2].do_str[ovarv2[v2]] =
 								dap_malloc(strlen(dap_obs[1].do_str[varv2[v2]]) + 1,
-										   "merge: dap_obs[1].do_str[ovarv2[v2]]");
+										   (char*) "merge: dap_obs[1].do_str[ovarv2[v2]]");
 							strcpy(dap_obs[2].do_str[ovarv2[v2]],
 								   dap_obs[1].do_str[varv2[v2]]);
 						}
@@ -2882,31 +2883,31 @@ void merge(char *fname1, char *vars1, char *fname2, char *vars2,
 		dfclose(dap_out[dap_ono]);
 		dap_out[dap_ono] = (DFILE *)NULL;
 	}
-	dap_free(outlist, "merge: outlist");
-	dap_free(outlist1, "merge: outlist1");
-	dap_free(outlist2, "merge: outlist2");
-	dap_free(ovarv1, "merge: ovarv1");
-	dap_free(ovarv2, "merge: ovarv2");
-	dap_free(markv1, "merge: markv1");
-	dap_free(markv2, "merge: markv2");
+	dap_free(outlist, (char*) "merge: outlist");
+	dap_free(outlist1, (char*) "merge: outlist1");
+	dap_free(outlist2, (char*) "merge: outlist2");
+	dap_free(ovarv1, (char*) "merge: ovarv1");
+	dap_free(ovarv2, (char*) "merge: ovarv2");
+	dap_free(markv1, (char*) "merge: markv1");
+	dap_free(markv2, (char*) "merge: markv2");
 	if (vars1null)
-		dap_free(vars1, "merge: vars1");
+		dap_free(vars1, (char*) "merge: vars1");
 	if (vars2null)
-		dap_free(vars2, "merge: vars2");
+		dap_free(vars2, (char*) "merge: vars2");
 	if (exclude1 < 0)
 	{
-		dap_free(vars1a, "merge: vars1a");
-		dap_free(varv1a, "merge: varv1a");
+		dap_free(vars1a, (char*) "merge: vars1a");
+		dap_free(varv1a, (char*) "merge: varv1a");
 	}
 	else
-		dap_free(varv1, "merge: varv1");
+		dap_free(varv1, (char*) "merge: varv1");
 	if (exclude2 < 0)
 	{
-		dap_free(vars2a, "merge: vars2a");
-		dap_free(varv2a, "merge: varv2a");
+		dap_free(vars2a, (char*) "merge: vars2a");
+		dap_free(varv2a, (char*) "merge: varv2a");
 	}
 	else
-		dap_free(varv2, "merge: varv2");
+		dap_free(varv2, (char*) "merge: varv2");
 }
 
 void title(char *text)
@@ -3087,11 +3088,11 @@ int import(char *fname, char *fileToLoad, char *format, char *delimiter, int rep
 	if (strlen(delimiter) == 0)
 	{
 		if (strcmp(format, "CSV") || strcmp(format, "csv"))
-			delimiter = ",";
+			delimiter = (char*) ",";
 		if (strcmp(format, "DLM") || strcmp(format, "dlm"))
-			delimiter = " ";
+			delimiter = (char*) " ";
 		if (strcmp(format, "TAB") || strcmp(format, "tab"))
-			delimiter = "\t";
+			delimiter = (char*) "\t";
 	}
 	pFile = fopen(fileToLoad, "rb");
 	if (pFile == NULL)
@@ -3271,7 +3272,7 @@ int import(char *fname, char *fileToLoad, char *format, char *delimiter, int rep
 		actualatt = actualatt->next;
 	} while (actualatt != NULL);
 
-	outset(fname, "");
+	outset(fname, (char*) "");
 	skip(2);
 	while (step())
 		output();

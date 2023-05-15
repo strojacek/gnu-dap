@@ -124,29 +124,29 @@ int main(int argc, char **argv)
     }
   }
   if (!(pager = ecopy(getenv("DAPPAGER"))))
-    pager = PAGE;
+    pager = (char*) PAGE;
   if (!(pageopts = ecopy(getenv("DAPPAGEOPTS"))))
     pageopts = NULL;
   if (!(compiler = ecopy(getenv("DAPCOMPILER"))))
-    compiler = GCC;
+    compiler = (char*) GCC;
   if (!(compopts = ecopy(getenv("DAPCOMPOPTS"))))
     compopts = NULL;
   if (!(viewer = ecopy(getenv("DAPVIEWER"))))
-    viewer = PS;
+    viewer = (char*) PS;
   if (!(viewopts = ecopy(getenv("DAPVIEWOPTS"))))
     viewopts = NULL;
   if (!(dappp = ecopy(getenv("DAPPP"))))
-    dappp = DAPPP;
+    dappp = (char*) DAPPP;
   if (!(incdir = ecopy(getenv("INCDIR"))))
-    incdir = INCDIR;
+    incdir = (char*) INCDIR;
   if (!(libdir = ecopy(getenv("LIBDIR"))))
-    libdir = LIBDIR;
+    libdir = (char*) LIBDIR;
   if (!dappprun(argc, argv))
   {
     if (!gccrun(argc, argv, debug))
     {
       runstat = run(argc, argv, keep);
-      view(argv[1], ".err");
+      view(argv[1], (char*) ".err");
       if (!runstat)
       {
         if (keep == -1)
@@ -253,11 +253,11 @@ int gccrun(int argc, char **argv, int debug)
   g = 0;
   arg[g++] = compiler;               /* first arg is compiler name */
   g += parseopts(compopts, arg + g); /* now get compiler opts, if any */
-  arg[g++] = "-o";                   /* always name output file */
+  arg[g++] = (char*) "-o";                   /* always name output file */
   arg[g] = argcpy(argv[1], 4);       /* and this is its name */
-  suffix(arg[g], ".dap");            /* except have to attach suffix */
+  suffix(arg[g], (char*) ".dap");            /* except have to attach suffix */
   g++;
-  arg[g++] = "-I";   /* need to make use of... */
+  arg[g++] = (char*) "-I";   /* need to make use of... */
   arg[g++] = incdir; /* ... header files */
   /* Only use arguments preceding "-a"; arguments following "-a"
    * are arguments to program
@@ -266,13 +266,13 @@ int gccrun(int argc, char **argv, int debug)
   for (a = 1; a < argc && strcmp(argv[a], "-a") && strcmp(argv[a], "--args"); a++, g++)
   {
     arg[g] = argcpy(argv[a], 8); /* file name + chars for ".dap.cpp" */
-    suffix(arg[g], ".dap.cpp");
+    suffix(arg[g], (char*) ".dap.cpp");
   }
   argend = g; /* this is after then end */
-  arg[g++] = "-L";
+  arg[g++] = (char*) "-L";
   arg[g++] = libdir;
-  arg[g++] = "-ldap";
-  arg[g++] = "-lm";
+  arg[g++] = (char*) "-ldap";
+  arg[g++] = (char*) "-lm";
   arg[g] = NULL;
   if (!(pid = fork()))
   {
@@ -311,13 +311,13 @@ int run(int argc, char **argv, int keep)
     exit(1);
   }
   arg[0] = argcpy(argv[1], 4); /* name of executable */
-  suffix(arg[0], ".dap");
+  suffix(arg[0], (char*) ".dap");
   lstname = argcpy(argv[1], 4);
-  suffix(lstname, ".lst");
+  suffix(lstname, (char*) ".lst");
   if (keep != 1) /* remove .lst file if first run or !keep */
     unlink(lstname);
   psname = argcpy(argv[1], 3);
-  suffix(psname, ".ps");
+  suffix(psname, (char*) ".ps");
   unlink(psname); /* always remove .ps file */
   for (a = 1; a < argc && strcmp(argv[a], "-a") && strcmp(argv[a], "--args"); a++)
     ;
@@ -414,7 +414,7 @@ void showps(char name[])
     exit(1);
   }
   psname = argcpy(name, 3);
-  suffix(psname, ".ps");
+  suffix(psname, (char*) ".ps");
   if (!gv && !stat(psname, &buf))
   {
     gv = 1;
