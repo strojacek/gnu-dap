@@ -18,8 +18,8 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include "dap_make.h"
 #include "externs.h"
 
@@ -34,7 +34,7 @@ extern char *dap_dapname;
 static double *allparam;
 static char *sel;
 static char *selred;
-static double (*ex)();
+static double (*ex)(double *, double *);
 static double **tab;
 static int nc;
 
@@ -90,7 +90,7 @@ static int selparse(char *names, char *codes)
 }
 
 static void categ1(double **tab, int ncell, int *varv, int nvar,
-		   double (*expect)(), double *param,
+		   double (*expect)(double *, double *), double *param,
 		   char *select, char *selcodes,
 		   int param1n, int param2n, int covn,
 		   int partv[], int partv2[], int npart, char *trace)
@@ -391,7 +391,7 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
   dap_free(info, "");
 }
 
-void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(),
+void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double *, double *),
 	   double *param, char *select, char *part, char *trace)
 {
   int p;
@@ -572,7 +572,7 @@ static double *maxval;
 static int numparam;
 static int nclass;
 
-static double llexpect(double *param, double *class)
+static double llexpect(double *param, double *klass)
 {
   int p;		/* parameter number for paramlist */
   int c;		/* class number for paramlist */
@@ -585,7 +585,7 @@ static double llexpect(double *param, double *class)
 
   /* incorporate constraints */
   for (c = 0; c < nclass; c++)
-    neg[c] = (class[c] == maxval[c]);
+    neg[c] = (klass[c] == maxval[c]);
   /* param[0] is always mu */
   for (logc = param[0], p = 1; p < numparam; p++)
     {
@@ -596,7 +596,7 @@ static double llexpect(double *param, double *class)
 	      if (neg[c])
 		sign *= -1.0;
 	      else
-		match &= (paramlist[p][c] == (int) class[c]);
+		match &= (paramlist[p][c] == (int) klass[c]);
 	    }
 	}
       if (match)
@@ -605,13 +605,13 @@ static double llexpect(double *param, double *class)
   return exp(logc);
 }
 
-static int findclass(char *cname, char **class)
+static int findclass(char *cname, char **klass)
 {
   int c;	/* index to class */
 
   for (c = 0; c < nclass; c++)
     {
-      if (!strcmp(cname, class[c]))
+      if (!strcmp(cname, klass[c]))
 	return c;
     }
   return -1;
@@ -622,7 +622,7 @@ static int findclass(char *cname, char **class)
  * in neither model, model1 only, model1 and model0.
  * Returns highest numbered term that actually appears.
  */
-static int llparse(char **class, int nterm, unsigned int *pattern,
+static int llparse(char **klass, int nterm, unsigned int *pattern,
 		   char *model0, char *model1, int *term)
 {
   int classlen1;	/* length of one class var name */
@@ -639,7 +639,7 @@ static int llparse(char **class, int nterm, unsigned int *pattern,
 
   for (c = 0, classlen = 0; c < nclass; c++)
     {
-      if ((classlen1 = strlen(class[c])) > classlen)
+      if ((classlen1 = strlen(klass[c])) > classlen)
 	classlen = classlen1;
     }
   oneclass = dap_malloc(classlen + 1, "");
@@ -656,7 +656,7 @@ static int llparse(char **class, int nterm, unsigned int *pattern,
       oneclass[c] = '\0';
       while (model1[m] == ' ')
 	m++;
-      c = findclass(oneclass, class);
+      c = findclass(oneclass, klass);
       if (c < 0)
 	{
 	  fprintf(dap_err,
@@ -700,7 +700,7 @@ static int llparse(char **class, int nterm, unsigned int *pattern,
       oneclass[c] = '\0';
       while (model0[m] == ' ')
 	m++;
-      c = findclass(oneclass, class);
+      c = findclass(oneclass, klass);
       if (c < 0)
 	{
 	  fprintf(dap_err,
@@ -722,7 +722,7 @@ static int llparse(char **class, int nterm, unsigned int *pattern,
 			firstclass = 0;
 		      else
 			fputs("*", dap_err);
-		      fprintf(dap_err, "%s", class[c]);
+		      fprintf(dap_err, "%s", klass[c]);
 		    }
 		}
 	      fprintf(dap_err, ") not in in model1 (%s)\n", model1);
@@ -801,7 +801,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   int termparam;		/* number of params for one term */
   int nparam0;		/* tentative number of parameters, (external) numparam is actual */
   char *classmem;		/* memory for class array */
-  char **class;		/* the names of the class variables */
+  char **klass;		/* the names of the class variables */
   int cm;			/* index to classmem */
   char *select;		/* selection string for param */
   int sellen;		/* length of selection string */
@@ -919,7 +919,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   /* going to need class variable names as array */
   classmem = dap_malloc(strlen(varlist + coff) + 1, "");
   /* this is a bit wasteful of space, price for saving would be time */
-  class = (char **) dap_malloc(sizeof(char *) * nclass, "");
+  klass = (char **) dap_malloc(sizeof(char *) * nclass, "");
 
   for (c = 0, cm = 0; varlist[l]; )
     {
@@ -932,7 +932,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
 	  varlist1[l1] = '_';
 	  outlist[l1++] = '_';
 	  vardef[0] = '_';
-	  class[c] = classmem + cm;
+	  klass[c] = classmem + cm;
 	  for (vd = 1; varlist[l] && varlist[l] != ' '; l++)
 	    {
 	      classmem[cm++] = varlist[l];
@@ -1083,11 +1083,11 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   fputs("Number", dap_lst);
   for (maxmaxval = 0, c = 0; c < nclass; c++)
     {
-      onelen = strlen(class[c]);
+      onelen = strlen(klass[c]);
       if (maxlen[c] < onelen)
 	maxlen[c] = onelen;
       sprintf(formstr, "  %%-%ds", maxlen[c]);
-      fprintf(dap_lst, formstr, class[c]);
+      fprintf(dap_lst, formstr, klass[c]);
       if (((int) maxval[c]) > maxmaxval)
 	maxmaxval = ((int) maxval[c]);
     }
@@ -1127,10 +1127,10 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   for (nterm = 1, nv = 0; nv < nclass; nv++)
     nterm *= 2;
   term = (int *) dap_malloc(sizeof(int) * nterm, "");
-  pattern = (int *) dap_malloc(sizeof(int) * nclass, "");
+  pattern = (unsigned int *) dap_malloc(sizeof(int) * nclass, "");
   for (c = 1, pattern[0] = 1; c < nclass; c++)
     pattern[c] = 2 * pattern[c - 1];
-  nterm = llparse(class, nterm, pattern, model0, model1, term);
+  nterm = llparse(klass, nterm, pattern, model0, model1, term);
   /* Start with _mu, which is why sellen starts at 5: "_mu " and for final '\0'. */
   for (nparam0 = 1, sellen = 5, t = 1; t <= nterm; t++)
     {
@@ -1142,7 +1142,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
 		{
 		  termparam *= (int) maxval[c];
 				/* + 4 for ':' and '*' and 2 digits */
-		  termlen += strlen(class[c]) + 4;
+		  termlen += strlen(klass[c]) + 4;
 		}
 	    }
 	  nparam0 += termparam;
@@ -1180,11 +1180,11 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
 	      if (!(pattern[c] & ~t))
 		{
 		  if (!selterm[2])
-		    strcat(selterm, class[c]);
+		    strcat(selterm, klass[c]);
 		  else
 		    {
 		      strcat(selterm, "*");
-		      strcat(selterm, class[c]);
+		      strcat(selterm, klass[c]);
 		    }
 		}
 	    }
@@ -1236,7 +1236,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
    */
   for (c = 0; c < nclass; c++)
     {
-      strcpy(vardef, class[c]);
+      strcpy(vardef, klass[c]);
       sprintf(vardef + strlen(vardef), " %d", maxlen[c]);
       classv[c] = dap_vd(vardef, 0);
     }
@@ -1276,7 +1276,7 @@ void loglin(char *fname, char *varlist, char *model0, char *model1, char *part)
   dap_free(selterm, "");
   dap_free(sub, "");
   dap_free(classmem, "");
-  dap_free(class, "");
+  dap_free(klass, "");
   dap_free(pattern, "");
   dap_free(paramlistmem, "");
   dap_free(paramlist, "");
@@ -1514,7 +1514,7 @@ void estimate(char *fname, char *parameters, char *definitions, char *part)
 	      estimate[pnum1] = 0.0;
 	      for (pnum2 = 0; pnum2 < pnum1; pnum2++)
 		{
-		  if (def[pnum1][pnum2] && !finite(estimate[pnum2]))
+		  if (def[pnum1][pnum2] && !isfinite(estimate[pnum2]))
 		    {
 		      fprintf(dap_err,
 			      "(estimate) estimate for parameter %s not in dataset %s\n",

@@ -18,6 +18,7 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cstdio>
 #define TOKENLEN 127 /* max length of token */
 #define STATELEN 4095 /* max length of statement */
 #define STEPLEN 65535 /* max length of step */

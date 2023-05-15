@@ -22,6 +22,7 @@
 #include <math.h>
 #include "externs.h"
 #include "dap_make.h"
+#include "typecompare.h"
 
 extern dataobs dap_obs[];
 extern FILE *dap_lst;
@@ -31,26 +32,8 @@ extern char *dap_dapname;
 
 extern char dap_sttnm[NSTATS][STATLEN + 1];
 
-static int dblcmp(double *x, double *y)
-{
-  if (*x < *y)
-    return -1;
-  if (*x > *y)
-    return 1;
-  return 0;
-}
-
-static int ddblcmp(double **x, double **y)
-{
-  if (**x < **y)
-    return -1;
-  if (**x > **y)
-    return 1;
-  return 0;
-}
-
-static int (*cmp)() = &dblcmp;
-static int (*dcmp)() = &ddblcmp;
+static int (*cmp)(const void *, const void *) = &dblcmp;
+static int (*dcmp)(const void *, const void *) = &ddblcmp;
 
 /* Convert double percentile point to integer index, excess.  */
 static void pctpttest(double wtpt, double cumwt, double nextcum,
@@ -401,7 +384,7 @@ void pctiles(char *fname, char *varlist, char *statlist, char *marks)
 		    val[v][nobs][1] = dap_obs[0].do_dbl[wtvar[v]];
 		  else
 		    val[v][nobs][1] = 1.0;
-		  if (!finite(val[v][nobs][0]) || !finite(val[v][nobs][1]))
+		  if (!isfinite(val[v][nobs][0]) || !isfinite(val[v][nobs][1]))
 		    {
 		      fprintf(dap_err,
 			      "(pctiles) NaN value %d for %s\n",
@@ -586,7 +569,7 @@ void corr(char *fname, char *varlist, char *marks)
 	  for (v = 0; v < nvar; v++)
 	    {
 	      vtmp = dap_obs[0].do_dbl[varv[v]];
-	      if (!finite(vtmp))
+	      if (!isfinite(vtmp))
 		{
 		  fprintf(dap_err,
 			  "(corr) NaN value %d for %s\n",
@@ -933,7 +916,7 @@ void group(char *fname, char *varspec, char *marks)
 		{
 		  for (v = 1, allgood = 1; v < nvar; v++)
 		    {
-		      if (!finite(dap_obs[0].do_dbl[varv[v]]))
+		      if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
 			{
 			  allgood = 0;
 			  break;
@@ -962,7 +945,7 @@ void group(char *fname, char *varspec, char *marks)
 		{
 		  for (v = 0, allgood = 1; v < nvar; v++)
 		    {
-		      if (!finite(dap_obs[0].do_dbl[varv[v]]))
+		      if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
 			{
 			  allgood = 0;
 			  break;
@@ -993,7 +976,7 @@ void group(char *fname, char *varspec, char *marks)
 	{
 	  for (v = 1, allgood = 1; v < nvar; v++)
 	    {
-	      if (!finite(dap_obs[0].do_dbl[varv[v]]))
+	      if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
 		{
 		  allgood = 0;
 		  break;
@@ -1010,7 +993,7 @@ void group(char *fname, char *varspec, char *marks)
 	    {
 	      for (v = 0, allgood = 1; v < nvar; v++)
 		{
-		  if (!finite(dap_obs[0].do_dbl[varv[v]]))
+		  if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
 		    {
 		      allgood = 0;
 		      break;
@@ -1711,9 +1694,9 @@ void freq(char *fname, char *varlist, char *stats, char *marks)
   int l1, l2;
   double cmh, cmhvar;
   int more, moremore;
-  int (*strc)();
+  int (*strc)(const void *, const void *);
 
-  strc = &strcmp;
+  strc = &stcmp;
   if (!fname)
     {
       fputs("(freq) No dataset name given.\n", dap_err);
@@ -2005,7 +1988,7 @@ void trim(char *fname, char *trimspec, char *marks)
 	{
 	  for (v = 0; v < nvar; v++)
 	    {
-	      if (finite(dap_obs[0].do_dbl[varv[v]]))
+	      if (isfinite(dap_obs[0].do_dbl[varv[v]]))
 		val[v][nobs] = dap_obs[0].do_dbl[varv[v]];
 	      else
 		{

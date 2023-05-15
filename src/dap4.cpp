@@ -20,6 +20,7 @@
 
 #include "dap_make.h"
 #include "externs.h"
+#include "typecompare.h"
 
 extern dataobs dap_obs[];
 extern FILE *dap_lst;
@@ -1600,10 +1601,6 @@ static void maketerm(int nterm, char *termv, int nvars, int *varv,
   dap_free(change, "");
 }
 
-static int cmpstr(char **s1, char **s2)
-{
-  return strcmp(*s1, *s2);
-}
 
 static void eff1(int incells, char ***levval, int *nlevels,
 		 int *varv, int nvars, char *termv, int nterm, int typen, int termn)
@@ -1637,12 +1634,12 @@ static void eff1(int incells, char ***levval, int *nlevels,
   int cr;
   double max;
   double tmp;
-  int (*scmp)();
+  int (*scmp)(const void *, const void *);
 
   nobs1 = 0.0;
   mean1 = 0.0;
   vari1 = 0.0;
-  scmp = &cmpstr;
+  scmp = &stcmp;
   level = (int *) dap_malloc(sizeof(int) * (dap_maxtreat + 1), "dap_maxtreat");
   for (v = 1; v < nvars; v++)
     qsort(levval[v], nlevels[v], sizeof(char *), scmp);

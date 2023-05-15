@@ -181,12 +181,12 @@ static double dirstep(double (*f)(double xx[]), int nx,
       x1[n] = x[n] + step;
       f2 = (*f)(x1);
       dstep = step * (f1 - f2) / (f1 - 2.0 * f0 + f2) / 2.0;
-      if (finite(dstep) && fabs(dstep) > tol && ((f1 < f0 && f0 < f2) ||
+      if (isfinite(dstep) && fabs(dstep) > tol && ((f1 < f0 && f0 < f2) ||
 						 (f1 > f0 && f0 > f2)))
 	{
 	  x1[n] = x[n] + dstep;
 	  f3 = (*f)(x1);
-	  if (finite(f3) && f3 > f1 && f3 > f2)
+	  if (isfinite(f3) && f3 > f1 && f3 > f2)
 	    f0 = f3;
 	  else if (f1 > f0)
 	    {
@@ -274,11 +274,11 @@ double dap_maximize(double (*f)(double xx[]), int nx, double x[],
 	  vsub(x2, dir, nx);
 	  f2 = (*f)(x2);
 	  dstep = (f2 - f1) / (f1 - 2.0 * f0 + f2) / 2.0;
-	  if (finite(dstep) && dstep > tol / step)
+	  if (isfinite(dstep) && dstep > tol / step)
 	    {
 	      takestep(x2, x, dir, nx, dstep);
 	      f2 = (*f)(x2);
-	      if (finite(f2) && f2 > f1)
+	      if (isfinite(f2) && f2 > f1)
 		{
 		  vcopy(x1, x2, nx);
 		  f1 = f2;

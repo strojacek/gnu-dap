@@ -18,8 +18,8 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -77,17 +77,17 @@ static int fieldcmp(char f1[], char f2[])
   return f1[f] - f2[f];
 }
 
-static int sortcmp(char **e0, char **e1)
+static int sortcmp(const void *e0, const void *e1)
 {
   int v;
   int cmp;
 
   cmp = 0;
-  sortparse(*e0, 0);
-  sortparse(*e1, 1);
+  sortparse(*(char**)e0, 0);
+  sortparse(*(char**)e1, 1);
   for (v = 0; v < nvar; v++)
     {
-      cmp = fieldcmp(*e0 + start[0][varv[v]], *e1 + start[1][varv[v]]);
+      cmp = fieldcmp(*(char**)e0 + start[0][varv[v]], *(char**)e1 + start[1][varv[v]]);
       if (cmp)
 	break;
     }
@@ -125,7 +125,7 @@ void sort(char *fname, char *varlist, char *modifiers)
   int nlines;
   char *c;
   int flen;
-  int (*scmp)();
+  int (*scmp)(const void *, const void *);
 
   if (!sortinit)
     {
@@ -1128,7 +1128,7 @@ void means(char *fname, char *varlist, char *statlist, char *marks)
 	    wt = dap_obs[0].do_dbl[wtvar[v]];
 	  else
 	    wt = 1.0;
-	  if (finite(vtmp) && finite(wt))
+	  if (isfinite(vtmp) && isfinite(wt))
 	    {
 	      if (!nobs[v])
 		{
@@ -2201,15 +2201,15 @@ static void cleanup(int nseg)
     }
 }
 
-static int linecmp(char **s1, char **s2)
+static int linecmp(const void *s1, const void *s2)
 {
   char *t1, *t2;
   char *e1;
 
   /* run through keys until chars differ or at -- not beyond -- end of keys */
-  for (e1 = *s1 + keylen - 1, t1 = *s1, t2 = *s2; t1 < e1 && *t1 == *t2; t1++, t2++)
+  for (e1 = *(char**)s1 + keylen - 1, t1 = *(char**)s1, t2 = *(char**)s2; t1 < e1 && *t1 == *t2; t1++, t2++)
     ;
-  return (keymap[t1 - *s1] ? *t1 - *t2 : *t2 - *t1);
+  return (keymap[t1 - *(char**)s1] ? *t1 - *t2 : *t2 - *t1);
 }
 
 /* read in part of orig, sort, and write as segment number s */
@@ -2227,7 +2227,7 @@ static int sortseg(int orig, int s)
   char *lp; /* for stepping through fields */
   char *mp; /* for putting characters back into m */
   int newfield; /* starting new field in line? */
-  int (*cmp)();
+  int (*cmp)(const void *, const void *);
 
   cmp = &linecmp;
   nread = read(orig, mem1, dap_maxmem); /* read into mem1, reorder fields into mem2 */
@@ -2283,9 +2283,9 @@ static int sortseg(int orig, int s)
 static char **nextline; /* pointers to next line for each segment */
 
 /* compare the next lines to output of two segments */
-static int nextlinecmp(int *s1, int *s2)
+static int nextlinecmp(const void *s1, const void *s2)
 {
-  return linecmp(nextline + *s1, nextline + *s2);
+  return linecmp(nextline + *(int*)s1, nextline + *(int*)s2);
 }
 
 /* read chunks of seg files into mem1, copy merged into mem2 and write out */
@@ -2305,7 +2305,7 @@ static void merge(int nseg, int out)
   int nmore; /* number of segments with more */
   unsigned int outpos; /* position in mem2 */
   int *segord; /* order of next lines in segments */
-  int (*scmp)();
+  int (*scmp)(const void *, const void *);
 
   scmp = &nextlinecmp;
   nextline = (char **) dap_malloc(nseg * sizeof(char *), "nextline");

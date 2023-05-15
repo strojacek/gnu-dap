@@ -25,9 +25,9 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #define TOKLEN 127	/* maximum length of token */
 #define MAXDEF 512	/* maximum number of defines */
@@ -651,12 +651,12 @@ int main(int argc, char **argv)
 	  fprintf(stderr, "dappp: file name does not end in .c: %s\n", *argv);
 	  exit(1);
 	}
-      if (!(dotname = malloc(namelen + 1)))
+      if (!(dotname = (char*) malloc(namelen + 1)))
 	{
 	  perror("dappp");
 	  exit(1);
 	}
-      if (!(dapname = malloc(namelen + 5)))
+      if (!(dapname = (char*) malloc(namelen + 5)))
 	{
 	  perror("dappp");
 	  exit(1);

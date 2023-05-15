@@ -22,14 +22,14 @@
 
 
 #include <sys/types.h>
-#include <time.h>
+#include <ctime>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include "dap_make.h"
 #include "externs.h"
-
+#include "typecompare.h"
 
 
 /* dataobs structures contain the names and values of the variables.  
@@ -90,20 +90,20 @@ extern double dap_double;	/* to get around weird returns; see machdep.c */
 
 static int nmallocs = 0;
 static int nfrees = 0;
-
+extern int dap_main(int argc, char **argv);
 char *dap_malloc(int nbytes, char *mesg)
 {
   char *m;
 
   nmallocs++;
-  if (!(m = malloc(nbytes)))
+  if (!(m = (char*) malloc(nbytes)))
     {
       perror(dap_dapname);
       exit(1);
     }
   if (dap_memtrace)
     {
-      fprintf(dap_log, "malloc %x %s\n", (unsigned int) m, mesg);
+      fprintf(dap_log, "malloc %x %s\n", (unsigned int) (size_t) m, mesg);
       fflush(dap_log);
       if (dap_mabort && m == dap_memtrace)
 	abort();
@@ -116,7 +116,7 @@ void dap_free(void *ptr, char *mesg)
   nfrees++;
   if (dap_memtrace)
     {
-      fprintf(dap_log, "free %x %s\n", (unsigned int) ptr, mesg);
+      fprintf(dap_log, "free %x %s\n", (unsigned int) (size_t) ptr, mesg);
       fflush(dap_log);
       if (dap_fabort && ptr == dap_memtrace)
 	abort();
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 
   dap_dapname = argv[0];
   len = strlen(argv[0]);
-  lstname = malloc(len + 5);	/* room for suffix */
+  lstname = (char*) malloc(len + 5);	/* room for suffix */
   strcpy(lstname, argv[0]);
   if (len >= 4 && !strcmp(lstname + len - 4, ".dap"))
     strcpy(lstname + len - 3, "lst");
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
       perror(dap_dapname);
       exit(1);
     }
-  logname = malloc(len + 1);
+  logname = (char*) malloc(len + 1);
   strcpy(logname, lstname);
   strcpy(logname + len - 3, "log");
   if (!(dap_log = fopen(logname, "w")))
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
       perror(dap_dapname);
       exit(1);
     }
-  errname = malloc(len + 1);
+  errname = (char*) malloc(len + 1);
   strcpy(errname, lstname);
   strcpy(errname + len - 3, "err");
   if (!(dap_err = fopen(errname, "w")))
@@ -222,7 +222,7 @@ int main(int argc, char **argv)
   testd = -2.0; /* this should have the sign bit set and non-zero exponent, but
 		   /* zero mantissa
 		    */
-  ptesti = (int *) &testd; /* *ptesti is the low order word of testd */
+  ptesti = (unsigned int *) &testd; /* *ptesti is the low order word of testd */
   if (!(*ptesti))
     { /* if that's zero, then the sign and exponent are in the high-order word */
       dap_dbllow = 0;
@@ -1220,47 +1220,24 @@ void dap_name(char dname[], char *fname)
   strcat(dname, fname);
 }
 
-static int dblcmp(double *d1, double *d2)
-{
-  if (*d1 < *d2)
-    return -1;
-  else if (*d1 > *d2)
-    return 1;
-  return 0;
-}
-
-static int intcmp(int *i1, int *i2)
-{
-  if (*i1 < *i2)
-    return -1;
-  else if (*i1 > *i2)
-    return 1;
-  return 0;
-}
-
-static int stcmp(char **s1, char **s2)
-{
-  return strcmp(*s1, *s2);
-}
-
-static int findlev(int class, double dlevel[], int ilevel[], char *slevel[], int nlevels)
+static int findlev(int klass, double dlevel[], int ilevel[], char *slevel[], int nlevels)
 {
   int v;
 
-  if (dap_obs[dap_ono].do_len[class] == DBL)
+  if (dap_obs[dap_ono].do_len[klass] == DBL)
     {
       for (v = 0; v < nlevels; v++)
 	{	/* search for level */
-	  if (dap_obs[dap_ono].do_dbl[class] ==
+	  if (dap_obs[dap_ono].do_dbl[klass] ==
 	      dlevel[v])
 	    break;
 	}
     }
-  else if (dap_obs[dap_ono].do_len[class] == INT)
+  else if (dap_obs[dap_ono].do_len[klass] == INT)
     {
       for (v = 0; v < nlevels; v++)
 	{	/* search for level */
-	  if (dap_obs[dap_ono].do_int[class] ==
+	  if (dap_obs[dap_ono].do_int[klass] ==
 	      ilevel[v])
 	    break;
 	}
@@ -1269,7 +1246,7 @@ static int findlev(int class, double dlevel[], int ilevel[], char *slevel[], int
     {
       for (v = 0; v < nlevels; v++)
 	{	/* search for level */
-	  if (!strcmp(dap_obs[dap_ono].do_str[class],
+	  if (!strcmp(dap_obs[dap_ono].do_str[klass],
 		      slevel[v]))
 	    break;
 	}
@@ -1328,9 +1305,9 @@ void dataset(char oldname[], char newname[], char action[])
   int *inlev;		/* current level read in for each class var */
   int *outlev;		/* current level written out for each class var */
   int *nlevels;		/* number of levels for each class var */
-  int (*dcmp)() = &dblcmp;	/* to trick the compiler? */
-  int (*icmp)() = &intcmp;	/* to trick the compiler? */
-  int (*scmp)() = &stcmp;		/* to trick the compiler? */
+  int (*dcmp)(const void *, const void *) = &dblcmp;	/* to trick the compiler? */
+  int (*icmp)(const void *, const void *) = &intcmp;	/* to trick the compiler? */
+  int (*scmp)(const void *, const void *) = &stcmp;		/* to trick the compiler? */
   int vn, nv;
   int dim, ndim;
   char *outlist;
@@ -3027,7 +3004,7 @@ CharList extractWords(char * buffer, long size,char  *delimiter)
 		{
 			current->word= (char*) malloc (sizeof(char)*sIndex+5);
 			strcpy(current->word,bufferWord);
-			current->next= (char*) malloc (sizeof(CharList));
+			current->next= (CharList*) malloc (sizeof(CharList));
 			current=current->next;
 			sSize=sIndex;
 			sIndex=0;

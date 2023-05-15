@@ -1,4 +1,4 @@
-/* SBS to Dap translator */
+/* SAS to Dap translator */
 
 /*  Copyright (C) 2003, 2004 Free Software Foundation, Inc.
  *
@@ -18,10 +18,10 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include "sas.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 /* step types */
 #define DATA 1
@@ -32,8 +32,10 @@ int sastempnum; /* number of current temp dataset */
 char sastmp[TOKENLEN + 1]; /* name of current temp dataset */
 int saslineno; /* input line number */
 extern int sashaspicts; /* are there picts? */
-
-static char *keyword[] = /* SBS keywords inside data step */
+extern void importtrans(char *step, FILE *dapfile);
+extern void surveyselecttrans(char *step, FILE *dapfile);
+extern void unget1c(int c, FILE *dotc, FILE *dapc);
+static char *keyword[] = /* SAS keywords inside data step */
 {
   "set",
   "infile",
@@ -50,6 +52,9 @@ static char *keyword[] = /* SBS keywords inside data step */
   "then",
   "else",
   "while",
+  "to",
+  "cards",
+  "datalines",
   ""
 };
 
@@ -625,7 +630,7 @@ void datatrans(char *step, FILE *dapfile)
   dropping = 0;
   keeping = 0;
 
-  /* Because the order of statements differs between SBS and Dap, we pass
+  /* Because the order of statements differs between SAS and Dap, we pass
    * through step several times.
    */
 

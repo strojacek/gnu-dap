@@ -18,11 +18,11 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <cmath>
 #include "dap_make.h"
 #include "externs.h"
 #include "ps.h"
@@ -102,7 +102,7 @@ char *pict_newstr(char *str)
   return s0;
 }
 
-void pict_init(int or, int bbx0, int bby0, int bbx1, int bby1, int npages)
+void pict_init(int ori, int bbx0, int bby0, int bbx1, int bby1, int npages)
 {
   time_t t;
 
@@ -114,7 +114,7 @@ void pict_init(int or, int bbx0, int bby0, int bbx1, int bby1, int npages)
 	  exit(1);
 	}
     }
-  orient = or;
+  orient = ori;
   bboxx0 = bbx0;
   bboxy0 = bby0;
   bboxx1 = bbx1;

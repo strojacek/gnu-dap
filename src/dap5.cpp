@@ -1230,16 +1230,19 @@ void logreg(
   dap_free(partv, "");
 }
 
-typedef struct {
+class value {
+  public:
   int val_class;
   double val_val;
-} value;
+};
 
-static int valcmp1(value *v1, value *v2)
+static int valcmp1(const void *v1, const void *v2)
 {
-  if (v1->val_val < v2->val_val)
+  const value *val1 = (value*) v1;
+  const value *val2 = (value*) v2;
+  if (val1->val_val < val2->val_val)
     return -1;
-  if (v1->val_val > v2->val_val)
+  if (val1->val_val > val2->val_val)
     return 1;
   return 0;
 }
@@ -1262,7 +1265,7 @@ static double probkol(double d, double n)
   return 2.0 * l;
 }
 
-static int (*pvalcmp1)() = &valcmp1;
+static int (*pvalcmp1)(const void *, const void *) = &valcmp1;
 
 static void nonpar1(value *val, int nval, char **level,
 		    int nlevels, int *varv, int nvar)

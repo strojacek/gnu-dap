@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <include/gcem.hpp>
-#include <include/mcmc.hpp>
+//#include <include/mcmc.hpp>
 #include <include/stats.hpp>
 /*  Copyright (C) 2001, 2002 Free Software Foundation, Inc.
  *
@@ -79,14 +79,14 @@ int dap_listlen = (DAP_MAXVAR * (DAP_NAMELEN + 7));
 				 * This may not be entirely safe! (but most likely is)
 				 */
 #else
-int dap_listlen = (DAP_MAXVAR * (15 + 7));
+int dap_listlen = (DAP_MAXVAR * (128 + 7));
 				/* max length of list of variables: dap_maxvar *
 				 * (max var name length + room for bracketed index)
 				 * This may not be entirely safe! (but most likely is)
 				 */
 #endif
 #else
-int dap_listlen = (256 * (15 + 7));
+int dap_listlen = (256 * (128 + 7));
 				/* max length of list of variables: dap_maxvar *
 				 * (max var name length + room for bracketed index)
 				 * This may not be entirely safe! (but most likely is)

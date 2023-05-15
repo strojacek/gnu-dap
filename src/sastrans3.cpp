@@ -16,10 +16,10 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include "sas.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 
 extern char sastmp[TOKENLEN + 1]; /* name of current temp dataset */

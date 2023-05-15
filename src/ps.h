@@ -55,12 +55,13 @@ struct _pict *pict_patt;        	/* pict to use for fill or patterned points */
 struct _pict *pict_next;        	/* for linking in list */
 } pict;
 
-typedef struct
+class tick
 {
+	public:
 double tick_num;		/* numerical value */
 char *tick_lab;			/* label */
 double tick_len;		/* length of tick mark in points */
-} tick;
+};
 
 void pict_init(int orient, int bboxx0, int bboxy0, int bboxx1, int bboxy1, int npages);
 void pict_port(int npages);
@@ -88,7 +89,7 @@ void pict_axes(pict *p, double minx, double maxx, tick xtick[], int nxticks,
 		double miny, double maxy, tick ytick[], int nyticks, char style[],
 		double bpos, double lpos, double tpos, double rpos);
 double pict_autoaxes(pict *p, char xlab[], char ylab[], char axspec[],
-		double (*xfunct)(), double (*yfunct)(), char caption[], int autopos);
+		double (*xfunct)(double), double (*yfunct)(double), char caption[], int autopos);
 void nport(pict *p, int nplots, int nperpage);
 void nland(pict *p, int nplots, int nperpage);
 

@@ -18,11 +18,12 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include "externs.h"
 #include "ps.h"
 #include "dap_make.h"
+#include "typecompare.h"
 
 extern dataobs dap_obs[];
 extern FILE *dap_lst;
@@ -34,7 +35,7 @@ extern char *dap_dapname;
 static void plot1(double x[], double y[], int nobs,
 		  char xvar[], char yvar[], int markv[], int nmark,
 		  pict p[], pict a[], int pn, char style[],
-		  double (*xfunct)(), double (*yfunct)(), int doaxes)
+		  double (*xfunct)(double), double (*yfunct)(double), int doaxes)
 {
   int titlelen;
   static char *title0 = NULL;
@@ -261,7 +262,7 @@ static void plotparse(char *xyvar, char *xyname, char *xname, char *yname)
 }
 
 pict *plot(char *fname, char *xyvar, char *marks,
-	   char *style, double (*xfunct)(), double (*yfunct)(), int nplots)
+	   char *style, double (*xfunct)(double), double (*yfunct)(double), int nplots)
 {
   pict *p;
   pict *a;
@@ -357,7 +358,7 @@ pict *plot(char *fname, char *xyvar, char *marks,
 	{
 	  x[nobs] = dap_obs[0].do_dbl[xyv[0]];
 	  y[nobs] = dap_obs[0].do_dbl[xyv[1]];
-	  if (finite(x[nobs]) && finite(y[nobs]))
+	  if (isfinite(x[nobs]) && isfinite(y[nobs]))
 	    nobs++;
 	  else
 	    nnan++;
@@ -377,14 +378,6 @@ pict *plot(char *fname, char *xyvar, char *marks,
   return p;
 }
 
-static int dblcmp(double *x, double *y)
-{
-  if (*x < *y)
-    return -1;
-  if (*x > *y)
-    return 1;
-  return 0;
-}
 
 #define SQRTHALF 0.707106781186547524401
 #define INVSQ2PI 0.398942280401432677940
@@ -423,7 +416,7 @@ static double orderf(double t)
   tmp1 = 1.0 - t * t;
   x = t / sqrt(tmp1);
   tmp2 = dkm1 * log(probz(x)) + dnmk * log(probz(-x)) - 0.5 * x * x;
-  if (finite(tmp2))
+  if (isfinite(tmp2))
     return exp(tmp2) * t / (tmp1 * tmp1);
   return 0.0;
 }
@@ -585,7 +578,7 @@ static double probw(int n, double w0, double a1)
 	{
 	  r = 1;
 	  u = log(u);
-	  if (!finite(u))
+	  if (!isfinite(u))
 	    return 0.0 / 0.0;
 	}
       u = poly(au[n - 4][r], u, 4);
@@ -619,7 +612,7 @@ static void normal1(double x[], double y[], int nobs,
   double prob; /* probability that W <= computed Shapiro-Wilk statistic */
   int v;
   char *caption;
-  int (*cmp)(); /* address of function for comparing doubles through pointers */
+  int (*cmp)(const void *, const void *); /* address of function for comparing doubles through pointers */
 
   dap_swap(); /* get back to part of file we want to work on */
   cmp = &dblcmp;
@@ -825,7 +818,7 @@ pict *normal(char *fname, char *variable, char *marks, int nplots)
       if (nobs < dap_maxval)
 	{
 	  y[nobs] = dap_obs[0].do_dbl[vy];
-	  if (finite(y[nobs]))
+	  if (isfinite(y[nobs]))
 	    nobs++;
 	  else
 	    nnan++;
@@ -860,7 +853,7 @@ static double arint(double x)
 #define UNSPEC 3
 
 static void histo1(double x[], double xw[][2], int nobs, int varv[], int nbars,
-		   char xname[], char *style, double (*xfunct)(),
+		   char xname[], char *style, double (*xfunct)(double),
 		   int markv[], int nmark, pict *p, pict *a, int pn)
 {
   int titlelen;
@@ -885,7 +878,7 @@ static void histo1(double x[], double xw[][2], int nobs, int varv[], int nbars,
   int xnm1;
   int v;
   double maxy;
-  int (*cmp)();
+  int (*cmp)(const void *, const void *);
 
   cmp = &dblcmp;
   if (dap_title)
@@ -1123,7 +1116,7 @@ static void histo1(double x[], double xw[][2], int nobs, int varv[], int nbars,
 
 /* Display histogram */
 pict *histogram(char *fname, char *vars, char *marks, int nbars,
-		char *style, double (*xfunct)(), int nplots)
+		char *style, double (*xfunct)(double), int nplots)
 {
   pict *p;
   pict *a;
@@ -1231,7 +1224,7 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
 	  if (nvar == 1)
 	    {
 	      x[nobs] = dap_obs[0].do_dbl[varv[0]];
-	      if (finite(x[nobs]))
+	      if (isfinite(x[nobs]))
 		nobs++;
 	      else
 		nnan++;
@@ -1240,7 +1233,7 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
 	    {
 	      xw[nobs][0] = dap_obs[0].do_dbl[varv[0]];
 	      xw[nobs][1] = dap_obs[0].do_dbl[varv[1]];
-	      if (finite(xw[nobs][0]) && finite(xw[nobs][1]))
+	      if (isfinite(xw[nobs][0]) && isfinite(xw[nobs][1]))
 		nobs++;
 	      else
 		nnan++;

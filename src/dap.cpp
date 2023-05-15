@@ -20,14 +20,14 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <string.h>
+#include <cstring>
 
 #define PAGE "/bin/more"
 #define GCC "/usr/bin/gcc"
@@ -63,7 +63,7 @@ char *ecopy(char *e)
 
   if (e)
     {
-      if (!(copy = malloc(strlen(e) + 1)))
+      if (!(copy = (char*) malloc(strlen(e) + 1)))
 	{
 	  perror("dap");
 	  exit(1);
@@ -224,7 +224,7 @@ char *argcpy(char arg[], int extra)
 {
   char *cpy;
 
-  if (!(cpy = malloc(strlen(arg) + extra + 1)))
+  if (!(cpy = (char*) malloc(strlen(arg) + extra + 1)))
     {
       perror("dap");
       exit(1);
@@ -453,7 +453,7 @@ int parseopts(char *opts, char **arg)
       if (optcpy)
 	free(optcpy);
       optlen = strlen(opts);
-      if (!(optcpy = malloc(optlen + 1)))
+      if (!(optcpy = (char*) malloc(optlen + 1)))
 	{
 	  perror("dap");
 	  exit(1);

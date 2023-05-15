@@ -1,7 +1,7 @@
 /* dap1.h -- dap function definitions */
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 
 /*  Copyright (C) 2001, 2002, 2005 Free Software Foundation, Inc.
  *
@@ -22,7 +22,7 @@
  */
 
 /* First, definitions for picture structure and functions */
-#include <ps.h>
+#include "ps.h"
 
 extern FILE *dap_lst;
 extern FILE *dap_log;
@@ -65,7 +65,7 @@ pict *plot(char fname[], char xyvar[], char marks[],
 		char style[], double (*xfunct)(), double (*yfunct)(), int nplots);
 pict *normal(char fname[], char variable[], char marks[], int nplots);
 pict *histogram(char fname[], char variable[], char marks[], int nbars,
-		char style[], double (*xfunct)(), int nplots);
+		char style[], double (*xfunct)(double), int nplots);
 
 void pctiles(char fname[], char varlist[], char statlist[], char marks[]);
 void group(char fname[], char varspec[], char marks[]);
@@ -86,7 +86,7 @@ void logreg(char fname[], char yspec[], char x0list[], char x1list[],
 pict *plotlogreg(char *fname, char *yspec, char *x1list, char *style, int ngroups,
 			char *marks, int nmarks, double level);
 void nonparam(char fname[], char variables[], char marks[]);
-void categ(char *dataset, char *varlist, char *auxvarlist, double (*prob)(),
+void categ(char *dataset, char *varlist, char *auxvarlist, double (*prob)(double),
 		double param[], char *select, char *partvars, char *trace);
 void loglin(char *fname, char *varlist, char *model0, char *model1, char *part);
 void estimate(char *fname, char *parameters, char *definitions, char *part);

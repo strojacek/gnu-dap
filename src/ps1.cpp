@@ -18,8 +18,8 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include "dap_make.h"
 #include "externs.h"
 #include "ps.h"
@@ -33,7 +33,9 @@
 
 extern dataobs dap_obs[];
 extern FILE *dap_err;
-
+extern void dap_dl(char varname[], double *dbl);
+extern void dap_il(char varname[], int *i);
+extern void dap_sl(char varname[], char *s);
 extern char *pict_newstr(char *str);
 
 void pict_maketick(tick *t, double num, char *label, double len)
@@ -352,7 +354,7 @@ static void ticks(
 		  int nticks,		/* number of ticks requested not including axis label */
 		  double labpos,		/* position of axis label */
 		  char *alab,		/* axis label */
-		  double (*tfunct)()	/* function for adjusting printed values at ticks */
+		  double (*tfunct)(double)	/* function for adjusting printed values at ticks */
 		  )
 {
   int n;
@@ -407,7 +409,7 @@ static void ticks(
  *	standard size and position
  */
 double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
-		     double (*xfunct)(), double (*yfunct)(), char *caption, int autopos)
+		     double (*xfunct)(double), double (*yfunct)(double), char *caption, int autopos)
 {
   pict *pp;				/* for stepping through array of picts */
   int totpts;				/* total number of points */
@@ -651,7 +653,7 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
       exit(1);
     }
   /* the specs were set to NaNs, so if finite, they were present */
-  if (finite(specxmin))
+  if (isfinite(specxmin))
     minx = specxmin;
   else	/* we like to make minx leave a little extra room and be a nice decimal;
 	 * note that we are not dealing with xfunct and yfunct, because we have
@@ -662,7 +664,7 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
       if (minx > 0.0)
 	minx = 0.0;
     }
-  if (finite(specxmax))
+  if (isfinite(specxmax))
     maxx = specxmax;
   else
     {
@@ -673,14 +675,14 @@ double pict_autoaxes(pict *p, char *xlab, char *ylab, char *axspec,
   minx -= AXISMARGIN * (maxx - minx);
   maxxt = maxx;
   maxx += AXISMARGIN * (maxx - minx);
-  if (finite(specymin))
+  if (isfinite(specymin))
     miny = specymin;
   else
     {
       if (miny > 0.0)
 	miny = 0.0;
     }
-  if (finite(specymax))
+  if (isfinite(specymax))
     maxy = specymax;
   else
     {

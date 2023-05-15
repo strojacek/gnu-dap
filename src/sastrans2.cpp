@@ -18,10 +18,10 @@
 
 /* This file contains all the graphics procs */
 
-#include <stdio.h>
+#include <cstdio>
 #include "sas.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 extern char sastmp[TOKENLEN + 1]; /* name of current temp dataset */
 extern int saslineno;

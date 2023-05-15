@@ -20,11 +20,11 @@
 
 
 
-#include <stdio.h> 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio> 
+#include <cstdlib>
+#include <cstring>
 #include <strings.h>
-#include <math.h>
+#include <cmath>
 
 #define SETDELIM '|'		/* the delimiter used in datasets */
 
@@ -80,8 +80,9 @@
 
 #define NSTATS (PXXXX9+1)
 
-typedef struct
+class dataobs
 {
+    public:
 int *do_int;		/* integer variable values */
 int **do_il;		/* links to integer variables, for user program */
 double *do_dbl;         /* double precision variable values */
@@ -96,19 +97,21 @@ int do_ivar;            /* number of input variables */
 int do_ovar;            /* number of output variables */
 int do_nvar;            /* number of variables */
 int do_valid;		/* valid data flag */
-} dataobs;
+};
 
-typedef struct {
+class RFILE {
+    public:
 char *rfile_str;
 char *rfile_pos;
 char *rfile_end;
-} RFILE;
+};
 
-typedef struct {
+class DFILE {
+    public:
 char *dfile_name;
 FILE *dfile_disk;
 RFILE *dfile_ram;
-} DFILE;
+};
 
 long dap_ftell(DFILE *fp);
 void dap_putc(int c, DFILE *fp);
@@ -165,7 +168,7 @@ double dap_srpt(int numdf, int dendf, double pt, double pr, double alpha);
 double dap_md(int numdf, int dendf, double pt);
 double dap_mdpt(int numdf, int dendf, double pt, double pr, double alpha);
 
-double dap_simp(double (*f)(), double a, double b, int n);
+double dap_simp(double (*f)(double), double a, double b, int n);
 double dap_bincoeff(double n, double r);
 double dap_maximize(double (*f)(double x[]), int nx, double x[],
                                         double step, double tol, char *trace);
