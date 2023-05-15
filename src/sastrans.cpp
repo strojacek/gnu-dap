@@ -1283,7 +1283,7 @@ void proctrans(char *step, FILE *dapfile)
 void header(FILE *dap)
 {
   fputs("#include <dap.h>\n", dap);
-  fputs("void main()\n", dap);
+  fputs("int main(int argc, char **argv)\n", dap);
   fputs("{\n", dap);
   fprintf(dap, "pict *_saspict_[%d];\n", MAXPICTS);   /* alloc pict lists */
   fprintf(dap, "int _saspictcnt_[%d];\n", MAXPICTS);  /* number of picts in each array */
