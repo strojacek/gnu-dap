@@ -23,44 +23,44 @@
 
 typedef struct _pict
 {
-int pict_npts;				/* number of points in pict, if any */
-char pict_type[5];			/* "LINE" = connected lines,
-					 * "SEGM" = segments from pairs of points,
-					 * "IBEA" = I-beams from pairs of points,
-					 * "CIRC" = circles,
-					 * "SQUA" = squares,
-					 * "TRIA" = triangles,
-					 * "UTRI" = upside-down triangles,
-					 * "DIAM" = diamonds,
-					 * "PATT" = pattern
-					 */
-double pict_dash;			/* dash length for lines if > 0.0 */
-double (*pict_pt)[2];			/* the points */
-double pict_minx, pict_maxx;		/* bounds */
-double pict_miny, pict_maxy;		/* bounds */
-int pict_ntxt;				/* number of texts */
-char **pict_txt;			/* text to display */ 
-char *pict_font;			/* font for displayed text, if any */
-double pict_fs;				/* font size */
-double **pict_tpt;			/* location of text */
-double *pict_tang;			/* angle for text */
-char **pict_pos;			/* text position: 'l', 'c', 'r'; 't' 'm' 'b';
-					 * ' ' for blank background box
-					 */
-double pict_lw;				/* line width */
-double pict_r;				/* radius for circles */
-double pict_lgray;              	/* gray level for lines */ 
-double pict_fgray;              	/* gray level for fill: if >= 0, fill then stroke */
-struct _pict *pict_patt;        	/* pict to use for fill or patterned points */
-struct _pict *pict_next;        	/* for linking in list */
+	int pict_npts;				 /* number of points in pict, if any */
+	char pict_type[5];			 /* "LINE" = connected lines,
+								  * "SEGM" = segments from pairs of points,
+								  * "IBEA" = I-beams from pairs of points,
+								  * "CIRC" = circles,
+								  * "SQUA" = squares,
+								  * "TRIA" = triangles,
+								  * "UTRI" = upside-down triangles,
+								  * "DIAM" = diamonds,
+								  * "PATT" = pattern
+								  */
+	double pict_dash;			 /* dash length for lines if > 0.0 */
+	double (*pict_pt)[2];		 /* the points */
+	double pict_minx, pict_maxx; /* bounds */
+	double pict_miny, pict_maxy; /* bounds */
+	int pict_ntxt;				 /* number of texts */
+	char **pict_txt;			 /* text to display */
+	char *pict_font;			 /* font for displayed text, if any */
+	double pict_fs;				 /* font size */
+	double **pict_tpt;			 /* location of text */
+	double *pict_tang;			 /* angle for text */
+	char **pict_pos;			 /* text position: 'l', 'c', 'r'; 't' 'm' 'b';
+								  * ' ' for blank background box
+								  */
+	double pict_lw;				 /* line width */
+	double pict_r;				 /* radius for circles */
+	double pict_lgray;			 /* gray level for lines */
+	double pict_fgray;			 /* gray level for fill: if >= 0, fill then stroke */
+	struct _pict *pict_patt;	 /* pict to use for fill or patterned points */
+	struct _pict *pict_next;	 /* for linking in list */
 } pict;
 
 class tick
 {
-	public:
-double tick_num;		/* numerical value */
-char *tick_lab;			/* label */
-double tick_len;		/* length of tick mark in points */
+public:
+	double tick_num; /* numerical value */
+	char *tick_lab;	 /* label */
+	double tick_len; /* length of tick mark in points */
 };
 
 void pict_init(int orient, int bboxx0, int bboxy0, int bboxx1, int bboxy1, int npages);
@@ -78,7 +78,7 @@ void pict_bhrect(pict *p, double spacing, double xl, double yb, double xside, do
 void pict_point(pict *p, double x, double y);
 void pict_line(pict *p, double x0, double y0, double x1, double y1);
 void pict_curve(pict *p, double (*xf)(double t), double (*yf)(double t),
-                double t0, double t1, int nsteps);
+				double t0, double t1, int nsteps);
 void pict_scale(pict *p, double cx, double cy, double sx, double sy);
 void pict_rotate(pict *p, double cx, double cy, double angle, int texttoo);
 void pict_translate(pict *p, double tx, double ty);
@@ -86,10 +86,10 @@ void pict_show(pict *p);
 
 void pict_maketick(tick *t, double num, char label[], double len);
 void pict_axes(pict *p, double minx, double maxx, tick xtick[], int nxticks,
-		double miny, double maxy, tick ytick[], int nyticks, char style[],
-		double bpos, double lpos, double tpos, double rpos);
+			   double miny, double maxy, tick ytick[], int nyticks, char style[],
+			   double bpos, double lpos, double tpos, double rpos);
 double pict_autoaxes(pict *p, char xlab[], char ylab[], char axspec[],
-		double (*xfunct)(double), double (*yfunct)(double), char caption[], int autopos);
+					 double (*xfunct)(double), double (*yfunct)(double), char caption[], int autopos);
 void nport(pict *p, int nplots, int nperpage);
 void nland(pict *p, int nplots, int nperpage);
 

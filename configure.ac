@@ -15,8 +15,11 @@ AM_INIT_AUTOMAKE()
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-dnl Check C compiler
-AM_PROG_CC_STDC
+dnl Check C++ compiler
+AC_PROG_CXX
+
+dnl Check for coverage of the C++ 11 standard
+AX_CXX_COMPILE_STDCXX_11
 
 dnl Checks for programs.
 AC_PROG_INSTALL
@@ -27,7 +30,6 @@ dnl Checks for libraries.
 LT_INIT
 
 dnl Checks for header files.
-AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h strings.h unistd.h)
 
@@ -47,4 +49,4 @@ AC_FUNC_FORK
 AC_FUNC_MALLOC
 
 
-AC_OUTPUT(doc/Makefile src/Makefile examples/Makefile Makefile)
+AC_OUTPUT(src/Makefile Makefile)

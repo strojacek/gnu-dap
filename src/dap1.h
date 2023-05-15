@@ -50,8 +50,8 @@ void outset(char fname[], char varlist[]);
 void output();
 void title(char *text);
 void merge(char fname1[], char vars1[], char fname2[], char vars2[],
-		char marks[], char outname[]);
-void surveyselect(char *fname,char *outname,char *method,int tirage);
+		   char marks[], char outname[]);
+void surveyselect(char *fname, char *outname, char *method, int tirage);
 void dataset(char oldname[], char newname[], char *action);
 void sort(char fname[], char varlist[], char modifiers[]);
 void print(char fname[], char *varlist);
@@ -62,10 +62,10 @@ void table(char fname[], char rowvars[], char colvars[], char format[], char mar
 void split(char fname[], char varlist[], char classvalvars[]);
 void join(char fname[], char partvars[], char valuevar[]);
 pict *plot(char fname[], char xyvar[], char marks[],
-		char style[], double (*xfunct)(), double (*yfunct)(), int nplots);
+		   char style[], double (*xfunct)(), double (*yfunct)(), int nplots);
 pict *normal(char fname[], char variable[], char marks[], int nplots);
 pict *histogram(char fname[], char variable[], char marks[], int nbars,
-		char style[], double (*xfunct)(double), int nplots);
+				char style[], double (*xfunct)(double), int nplots);
 
 void pctiles(char fname[], char varlist[], char statlist[], char marks[]);
 void group(char fname[], char varspec[], char marks[]);
@@ -73,21 +73,21 @@ void freq(char fname[], char varlist[], char stats[], char marks[]);
 void trim(char fname[], char trimspec[], char marks[]);
 void corr(char fname[], char varlist[], char marks[]);
 void ftest(char fname[], char response[], char numerator[], char denominator[],
-						 char marks[]);
+		   char marks[]);
 void effects(char fname[], char varlist[], char model[], char marks[]);
 void lsmeans(char fname[], char method[], double alpha, char varlist[], char treat[],
-                char marks[], char format[]);
+			 char marks[], char format[]);
 void linreg(char fname[], char ylist[], char x0list[], char x1list[],
-				char marks[], char xname[], double level);
+			char marks[], char xname[], double level);
 pict *plotlinreg(char *fname, char *ylist, char *x1list, char *style,
-		char *marks, int nmarks, double level);
+				 char *marks, int nmarks, double level);
 void logreg(char fname[], char yspec[], char x0list[], char x1list[],
-				char marks[], char xname[], double level);
+			char marks[], char xname[], double level);
 pict *plotlogreg(char *fname, char *yspec, char *x1list, char *style, int ngroups,
-			char *marks, int nmarks, double level);
+				 char *marks, int nmarks, double level);
 void nonparam(char fname[], char variables[], char marks[]);
 void categ(char *dataset, char *varlist, char *auxvarlist, double (*prob)(double),
-		double param[], char *select, char *partvars, char *trace);
+		   double param[], char *select, char *partvars, char *trace);
 void loglin(char *fname, char *varlist, char *model0, char *model1, char *part);
 void estimate(char *fname, char *parameters, char *definitions, char *part);
 
@@ -107,4 +107,3 @@ double dap_bincoeff(double n, double r);
 double dap_maximize(double (*f)(double x[]), int nx, double x[],
 					double step, double tol, char *trace);
 int dap_invert(double *mat[], int rowscols);
-

@@ -18,99 +18,99 @@
  *  along with Dap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-#include <cstdio> 
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <strings.h>
 #include <cmath>
 
-#define SETDELIM '|'		/* the delimiter used in datasets */
+#define SETDELIM '|' /* the delimiter used in datasets */
 
-#define INT 0			/* code for int variables */
-#define DBL (-1)		/* code for double variables */
-		/* character strings have positive code equal to length */
+#define INT 0    /* code for int variables */
+#define DBL (-1) /* code for double variables */
+                 /* character strings have positive code equal to length */
 
 #define STATLEN 8
 #define MAXPCTPT 9
 #define N 0
-#define SUM (N+1)
-#define SUMWT (SUM+1)
-#define MEAN (SUMWT+1)
-#define MIN (MEAN+1)
-#define MAX (MIN+1)
-#define RANGE (MAX+1)
-#define STEP (RANGE+1)
-#define VAR (STEP+1)
-#define VARM (VAR+1)
-#define SD (VARM+1)
-#define SEM (SD+1)
-#define VARFREQ (SEM+1)
-#define VARMFREQ (VARFREQ+1)
-#define SDFREQ (VARMFREQ+1)
-#define SEMFREQ (SDFREQ+1)
-#define T (SEMFREQ+1)
-#define TPROB (T+1)
-#define QRANGE (TPROB+1)
-#define SIGN (QRANGE+1)
-#define SPROB (SIGN+1)
-#define SRANK (SPROB+1)
-#define SRPROB (SRANK+1)
-#define NORMAL (SRPROB+1)
-#define NPROB (NORMAL+1)
-#define P1 (NPROB+1)
-#define P5 (P1+1)
-#define P10 (P5+1)
-#define Q1 (P10+1)
-#define MED (Q1+1)
-#define Q3 (MED+1)
-#define P90 (Q3+1)
-#define P95 (P90+1)
-#define P99 (P95+1)
-#define PXXXX1 (P99+1)
-#define PXXXX2 (PXXXX1+1)
-#define PXXXX3 (PXXXX2+1)
-#define PXXXX4 (PXXXX3+1)
-#define PXXXX5 (PXXXX4+1)
-#define PXXXX6 (PXXXX5+1)
-#define PXXXX7 (PXXXX6+1)
-#define PXXXX8 (PXXXX7+1)
-#define PXXXX9 (PXXXX8+1)
+#define SUM (N + 1)
+#define SUMWT (SUM + 1)
+#define MEAN (SUMWT + 1)
+#define MIN (MEAN + 1)
+#define MAX (MIN + 1)
+#define RANGE (MAX + 1)
+#define STEP (RANGE + 1)
+#define VAR (STEP + 1)
+#define VARM (VAR + 1)
+#define SD (VARM + 1)
+#define SEM (SD + 1)
+#define VARFREQ (SEM + 1)
+#define VARMFREQ (VARFREQ + 1)
+#define SDFREQ (VARMFREQ + 1)
+#define SEMFREQ (SDFREQ + 1)
+#define T (SEMFREQ + 1)
+#define TPROB (T + 1)
+#define QRANGE (TPROB + 1)
+#define SIGN (QRANGE + 1)
+#define SPROB (SIGN + 1)
+#define SRANK (SPROB + 1)
+#define SRPROB (SRANK + 1)
+#define NORMAL (SRPROB + 1)
+#define NPROB (NORMAL + 1)
+#define P1 (NPROB + 1)
+#define P5 (P1 + 1)
+#define P10 (P5 + 1)
+#define Q1 (P10 + 1)
+#define MED (Q1 + 1)
+#define Q3 (MED + 1)
+#define P90 (Q3 + 1)
+#define P95 (P90 + 1)
+#define P99 (P95 + 1)
+#define PXXXX1 (P99 + 1)
+#define PXXXX2 (PXXXX1 + 1)
+#define PXXXX3 (PXXXX2 + 1)
+#define PXXXX4 (PXXXX3 + 1)
+#define PXXXX5 (PXXXX4 + 1)
+#define PXXXX6 (PXXXX5 + 1)
+#define PXXXX7 (PXXXX6 + 1)
+#define PXXXX8 (PXXXX7 + 1)
+#define PXXXX9 (PXXXX8 + 1)
 
-#define NSTATS (PXXXX9+1)
+#define NSTATS (PXXXX9 + 1)
 
 class dataobs
 {
-    public:
-int *do_int;		/* integer variable values */
-int **do_il;		/* links to integer variables, for user program */
-double *do_dbl;         /* double precision variable values */
-double **do_dl;		/* links to double precision variables, for user program */
-char **do_str;		/* string variable values */
-int *do_sl;		/* string linked to user program */
-char **do_nam;		/* variable names */
-int *do_len;            /* variable lengths (INT, DBL, or > 0 for string) */
-int *do_in;		/* input variables */
-int *do_out;            /* output variables */
-int do_ivar;            /* number of input variables */
-int do_ovar;            /* number of output variables */
-int do_nvar;            /* number of variables */
-int do_valid;		/* valid data flag */
+public:
+    int *do_int;    /* integer variable values */
+    int **do_il;    /* links to integer variables, for user program */
+    double *do_dbl; /* double precision variable values */
+    double **do_dl; /* links to double precision variables, for user program */
+    char **do_str;  /* string variable values */
+    int *do_sl;     /* string linked to user program */
+    char **do_nam;  /* variable names */
+    int *do_len;    /* variable lengths (INT, DBL, or > 0 for string) */
+    int *do_in;     /* input variables */
+    int *do_out;    /* output variables */
+    int do_ivar;    /* number of input variables */
+    int do_ovar;    /* number of output variables */
+    int do_nvar;    /* number of variables */
+    int do_valid;   /* valid data flag */
 };
 
-class RFILE {
-    public:
-char *rfile_str;
-char *rfile_pos;
-char *rfile_end;
+class RFILE
+{
+public:
+    char *rfile_str;
+    char *rfile_pos;
+    char *rfile_end;
 };
 
-class DFILE {
-    public:
-char *dfile_name;
-FILE *dfile_disk;
-RFILE *dfile_ram;
+class DFILE
+{
+public:
+    char *dfile_name;
+    FILE *dfile_disk;
+    RFILE *dfile_ram;
 };
 
 long dap_ftell(DFILE *fp);
@@ -133,7 +133,7 @@ void sort(char fname[], char varlist[], char modifiers[]);
 void print(char fname[], char *varlist);
 void means(char fname[], char varlist[], char statlist[], char marks[]);
 void table(char fname[], char rowvars[], char colvars[], char format[],
-		char marks[]);
+           char marks[]);
 
 void dap_suffix(char dst[], char src[], char suff[]);
 int dap_vd(char varspec[], int invar);
@@ -150,7 +150,7 @@ int dap_list(char varlist[], int varv[], int maxvars);
 void dap_stats(char statlist[], int stats[]);
 int dap_newpart(int partv[], int npartv);
 void dap_name(char dname[], char fname[]);
-void dap_parsey(char yspec[], int varv[]);	/* for logreg */
+void dap_parsey(char yspec[], int varv[]); /* for logreg */
 
 int dap_invert(double **mat, int nrc);
 double varnorm();
@@ -171,14 +171,14 @@ double dap_mdpt(int numdf, int dendf, double pt, double pr, double alpha);
 double dap_simp(double (*f)(double), double a, double b, int n);
 double dap_bincoeff(double n, double r);
 double dap_maximize(double (*f)(double x[]), int nx, double x[],
-                                        double step, double tol, char *trace);
+                    double step, double tol, char *trace);
 
 void dataset(char oldname[], char newname[], char *action);
 void group(char fname[], char varspec[], char marks[]);
 void linreg(char fname[], char ylist[], char x0list[], char x1list[],
-                                char marks[], char xname[], double level);
+            char marks[], char xname[], double level);
 void logreg(char fname[], char ylist[], char x0list[], char x1list[],
-                                char marks[], char xname[], double level);
+            char marks[], char xname[], double level);
 
 char *dap_malloc(int nbytes, char *mesg);
 void dap_free(void *ptr, char *mesg);

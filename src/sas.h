@@ -19,11 +19,11 @@
  */
 
 #include <cstdio>
-#define TOKENLEN 127 /* max length of token */
+#define TOKENLEN 127  /* max length of token */
 #define STATELEN 4095 /* max length of statement */
 #define STEPLEN 65535 /* max length of step */
-#define MAXVARS 512 /* max number of variables */
-#define MAXPICTS 256 /* max number of pict arrays allocated by graphics procs */
+#define MAXVARS 512   /* max number of variables */
+#define MAXPICTS 256  /* max number of pict arrays allocated by graphics procs */
 
 /* variable types ("lengths") */
 #define DBL (-1)
@@ -31,14 +31,14 @@
 
 extern int sastempnum;
 extern int sashaspicts;
-extern int newline;		/* flag: was most recent character a newline? */
-extern int pound;		/* flag: got # as first char in line? */
-extern int incomment;		/* flag: inside comment? */
+extern int newline;   /* flag: was most recent character a newline? */
+extern int pound;     /* flag: got # as first char in line? */
+extern int incomment; /* flag: inside comment? */
 extern int inquote1;
 extern int inquote2;
 extern int escape;
 
-int import(char* fname, const char* fileToLoad, char * format,char  delimiter, int replace);
+int import(char *fname, const char *fileToLoad, char *format, char delimiter, int replace);
 
 int dgetc(FILE *dotc, FILE *dapc, int out);
 
