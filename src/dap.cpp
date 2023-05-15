@@ -77,7 +77,7 @@ char *ecopy(char *e)
 int main(int argc, char **argv)
 {
   int keep;    /* flag: keep .lst file and append to it each run? */
-  int debug;   /* flag: save .dap.c for debugging? */
+  int debug;   /* flag: save .dap.cpp for debugging? */
   int runstat; /* return status of execution of program */
 
   fputs("\nDap, Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.\n",
@@ -105,10 +105,10 @@ int main(int argc, char **argv)
       debug = 1; /* initial TRUE value */
     else if (!strcmp(argv[0], "--help"))
     {
-      fputs("Usage:\ndap [-k] [-d] FILE1.c [ FILE2.c ... ] [-a ARG1 ...]\n", stderr);
-      fputs("dap [--keep] [--debug] FILE1.c [ FILE2.c ... ] [--args] ARG1 ...]\n", stderr);
-      fputs("dap [-k] [-d] FILE1.sas [ FILE2.c ... ]\n", stderr);
-      fputs("dap [--keep] [--debug] FILE1.sas [ FILE2.c ... ]\n", stderr);
+      fputs("Usage:\ndap [-k] [-d] FILE1.cpp [ FILE2.cpp ... ] [-a ARG1 ...]\n", stderr);
+      fputs("dap [--keep] [--debug] FILE1.cpp [ FILE2.cpp ... ] [--args] ARG1 ...]\n", stderr);
+      fputs("dap [-k] [-d] FILE1.sas [ FILE2.cpp ... ]\n", stderr);
+      fputs("dap [--keep] [--debug] FILE1.sas [ FILE2.cpp ... ]\n", stderr);
       fputs("\nReport bugs to <bug-dap@gnu.org>\n", stderr);
       exit(1);
     }
@@ -194,15 +194,15 @@ int dappprun(int argc, char **argv)
   return status;
 }
 
-/* replace trailing ".c" with suff */
+/* replace trailing ".cpp" with suff */
 void suffix(char name[], char suff[])
 {
   int n;
 
   n = strlen(name);
-  if (n > 2 && !strcmp(name + n - 2, ".c"))
+  if (n > 4 && !strcmp(name + n - 4, ".cpp"))
   {
-    name[n - 2] = '\0';
+    name[n - 4] = '\0';
     strcat(name, suff);
   }
   else if (n > 4 && !strcmp(name + n - 4, ".sas"))
@@ -212,7 +212,7 @@ void suffix(char name[], char suff[])
   }
   else
   {
-    fprintf(stderr, "dap: name must end in .c or .sas: %s\n", name);
+    fprintf(stderr, "dap: name must end in .cpp or .sas: %s\n", name);
     exit(1);
   }
 }
@@ -265,8 +265,8 @@ int gccrun(int argc, char **argv, int debug)
   argstart = g; /* this is where file names start */
   for (a = 1; a < argc && strcmp(argv[a], "-a") && strcmp(argv[a], "--args"); a++, g++)
   {
-    arg[g] = argcpy(argv[a], 6); /* file name + chars for ".dap.c" */
-    suffix(arg[g], ".dap.c");
+    arg[g] = argcpy(argv[a], 8); /* file name + chars for ".dap.cpp" */
+    suffix(arg[g], ".dap.cpp");
   }
   argend = g; /* this is after then end */
   arg[g++] = "-L";

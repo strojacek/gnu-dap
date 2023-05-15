@@ -82,7 +82,7 @@ void namecvt(char *sasname)
     fprintf(stderr, "sas: %s not a .sas file\n", sasname);
     exit(1);
   }
-  strcpy(sasname + dot, ".c");
+  strcpy(sasname + dot, ".cpp");
 }
 
 int is_space(int c)

@@ -84,7 +84,7 @@ char *dap_psname;  /* name of the .ps file */
 
 extern int dap_dblhigh;	  /* for coding doubles */
 extern int dap_dbllow;	  /* for coding doubles */
-extern double dap_double; /* to get around weird returns; see machdep.c */
+extern double dap_double; /* to get around weird returns; see machdep.cpp */
 
 static int nmallocs = 0;
 static int nfrees = 0;
@@ -126,16 +126,16 @@ static void initdo(dataobs *dato)
 {
 	int d;
 
-	dato->do_int = (int *)dap_malloc(sizeof(int) * dap_maxvar, "initdo: dato->do_int");
-	dato->do_il = (int **)dap_malloc(sizeof(int *) * dap_maxvar, "initdo: dato->do_il");
-	dato->do_dbl = (double *)dap_malloc(sizeof(double) * dap_maxvar, "initdo: dato->do_dbl");
-	dato->do_dl = (double **)dap_malloc(sizeof(double *) * dap_maxvar, "initdo: dato->do_dl");
-	dato->do_str = (char **)dap_malloc(sizeof(char *) * dap_maxvar, "initdo: dato->do_str");
-	dato->do_sl = (int *)dap_malloc(sizeof(int) * dap_maxvar, "initdo: dato->do_sl");
-	dato->do_nam = (char **)dap_malloc(sizeof(char *) * dap_maxvar, "initdo: dato->do_nam");
-	dato->do_len = (int *)dap_malloc(sizeof(int) * dap_maxvar, "initdo: dato->do_len");
-	dato->do_in = (int *)dap_malloc(sizeof(int) * dap_maxvar, "initdo: dato->do_in");
-	dato->do_out = (int *)dap_malloc(sizeof(int) * dap_maxvar, "initdo: dato->do_out");
+	dato->do_int = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "initdo: dato->do_int");
+	dato->do_il = (int **)dap_malloc(sizeof(int *) * dap_maxvar, (char*) "initdo: dato->do_il");
+	dato->do_dbl = (double *)dap_malloc(sizeof(double) * dap_maxvar, (char*) "initdo: dato->do_dbl");
+	dato->do_dl = (double **)dap_malloc(sizeof(double *) * dap_maxvar, (char*) "initdo: dato->do_dl");
+	dato->do_str = (char **)dap_malloc(sizeof(char *) * dap_maxvar, (char*) "initdo: dato->do_str");
+	dato->do_sl = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "initdo: dato->do_sl");
+	dato->do_nam = (char **)dap_malloc(sizeof(char *) * dap_maxvar, (char*) "initdo: dato->do_nam");
+	dato->do_len = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "initdo: dato->do_len");
+	dato->do_in = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "initdo: dato->do_in");
+	dato->do_out = (int *)dap_malloc(sizeof(int) * dap_maxvar, (char*) "initdo: dato->do_out");
 	for (d = 0; d < dap_maxvar; d++)
 	{
 		dato->do_str[d] = NULL;
@@ -195,12 +195,12 @@ int main(int argc, char **argv)
 	initdo(dap_prev);
 	initdo(dap_prev + 1);
 	initdo(&dosave);
-	rfile = (RFILE *)dap_malloc(sizeof(RFILE) * dap_nrfiles, "main: rfile");
-	dfile = (DFILE *)dap_malloc(sizeof(DFILE) * (dap_nrfiles + NDFILES), "main: dfile");
+	rfile = (RFILE *)dap_malloc(sizeof(RFILE) * dap_nrfiles, (char*) "main: rfile");
+	dfile = (DFILE *)dap_malloc(sizeof(DFILE) * (dap_nrfiles + NDFILES), (char*) "main: dfile");
 	pageno = 1;
-	dap_psname = dap_malloc(len + 1, "main: dap_psname");
+	dap_psname = dap_malloc(len + 1, (char*) "main: dap_psname");
 	strcpy(dap_psname, lstname);
-	strcpy(dap_psname + len - 3, "ps");
+	strcpy(dap_psname + len - 3, (char*) "ps");
 	dap_initpict();
 	for (v = 0; v < dap_maxvar; v++)
 	{
@@ -218,7 +218,7 @@ int main(int argc, char **argv)
 	}
 	dap_ono = 0;
 	testd = -2.0;					 /* this should have the sign bit set and non-zero exponent, but
-								/* zero mantissa
+								 zero mantissa
 								 */
 	ptesti = (unsigned int *)&testd; /* *ptesti is the low order word of testd */
 	if (!(*ptesti))
@@ -246,10 +246,10 @@ static FILE *dopen(char fname[], char mode[])
 	char *dname;
 	FILE *f;
 
-	dname = dap_malloc(strlen(fname) + strlen(dap_setdir) + 2, "dopen: dname");
+	dname = dap_malloc(strlen(fname) + strlen(dap_setdir) + 2, (char*) "dopen: dname");
 	dap_name(dname, fname);
 	f = fopen(dname, mode);
-	dap_free(dname, "dopen: dname");
+	dap_free(dname, (char*) "dopen: dname");
 	return f;
 }
 
@@ -313,9 +313,9 @@ static DFILE *dfopen(char *fname, char *mode)
 				if (!dfile[NDFILES + f].dfile_name)
 				{
 					rfile[f].rfile_str = dap_malloc(dap_rfilesize,
-													"dfopen: rfile[f].rfile_str");
+													(char*) "dfopen: rfile[f].rfile_str");
 					dfile[NDFILES + f].dfile_name =
-						dap_malloc(strlen(fname), "dfopen: dfile[NDFILES + f].dfile_name");
+						dap_malloc(strlen(fname), (char*) "dfopen: dfile[NDFILES + f].dfile_name");
 					strcpy(dfile[NDFILES + f].dfile_name, fname + 1);
 					rfile[f].rfile_end = rfile[f].rfile_str;
 					rfile[f].rfile_pos = rfile[f].rfile_str;
@@ -448,7 +448,7 @@ static void dputi(int i, DFILE *fp)
 	int s;
 
 	if (!istr)
-		istr = dap_malloc(dap_intlen + 1, "dputi: istr");
+		istr = dap_malloc(dap_intlen + 1, (char*) "dputi: istr");
 	if (fp->dfile_disk)
 		fprintf(fp->dfile_disk, "%d", i);
 	else
@@ -663,10 +663,10 @@ void dap_save()
 		default:
 			if (dosave.do_str[dap_obs[dap_ono].do_in[iv]])
 				dap_free(dosave.do_str[dap_obs[dap_ono].do_in[iv]],
-						 "dap_save: dosave.do_str[dap_obs[dap_ono].do_in[iv]]");
+						 (char*) "dap_save: dosave.do_str[dap_obs[dap_ono].do_in[iv]]");
 			dosave.do_str[dap_obs[dap_ono].do_in[iv]] =
 				dap_malloc(dap_obs[dap_ono].do_len[dap_obs[dap_ono].do_in[iv]] + 1,
-						   "dap_save: dap_obs[dap_ono].do_nam[dap_obs[dap_ono].do_in[iv]]");
+						   (char*) "dap_save: dap_obs[dap_ono].do_nam[dap_obs[dap_ono].do_in[iv]]");
 			strncpy(dosave.do_str[dap_obs[dap_ono].do_in[iv]],
 					dap_obs[dap_ono].do_str[dap_obs[dap_ono].do_in[iv]],
 					dap_obs[dap_ono].do_len[dap_obs[dap_ono].do_in[iv]] + 1);
@@ -766,7 +766,7 @@ void skip(int nlines)
 {
 	char *line;
 
-	line = dap_malloc(dap_linelen + 1, "skip: line");
+	line = dap_malloc(dap_linelen + 1, (char*) "skip: line");
 	while (--nlines >= 0)
 	{
 		if (!dap_in[dap_ono] || eof[dap_ono])
@@ -779,7 +779,7 @@ void skip(int nlines)
 			eof[dap_ono] = 1;
 		lineno[dap_ono]++;
 	}
-	dap_free(line, "skip: line");
+	dap_free(line, (char*) "skip: line");
 }
 
 int step()
@@ -796,8 +796,8 @@ int step()
 	if (!stepinit)
 	{
 		stepinit = 1;
-		line = dap_malloc(dap_linelen + 1, "step: line");
-		value = dap_malloc(dap_linelen + 1, "step: value");
+		line = dap_malloc(dap_linelen + 1, (char*) "step: line");
+		value = dap_malloc(dap_linelen + 1, (char*) "step: value");
 	}
 	if (!dap_in[dap_ono] || eof[dap_ono])
 	{
@@ -983,7 +983,7 @@ int dap_vd(char *varspec, int invar)
 	int redeclare; /* is variable being redeclared? */
 
 	v = -1;													/* non-existent until proven otherwise */
-	varnam = dap_malloc(strlen(varspec), "dap_vd: varnam"); /* allocate string for names */
+	varnam = dap_malloc(strlen(varspec), (char*) "dap_vd: varnam"); /* allocate string for names */
 	for (s = 0; varspec[s] == ' ';)							/* skip leading spaces */
 		s++;
 	while (varspec[s]) /* while more specs to process */
@@ -1005,11 +1005,11 @@ int dap_vd(char *varspec, int invar)
 				 */
 				if (dap_obs[dap_ono].do_nam[v])
 					dap_free(dap_obs[dap_ono].do_nam[v],
-							 "dap_vd: dap_obs[dap_ono].do_nam[v]");
+							 (char*) "dap_vd: dap_obs[dap_ono].do_nam[v]");
 				/* allocate space for new name */
 				dap_obs[dap_ono].do_nam[v] =
 					dap_malloc(i + 1,
-							   "dap_vd: dap_obs[dap_ono].do_nam[v]");
+							   (char*) "dap_vd: dap_obs[dap_ono].do_nam[v]");
 				/* and enter the name */
 				strcpy(dap_obs[dap_ono].do_nam[v], varnam);
 				/* if it's going to be read from file, indicate in the
@@ -1073,22 +1073,22 @@ int dap_vd(char *varspec, int invar)
 				 */
 				if (!dap_obs[dap_ono].do_sl[v] && dap_obs[dap_ono].do_str[v])
 					dap_free(dap_obs[dap_ono].do_str[v],
-							 "dap_vd: dap_obs[dap_ono].do_str[v]");
+							 (char*) "dap_vd: dap_obs[dap_ono].do_str[v]");
 				/* if need to free string from previous line dataobs, do it */
 				if (dap_ono < 2 && dap_prev[dap_ono].do_str[v])
 					dap_free(dap_prev[dap_ono].do_str[v],
-							 "dap_vd: dap_prev[dap_ono].do_str[v]");
+							 (char*) "dap_vd: dap_prev[dap_ono].do_str[v]");
 				/* allocate space for new string variable */
 				dap_obs[dap_ono].do_str[v] =
 					dap_malloc(vlen + 1,
-							   "dap_vd: dap_obs[dap_ono].do_str[v]");
+							   (char*) "dap_vd: dap_obs[dap_ono].do_str[v]");
 				/* indicate not linked to "user" program variable */
 				dap_obs[dap_ono].do_sl[v] = 0;
 				/* allocate space in previous line dataobs */
 				if (dap_ono < 2)
 					dap_prev[dap_ono].do_str[v] =
 						dap_malloc(vlen + 1,
-								   "dap_vd: dap_prev[dap_ono].do_str[v]");
+								   (char*) "dap_vd: dap_prev[dap_ono].do_str[v]");
 			}
 			if (vlen == DBL) /* initialize doubles to NaN */
 				dap_obs[dap_ono].do_dbl[v] = 0.0 / 0.0;
@@ -1108,7 +1108,7 @@ int dap_vd(char *varspec, int invar)
 		if (!redeclare)					/* if not just redeclaration of one already there */
 			dap_obs[dap_ono].do_nvar++; /* update number of variables */
 	}
-	dap_free(varnam, "dap_vd: varnam"); /* free memory allocation */
+	dap_free(varnam, (char*) "dap_vd: varnam"); /* free memory allocation */
 	return v;							/* and return index of last (or only) variable */
 }
 
@@ -1179,7 +1179,7 @@ void dap_sl(char varname[], char *s)
 
 	if ((v = dap_varnum(varname)) >= 0)
 	{
-		dap_free(dap_obs[dap_ono].do_str[v], "dap_sl: dap_obs[dap_ono].do_str[v]");
+		dap_free(dap_obs[dap_ono].do_str[v], (char*) "dap_sl: dap_obs[dap_ono].do_str[v]");
 		dap_obs[dap_ono].do_str[v] = s;
 		dap_obs[dap_ono].do_sl[v] = 1;
 		s[0] = '\0';

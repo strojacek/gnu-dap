@@ -1,5 +1,5 @@
 /* Dap preprocessor.
- * 0. Translates .sas file to .c file
+ * 0. Translates .sas file to .cpp file
  * 1. Processes simple #defines.
  * 2. Replaces main with main_dap.
  * 3. Processes infile and inset statements.
@@ -99,8 +99,8 @@ int get1c(FILE *fp)
 	return c;
 }
 
-/* Put one character back into .c file.  If dapc is non-null, also
- * back up .dap.c file one character.
+/* Put one character back into .cpp file.  If dapc is non-null, also
+ * back up .dap.cpp file one character.
  */
 void unget1c(int c, FILE *dotc, FILE *dapc)
 {
@@ -111,12 +111,12 @@ void unget1c(int c, FILE *dotc, FILE *dapc)
 		fseek(dapc, ftell(dapc) - 1, SEEK_SET);
 }
 
-/* Get one character from .c file. Update comment, inquote1, inquote2,
- * escape.  If out is 1, then copy that character to .dap.c file.
+/* Get one character from .cpp file. Update comment, inquote1, inquote2,
+ * escape.  If out is 1, then copy that character to .dap.cpp file.
  */
 int dgetc(FILE *dotc, FILE *dapc, int out)
 {
-	int c; /* the character read from .c file */
+	int c; /* the character read from .cpp file */
 
 	switch (c = get1c(dotc))
 	{
@@ -215,12 +215,12 @@ int dgetc(FILE *dotc, FILE *dapc, int out)
 	return c;
 }
 
-/* Get one token from the .c file.  If out is 1, copy the token to
- * the .dap.c file.  Returns 1 if token gotten, 0 if no token and EOF.
+/* Get one token from the .cpp file.  If out is 1, copy the token to
+ * the .dap.cpp file.  Returns 1 if token gotten, 0 if no token and EOF.
  */
 int gettoken(char token[], FILE *dotc, FILE *dapc, int out)
 {
-	int c; /* character read from .c file */
+	int c; /* character read from .cpp file */
 	int t; /* index to token character array */
 
 	token[0] = '\0';
@@ -312,11 +312,11 @@ int defval(char str[])
 	return 0;
 }
 
-/* Preprocess variable declarations: read characters from .c file
- * without copying to .dap.c file, write calls to dap_vd and one of
+/* Preprocess variable declarations: read characters from .cpp file
+ * without copying to .dap.cpp file, write calls to dap_vd and one of
  * dap_dl, dap_il, or dap_sl for double, int, or string variables,
- * respectively.  dap_vd (dap0.c) declares the variable and dap_dl,
- * dap_il, and dap_sl (dap0.c) point the internal dap storage to the variable
+ * respectively.  dap_vd (dap0.cpp) declares the variable and dap_dl,
+ * dap_il, and dap_sl (dap0.cpp) point the internal dap storage to the variable
  * in the program.  The only declarations allowed are: double, one-dimensional
  * arrays of double, int, one-dimensional arrays of int, arrays of char.
  */
@@ -325,7 +325,7 @@ void declare(FILE *dotc, FILE *dapc, char decl[])
 	static char token[TOKLEN + 1];	/* the token read */
 	static char tokdel[TOKLEN + 1]; /* the delimiter read */
 	static char tokdim[TOKLEN + 1]; /* the array dimension read */
-	int c;							/* character read from .c file */
+	int c;							/* character read from .cpp file */
 	int dim;						/* dimension of array variable */
 	int dimd;						/* index to tokdim */
 	int d;							/* index for declaring array variable entries */
@@ -646,11 +646,11 @@ int main(int argc, char **argv)
 		if (namelen > 4 && !strcmp(*argv + namelen - 4, ".sas"))
 		{
 			sastrans(*argv);
-			namelen -= 2;
+			namelen -= 4;
 		}
-		if (namelen <= 2 || strcmp(*argv + namelen - 2, ".c"))
+		if (namelen < 4 || strcmp(*argv + namelen - 4, ".cpp"))
 		{
-			fprintf(stderr, "dappp: file name does not end in .c: %s\n", *argv);
+			fprintf(stderr, "dappp: file name does not end in .cpp: %s\n", *argv);
 			exit(1);
 		}
 		if (!(dotname = (char *)malloc(namelen + 1)))
@@ -665,7 +665,7 @@ int main(int argc, char **argv)
 		}
 		strcpy(dotname, *argv);
 		strcpy(dapname, *argv);
-		strcpy(dapname + namelen - 1, "dap.c");
+		strcpy(dapname + namelen - 1, "dap.cpp");
 		if (!(dotc = fopen(dotname, "r")))
 		{
 			fputs("dappp:", stderr);
