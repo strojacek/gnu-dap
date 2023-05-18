@@ -37,7 +37,7 @@ extern void surveyselecttrans(char *step, FILE *dapfile);
 extern void unget1c(int c, FILE *dotc, FILE *dapc);
 static char *keyword[] = /* SAS keywords inside data step */
     {
-       (char*) "set",
+        (char*) "set",
         (char*) "infile",
         (char*) "input",
         (char*) "length",
