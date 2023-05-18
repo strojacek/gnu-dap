@@ -76,12 +76,12 @@
 \setlength{\parindent}{0pt}
 % Leave some space at the very top of the page.
     \vglue\titlepagetopglue
-{\raggedright {\huge \bfseries Dap 3.5}}
+{\raggedright {\huge \bfseries Gnu Dap}}
 \vskip 4pt \hrule height 4pt width \hsize \vskip 4pt
 \rightline{Data analysis \& presentation}
 
 \vskip 0pt plus 1filll
-\leftline{\Large \bfseries Susan Bassein, Ph.D.}%
+\leftline{\Large \bfseries Gnu Dap Contributors}%
 
 \vskip4pt \hrule height 2pt width \hsize
   \vskip\titlepagebottomglue
@@ -123,7 +123,7 @@ by the Free Software Foundation.
 \label{anchor:Description-and-example}%
 
 Dap is a small statistics and graphics package based on C.
-As of Version 3.0, dap can read SBS programs to perform basic statistical
+As of Version 3.0, dap can read SAS programs to perform basic statistical
 analyses, thus freeing the user from learning and using C syntax
 for straightforward tasks,
 while retaining access to the C-style graphics and statistics
@@ -146,7 +146,7 @@ and/or large numbers of variables.
 
 Dap consists of: an interactive front end that
 controls editing, compiling, execution, and viewing;
-an optional SBS-to-C-style-dap translator that can convert an SBS program into
+an optional SAS-to-C-style-dap translator that can convert an SAS program into
 a C-style dap program;
 a preprocessor that facilitates data input and output by
 converting a C-style dap program into an ordinary C program; and a library of
@@ -156,14 +156,14 @@ Typical use of dap involves the following steps:
 \begin{enumerate}[start=1]
 \item Obtain, or use a text editor to create, one or more data files in acceptable
 formats.
-\item Invoke (i.e., run) `\texttt{dap}' to create or view an SBS or C-style
+\item Invoke (i.e., run) `\texttt{dap}' to create or view an SAS or C-style
 dap program that will read and process the data file(s) to
 produce tables and/or graphics.
 (See \hyperref[anchor:Invoking-Dap]{Section~\ref*{anchor:Invoking-Dap} [Invoking Dap], page~\pageref*{anchor:Invoking-Dap}} to find out how to run dap.
 If you want to use the C-style features of dap and
 are unfamiliar with C, read \hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} before creating
 your C-style dap program.)
-\item Tell dap to compile (i.e., translate into machine usable form) your SBS
+\item Tell dap to compile (i.e., translate into machine usable form) your SAS
 or C-style dap program and execute (i.e., run) your program.
 \item If the previous step was successful, view your tables and/or
 graphics; otherwise, if there are errors in your program, you will have to edit your program
@@ -171,11 +171,11 @@ further and repeat Step 3.
 \end{enumerate}
 
 The following program examples illustrate the basic structure
-of simple SBS and C-style dap programs and how functions in the library are used in dap.
+of simple SAS and C-style dap programs and how functions in the library are used in dap.
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily /* A SIMPLE SBS PROGRAM */
+\ttfamily /* A SIMPLE SAS PROGRAM */
 data;\                  /* Begin data step */
 \ infile "two" delimiter="\textbackslash{}t" firstobs=2;
 \                       /* The infile statement:\ identifies "two" as
@@ -263,18 +263,18 @@ types of the parameters (string,
 i.e., array of char, double, array of double, int,
 or array of int), and the return value, if any; \textbf{bold face} indicates
 literal text, \Texinfocommandstyletextvar{italics} indicates parameters for which you choose your own
-names. The corresponding SBS template, if available, is also provided.
+names. The corresponding SAS template, if available, is also provided.
 
 \item \textbf{Description}: A description of the functionality and use of the function.
-If there is a corresponding SBS proc, notes on its usage follow.
+If there is a corresponding SAS proc, notes on its usage follow.
 
 \item \textbf{Code fragment(s)}: These are one or more examples of calling the function, with made-up values
 for the parameters; for complete examples of use, see the final chapter
 (see \hyperref[anchor:Examples]{\chaptername~\ref*{anchor:Examples} [Examples], page~\pageref*{anchor:Examples}}) or consult the index.  
 \end{enumerate}
 
-\index[in]{SBS syntax@SBS syntax}%
-For the SBS templates, the following should be noted.
+\index[in]{SAS syntax@SAS syntax}%
+For the SAS templates, the following should be noted.
 Elements within square brackets `\texttt{[ ]}' are optional and
 some, although permitted, may have no effect.
 Elements within braces `\texttt{\{\ \}}', separated by a vertical bar `\texttt{|}' are
@@ -318,16 +318,16 @@ When you type the command to run dap:
 
 \begin{enumerate}[start=1]
 \item The editor Emacs (type the command \texttt{info emacs}
-for the manual) is opened for the named SBS or C-style dap file(s).
+for the manual) is opened for the named SAS or C-style dap file(s).
 Each file is created, but is empty, if it doesn't exist.
 When you are finished editing your file(s), save it (them), but do not
 exit unless you are finished running dap.
 \item Emacs will have a buffer called `\texttt{Async Shell Command}'; select that buffer
 and you will be
-asked whether to compile the named SBS or C file(s) and run the resulting
+asked whether to compile the named SAS or C file(s) and run the resulting
 executable file (if the compilation is successful).
 If you answer `\texttt{y}', then dap
-runs the preprocessor on the named SBS or C file(s) to produce
+runs the preprocessor on the named SAS or C file(s) to produce
 \Texinfocommandstyletextvar{file1}.dap.c [ \Texinfocommandstyletextvar{file2}.dap.c ... ].
 If you answer `\texttt{q}', then dap stops running (and you can either leave Emacs
 running for some other purpose or exit it).
@@ -369,7 +369,7 @@ this helps you abort the program to avoid filling up your disk
 to the \texttt{err} and you will see them displayed in your
 `\texttt{Async Shell Command}' buffer.
 
-\item At this point, you can edit (and save!) your SBS or C-style dap files again or quit.
+\item At this point, you can edit (and save!) your SAS or C-style dap files again or quit.
 \end{enumerate}
 
 If the `\texttt{-a}' or `\texttt{{-}{-}args}'
@@ -837,7 +837,7 @@ title "\Texinfocommandstyletextvar{the-title}";
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{title (SBS statement)@title (SBS statement)}%
+\index[in]{title (SAS statement)@title (SAS statement)}%
 
 \noindent{}\textbf{Description}
 
@@ -940,7 +940,7 @@ cannot contain `\texttt{|}'.)
 Most C-style dap data management, statistics, and graphics functions
 have an argument, called \Texinfocommandstyletextvar{partvars} in the specifications,
 that allows parts of a dataset to be processed separately.
-(SBS programs use a `\texttt{by}' statement.)
+(SAS programs use a `\texttt{by}' statement.)
 To do that, first sort the dataset by the values of an
 ordered list of variables: each part is defined as a set of lines
 for which the values of all of those variables are constant.
@@ -961,8 +961,8 @@ Note that a dataset that is stored in memory will not be retained after the
 current dap session.
 
 Only the last section in this chapter, `\texttt{Manage datasets}', has information
-relevant to SBS programs.
-For input for SBS programs, see See \hyperref[anchor:Appendix-IV]{\chaptername~\ref*{anchor:Appendix-IV} [Appendix IV], page~\pageref*{anchor:Appendix-IV}}.
+relevant to SAS programs.
+For input for SAS programs, see See \hyperref[anchor:Appendix-IV]{\chaptername~\ref*{anchor:Appendix-IV} [Appendix IV], page~\pageref*{anchor:Appendix-IV}}.
 
 
 \section{{Input and output}}
@@ -1381,7 +1381,7 @@ delete \Texinfocommandstyletextvar{filename-1} ... \Texinfocommandstyletextvar{f
 \index[in]{remove@remove}%
 \index[in]{fill@fill}%
 \index[in]{missing cells@missing cells}%
-\index[in]{datasets (SBS proc)@datasets (SBS proc)}%
+\index[in]{datasets (SAS proc)@datasets (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -1505,7 +1505,7 @@ by [descending] \Texinfocommandstyletextvar{variable-1} [... [descending] \Texin
 \end{Texinfoindented}
 
 \index[in]{sort@sort}%
-\index[in]{sort (SBS proc)@sort (SBS proc)}%
+\index[in]{sort (SAS proc)@sort (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -1590,7 +1590,7 @@ and name the new dataset \texttt{people.srt}:}
 
 Performs a many-to-one or one-to-one merge of
 \Texinfocommandstyletextvar{dataset1} and \Texinfocommandstyletextvar{dataset2} and writes the result to \Texinfocommandstyletextvar{outputset}.
-(For usage in an SBS `\texttt{data}' step, see See \hyperref[anchor:Appendix-IV]{\chaptername~\ref*{anchor:Appendix-IV} [Appendix IV], page~\pageref*{anchor:Appendix-IV}}.)
+(For usage in an SAS `\texttt{data}' step, see See \hyperref[anchor:Appendix-IV]{\chaptername~\ref*{anchor:Appendix-IV} [Appendix IV], page~\pageref*{anchor:Appendix-IV}}.)
 A variable is renamed in the output dataset if the variable name is followed by
 `\texttt{> \Texinfocommandstyletextvar{newname}}'.
 Only the variables in \Texinfocommandstyletextvar{variable-list1}, renamed if requested,
@@ -1667,7 +1667,7 @@ var \Texinfocommandstyletextvar{variable-list};
 \end{Texinfoindented}
 
 \index[in]{print@print}%
-\index[in]{print (SBS proc)@print (SBS proc)}%
+\index[in]{print (SAS proc)@print (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -1735,7 +1735,7 @@ by \Texinfocommandstyletextvar{variable-list};
 
 \index[in]{print@print}%
 \index[in]{table@table}%
-\index[in]{tabulate (SBS proc)@tabulate (SBS proc)}%
+\index[in]{tabulate (SAS proc)@tabulate (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -1763,7 +1763,7 @@ of the row and column variables; see function `\texttt{split}'
 (see \hyperref[anchor:Splitting-and-joining-lines]{Section~\ref*{anchor:Splitting-and-joining-lines} [Splitting and joining lines], page~\pageref*{anchor:Splitting-and-joining-lines}}) for datasets with multiple numerical
 values to display.
 
-SBS note: In `\texttt{proc tabulate}', the `\texttt{class}' and `\texttt{var}' statements have no effect and may be omitted.
+SAS note: In `\texttt{proc tabulate}', the `\texttt{class}' and `\texttt{var}' statements have no effect and may be omitted.
 
 \noindent{}\textbf{Code fragment(s)}
 
@@ -1908,7 +1908,7 @@ var \Texinfocommandstyletextvar{variable-list};
 
 \index[in]{group@group}%
 \index[in]{rank@rank}%
-\index[in]{rank (SBS proc)@rank (SBS proc)}%
+\index[in]{rank (SAS proc)@rank (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -1962,7 +1962,7 @@ If only `\texttt{\#}', `\texttt{/}', or
 `\texttt{\%}',
 was requested, then the new variable is named `\texttt{\_N\_}'.
 
-SBS note: In `\texttt{proc rank}', the `\texttt{ranks}' statement is ignored: the output data
+SAS note: In `\texttt{proc rank}', the `\texttt{ranks}' statement is ignored: the output data
 set always contains new variables for the ranks, as in
 the dap function `\texttt{group}'.
 
@@ -2076,7 +2076,7 @@ proc surveyselect [data=\Texinfocommandstyletextvar{dataset-name}] [out=\Texinfo
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{surveyselect (SBS proc)@surveyselect (SBS proc)}%
+\index[in]{surveyselect (SAS proc)@surveyselect (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -2114,7 +2114,7 @@ output [out=\Texinfocommandstyletextvar{dataset-name}];
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{means (SBS proc)@means (SBS proc)}%
+\index[in]{means (SAS proc)@means (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -2326,7 +2326,7 @@ output [out=\Texinfocommandstyletextvar{dataset-name}] [\Texinfocommandstyletext
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{univariate (SBS proc)@univariate (SBS proc)}%
+\index[in]{univariate (SAS proc)@univariate (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -2483,7 +2483,7 @@ by \Texinfocommandstyletextvar{variable-list};
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{corr (SBS proc)@corr (SBS proc)}%
+\index[in]{corr (SAS proc)@corr (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -2546,7 +2546,7 @@ test h=\Texinfocommandstyletextvar{effect-list} e=\Texinfocommandstyletextvar{ef
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{glm (SBS proc)@glm (SBS proc)}%
+\index[in]{glm (SAS proc)@glm (SAS proc)}%
 \index[in]{effects@effects}%
 \index[in]{analysis of variance@analysis of variance}%
 \index[in]{ANOVA@ANOVA}%
@@ -2598,7 +2598,7 @@ The error, contrast, and least-squares means terms in
 \Texinfocommandstyletextvar{dataset}.con are adjusted for missing cells, but only the error
 terms are orthogonalized.
 
-SBS note: All the variables used in the \Texinfocommandstyletextvar{effects-list} of the `\texttt{model}'
+SAS note: All the variables used in the \Texinfocommandstyletextvar{effects-list} of the `\texttt{model}'
 statement must be named in the `\texttt{class}' statement, as dap only
 allows categorical, string-valued, variables for the terms in the model.
 Specify crossed and nested effects using `\texttt{*}' only.
@@ -2802,7 +2802,7 @@ weight \Texinfocommandstyletextvar{variable};
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{freq (SBS proc)@freq (SBS proc)}%
+\index[in]{freq (SAS proc)@freq (SAS proc)}%
 \index[in]{freq@freq}%
 \index[in]{contingency table@contingency table}%
 \index[in]{cross-tabulation@cross-tabulation}%
@@ -3156,7 +3156,7 @@ by \Texinfocommandstyletextvar{variable-list};
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{reg (SBS proc)@reg (SBS proc)}%
+\index[in]{reg (SAS proc)@reg (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -3188,7 +3188,7 @@ the response variable and the `\texttt{\_param1\_}'
 and `\texttt{\_param2\_}' variables indicating which parameters
 identify the row and column, and the `\texttt{\_cov\_}' variable containing the numerical value.
 
-SBS note: If you include a `\texttt{plot}' statement, then the model must contain
+SAS note: If you include a `\texttt{plot}' statement, then the model must contain
 only one response and one explanatory variable. If there is an `\texttt{add}'
 statement, the model will be fit as originally specified and with the
 additional variables and the change in R-squared will be reported.
@@ -3244,7 +3244,7 @@ by \Texinfocommandstyletextvar{variable-list};
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{logistic (SBS proc)@logistic (SBS proc)}%
+\index[in]{logistic (SAS proc)@logistic (SAS proc)}%
 \index[in]{logistic regression@logistic regression}%
 \index[in]{regression, logistic@regression, logistic}%
 
@@ -3288,7 +3288,7 @@ with the `\texttt{\_type\_}' variable set to `\texttt{ESTIMATE}' and
 and `\texttt{\_param2\_}' variables indicating which parameters
 identify the row and column, and the `\texttt{\_cov\_}' variable containing the numerical value.
 
-SBS note: only binary response is allowed, although the
+SAS note: only binary response is allowed, although the
 \Texinfocommandstyletextvar{events}/\Texinfocommandstyletextvar{trials} form
 allows that to be expressed as the result of a binomial experiment.
 
@@ -3338,7 +3338,7 @@ by \Texinfocommandstyletextvar{variable-list};
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{npar1way (SBS proc)@npar1way (SBS proc)}%
+\index[in]{npar1way (SAS proc)@npar1way (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -3357,7 +3357,7 @@ If the second variable has more than two levels, then
 of the first variable classified by the values of the second.
 The input dataset does not need to be sorted.
 
-SBS note: In `\texttt{proc npar1way}', the `\texttt{class}' and `\texttt{var}' statements are required
+SAS note: In `\texttt{proc npar1way}', the `\texttt{class}' and `\texttt{var}' statements are required
 and the class variable must be of type string.
 
 \noindent{}\textbf{Code fragment(s)}
@@ -3477,7 +3477,7 @@ vbar \Texinfocommandstyletextvar{variable} / [freq=\Texinfocommandstyletextvar{v
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{chart (SBS proc)@chart (SBS proc)}%
+\index[in]{chart (SAS proc)@chart (SAS proc)}%
 
 \noindent{}\textbf{Description}
 
@@ -3616,7 +3616,7 @@ plot \Texinfocommandstyletextvar{y-variable} * \Texinfocommandstyletextvar{xvari
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\index[in]{plot (SBS proc)@plot (SBS proc)}%
+\index[in]{plot (SAS proc)@plot (SAS proc)}%
 \index[in]{plot@plot}%
 \index[in]{scatter plot@scatter plot}%
 \index[in]{line graph@line graph}%
@@ -5491,7 +5491,7 @@ Experimental Designs.  John Wiley \& Sons: New York. 611pp.
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* AMD pp.\ 128 - 134:\ unbalanced layout using SBS  */
+/* AMD pp.\ 128 - 134:\ unbalanced layout using SAS  */
 
 data;
 \ infile "amd128.dat" firstobs=2;\ /* space separated,\ skip 1 header line */
@@ -5508,7 +5508,7 @@ proc glm;
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily /* AMD pp.\ 249 - 251:\ using SBS
+\ttfamily /* AMD pp.\ 249 - 251:\ using SAS
 \ * Two factors crossed,\ another nested within
 \ * levels of one crossed factor
 \ */
@@ -5536,7 +5536,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* AMD pp.\ 265 - 273 using SBS
+/* AMD pp.\ 265 - 273 using SAS
 \ * Random model,\ unbalanced
 \ */
 
@@ -5563,7 +5563,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* AMD pp.\ 285 - 289 using SBS
+/* AMD pp.\ 285 - 289 using SAS
 \ * Mixed model,\ balanced
 \ */
 
@@ -5591,7 +5591,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* AMD pp.\ 290 - 295 using SBS
+/* AMD pp.\ 290 - 295 using SAS
 \ * Mixed model,\ unbalanced
 \ */
 
@@ -5613,7 +5613,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* AMD pp.\ 297 - 308 using SBS
+/* AMD pp.\ 297 - 308 using SAS
 \ * Split plot
 \ */
 
@@ -5641,7 +5641,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* ED pp.\ 122 - 125 using SBS
+/* ED pp.\ 122 - 125 using SAS
 \ * Latin square
 \ */
 
@@ -5661,7 +5661,7 @@ proc glm;
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily 
-/* ED pp.\ 176 using SBS and proc dap
+/* ED pp.\ 176 using SAS and proc dap
 \ * Without covariate,\ with contrasts
 \ */
 
@@ -5861,7 +5861,7 @@ proc reg;
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily /* Rao,\ C.R.\ and Toutenberg,\ H.\ 1995 using SBS
+\ttfamily /* Rao,\ C.R.\ and Toutenberg,\ H.\ 1995 using SAS
 \ * Linear Models:\ Least Squares and Alternatives
 \ * Springer-Verlag:\ New York.\ 352 pp.
 \ * Example pp.\ 50 - 60.
@@ -5910,7 +5910,7 @@ John Wiley \& Sons: New York.  558pp.
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily /* CDA pp.\ 49 - 50 using SBS */
+\ttfamily /* CDA pp.\ 49 - 50 using SAS */
 
 data;
 \ infile "cda50.dat" firstobs=2;
@@ -5927,7 +5927,7 @@ proc freq;
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily /* CDA pp.\ 232 - 233 using SBS */
+\ttfamily /* CDA pp.\ 232 - 233 using SAS */
 
 data;
 \ infile "cda233.dat" firstobs=2;
@@ -6081,7 +6081,7 @@ double expect(double param[8],\ double class[2])
 \begin{Texinfopreformatted}%
 \ttfamily /* Agresti,\ A.\  1990.\  Categorical Data Analysis.
 \ * John Wiley \& Sons:\ New York.\  558pp.
-\ * Example pp.\ 87 - 89 using SBS with proc dap
+\ * Example pp.\ 87 - 89 using SAS with proc dap
 \ */
 data cda88;
 \  infile "cda88.dat" firstobs=2;
@@ -6828,20 +6828,20 @@ To catch bugs of that sort requires a thorough understanding of
 approximately what your results should look like, some experience
 with the statistical functions you are using, and a lot of patience.
 
-\chapter*{{Appendix IV: SBS}}
+\chapter*{{Appendix IV: SAS}}
 \label{anchor:Appendix-IV}%
 
-\index[in]{SBS syntax@SBS syntax}%
-\index[in]{dap (SBS proc)@dap (SBS proc)}%
+\index[in]{SAS syntax@SAS syntax}%
+\index[in]{dap (SAS proc)@dap (SAS proc)}%
 This section contains miscellaneous notes and warnings regarding
-the use of SBS.
+the use of SAS.
 \textbf{WARNING}:
 When processing \Texinfocommandstyletextvar{file}.sbs, dap writes (or overwrites)
 the file \Texinfocommandstyletextvar{file}.c. Note that because the syntax
-and options of SBS and dap graphics procedures are not very compatible,
-many dap graphics options are not available in SBS (which is one reason
+and options of SAS and dap graphics procedures are not very compatible,
+many dap graphics options are not available in SAS (which is one reason
 that I wrote dap in the first place); for complete access
-to dap graphics options (or statistical options) from SBS,
+to dap graphics options (or statistical options) from SAS,
 use a `\texttt{proc dap}' statement (see below).
 In addition, you can define your own functions in a separate `\texttt{.c}' file
 that you include on the command line to run dap. (To declare such functions
@@ -6851,7 +6851,7 @@ Note that if the program does not use a graphics proc,
 compiling will produce a number of warnings about unused variables, all of whose
 names begin and end with an underscore `\texttt{\_}'; you may ignore them.
 
-One peculiarity that SBS inherits from C through dap
+One peculiarity that SAS inherits from C through dap
 is that character variables that are explicitly
 used in a data step always need to appear in a `\texttt{length}' statement,
 no matter whether the data step gets its data from a
@@ -6865,7 +6865,7 @@ using the C functions `\texttt{strcmp}' (or its variants),
 `\texttt{strcpy}' (or its variants), and `\texttt{strcat}' (or its variants);
 
 \item C-style subscripting (i.e., with `\texttt{[ ]}') must be used for obtaining
-individual characters from a string except that in SBS, array indexes start at
+individual characters from a string except that in SAS, array indexes start at
 1, not 0 as in C.
 
 \item Mnemonics are not accepted for relational or logical operators (e.g., `\texttt{ne}'
@@ -6877,15 +6877,15 @@ assignment statements, are `\texttt{if-then}', `\texttt{if-then-else}',
 
 \item \Texinfocommandstyletextvar{first}.variable is allowed by `\texttt{by}' groups, but not \Texinfocommandstyletextvar{last}.variable.
 
-\item Syntax errors in the body of a data step may not be caught by the SBS-to-dap
+\item Syntax errors in the body of a data step may not be caught by the SAS-to-dap
 translator, but will subsequently be caught by either the dap preprocessor
 or the C compiler. However, the line numbers referred to by those programs will
-be the line numbers of the dap program into which your SBS program was translated,
+be the line numbers of the dap program into which your SAS program was translated,
 which you can view by opening up file \Texinfocommandstyletextvar{file}.c if you ran dap on \Texinfocommandstyletextvar{file}.sbs.
 
 \end{enumerate}
 
-\index[in]{data step (SBS)@data step (SBS)}%
+\index[in]{data step (SAS)@data step (SAS)}%
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
@@ -6905,7 +6905,7 @@ by \Texinfocommandstyletextvar{variable-list};
 \end{Texinfoindented}
 
 \begin{quote}
-SBS note: for column input, it is not possible to skip columns, i.e.,
+SAS note: for column input, it is not possible to skip columns, i.e.,
 `\texttt{start-col-1}' must be 1 and each succeeding `\texttt{start-col}'
 must be one more than the preceeding `\texttt{end-col}'.
 \end{quote}
@@ -6919,8 +6919,8 @@ proc dap;
 \end{Texinfoindented}
 
 \begin{quote}
-SBS note: \Texinfocommandstyletextvar{dap statement} can either be enclosed in braces `\texttt{\{\ \}}' or
-end with a semi-colon `\texttt{;}'. Attempting to use dap graphics and SBS graphics in the
+SAS note: \Texinfocommandstyletextvar{dap statement} can either be enclosed in braces `\texttt{\{\ \}}' or
+end with a semi-colon `\texttt{;}'. Attempting to use dap graphics and SAS graphics in the
 same program will produce unpredictable and, perhaps, undesirable results. Note
 that \Texinfocommandstyletextvar{dap statement} is run as-is by dap and, in particular, indexes of array
 subscripts start at 0. The \Texinfocommandstyletextvar{dap statement} cannot use
