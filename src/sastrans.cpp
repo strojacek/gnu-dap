@@ -242,7 +242,7 @@ int getstatement(FILE *sasfile, char *statement)
   static char token[TOKENLEN + 1];
   int toklen; /* length of token */
 
-  for (s = 0; (toklen = sastoken(sasfile, token)) && linecmp(token, ";");)
+  for (s = 0; (toklen = sastoken(sasfile, token)) && linecmp(token, (char*) ";");)
   {
     if (s + toklen + 1 < STATELEN)
     {
@@ -251,7 +251,7 @@ int getstatement(FILE *sasfile, char *statement)
       statement[s++] = '\n';
     }
   }
-  if (!linecmp(token, ";")) /* if there was at least a ; */
+  if (!linecmp(token, (char*) ";")) /* if there was at least a ; */
   {
     statement[s++] = ';';
     statement[s++] = '\n';
@@ -770,7 +770,7 @@ void datatrans(char *step, FILE *dapfile)
               saslineno);
       exit(1);
     }
-    copylist(step, "by", dapfile);
+    copylist(step, (char*) "by", dapfile);
     sprintf(sastmp, "sastmp%02d", ++sastempnum);
     strcpy(inputname, sastmp);
     fprintf(dapfile, "\", \"%s\");\n", sastmp);

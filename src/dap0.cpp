@@ -147,7 +147,7 @@ static void initdo(dataobs *dato)
 /* the following variables are for determining endianness */
 static double testd;		 /* a double, half of whose contents will be converted to an... */
 static unsigned int *ptesti; /* unsigned int to see if they are
-				  /* zero (mantissa) or not (exponent and sign
+				   zero (mantissa) or not (exponent and sign
 				   */
 
 int main(int argc, char **argv)
@@ -358,7 +358,7 @@ static DFILE *dfopen(char *fname, char *mode)
 			if (dfile[f].dfile_disk)
 			{
 				dfile[f].dfile_name =
-					dap_malloc(strlen(fname) + 1, "dfopen: dfile[f].dfile_name");
+					dap_malloc(strlen(fname) + 1,  (char*) "dfopen: dfile[f].dfile_name");
 				strcpy(dfile[f].dfile_name, fname);
 				return dfile + f;
 			}

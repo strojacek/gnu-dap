@@ -2623,7 +2623,7 @@ static void dsort(char *origset, char *sortset, int sortvar[], int nsort,
     exit(1);
   }
   /* the memories for reordering, sorting, and writing */
-  mem1 = (char *)dap_malloc(2 * dap_maxmem, "mem1");
+  mem1 = (char *)dap_malloc(2 * dap_maxmem, (char*) "mem1");
   mem2 = mem1 + dap_maxmem;
   if (!nfields)
   {
@@ -2655,21 +2655,21 @@ static void dsort(char *origset, char *sortset, int sortvar[], int nsort,
   /* then merge */
   merge(nseg, srt);
   cleanup(nseg);
-  dap_free(header, "");
-  dap_free(mem1, "");
-  dap_free(fieldstart, "");
-  dap_free(line, "");
-  dap_free(field, "");
-  dap_free(unfield, "");
-  dap_free(fieldlen, "");
-  dap_free(sortord, "");
-  dap_free(keyend, "");
-  dap_free(keymap, "");
+  dap_free(header, (char*) "");
+  dap_free(mem1, (char*) "");
+  dap_free(fieldstart, (char*) "");
+  dap_free(line, (char*) "");
+  dap_free(field, (char*) "");
+  dap_free(unfield, (char*) "");
+  dap_free(fieldlen, (char*) "");
+  dap_free(sortord, (char*) "");
+  dap_free(keyend, (char*) "");
+  dap_free(keymap, (char*) "");
 }
 
 int *bubblesort(int *list, int n, int order)
 {
-  int *returndata = (int *)dap_malloc(n * sizeof(int), "return");
+  int *returndata = (int *)dap_malloc(n * sizeof(int), (char*) "return");
   // copy table
   int i = 0;
   for (i = 0; i < n; i++)
@@ -2724,7 +2724,7 @@ void surveyselect(char *fname, char *outname, char *method, int tirage)
   }
   printf("nblines to read = %d, nb selected = %d\n", nbLines, tirage);
 
-  int *list = (int *)dap_malloc(tirage * sizeof(int), "list");
+  int *list = (int *)dap_malloc(tirage * sizeof(int), (char*) "list");
 
   int i = 0;
 
@@ -2767,7 +2767,7 @@ void surveyselect(char *fname, char *outname, char *method, int tirage)
   int index = 0;
   printf("set output\n");
   inset(fname);        /* set up input dataset */
-  outset(outname, ""); /* set up output dataset */
+  outset(outname, (char*) ""); /* set up output dataset */
   while (step())
   {
     int founded = 0;

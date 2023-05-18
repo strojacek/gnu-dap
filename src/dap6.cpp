@@ -117,7 +117,7 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
   int s, s1;   /* indexes to info and covariance matrices */
   int nonsing; /* info matrix non-singular? */
 
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fputs("(categ1) missing _type_ variable\n", dap_err);
     exit(1);
@@ -242,7 +242,7 @@ static void categ1(double **tab, int ncell, int *varv, int nvar,
     fputs("(categ1) covariance matrix is singular\n", dap_err);
   /* now print and output estimates and SEs, later output the covariance matrix */
   dap_ono = 1;
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(categ1) output dataset has no _type_ variable\n");
     exit(1);
@@ -491,7 +491,7 @@ void categ(char *dname, char *varlist, char *auxvarlist, double (*expect)(double
   sel = selcodes;
   if (strchr(selcodes, '?'))
   {
-    selred = dap_malloc(nparam + 1, "");
+    selred = dap_malloc(nparam + 1, (char*) "");
     for (s = 0; selcodes[s]; s++)
     {
       if (selcodes[s] == '?')
@@ -638,7 +638,7 @@ static int llparse(char **klass, int nterm, unsigned int *pattern,
     if ((classlen1 = strlen(klass[c])) > classlen)
       classlen = classlen1;
   }
-  oneclass = dap_malloc(classlen + 1, "");
+  oneclass = dap_malloc(classlen + 1, (char*) "");
   /* now process terms in model1 */
   for (t = 0; t < nterm; t++)
     term[t] = 0;

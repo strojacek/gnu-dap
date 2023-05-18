@@ -78,22 +78,22 @@ void linreg1(double **xymat, int *varv,
   int v;          /* index to variables */
 
   dap_swap(); /* it's cleaner to have linreg1 get the previous part's mark variables */
-  if ((typen = dap_varnum("_type_")) < 0)
+  if ((typen = dap_varnum((char*) "_type_")) < 0)
   {
     fprintf(dap_err, "(linreg1) Missing _type_ variable.\n");
     exit(1);
   }
-  invmem = (double *)dap_malloc(sizeof(double) * nx * nx, "");
-  inv = (double **)dap_malloc(sizeof(double *) * nx, "");
+  invmem = (double *)dap_malloc(sizeof(double) * nx * nx, (char*) "");
+  inv = (double **)dap_malloc(sizeof(double *) * nx, (char*) "");
   for (r = 0; r < nx; r++)
     inv[r] = invmem + r * nx;
-  rss0 = (double *)dap_malloc(sizeof(double) * ny, "");
-  rss1 = (double *)dap_malloc(sizeof(double) * ny, "");
-  rss = (double *)dap_malloc(sizeof(double) * ny, "");
-  f = (double *)dap_malloc(sizeof(double) * ny, "");
-  fch = (double *)dap_malloc(sizeof(double) * ny, "");
-  pred = (double *)dap_malloc(sizeof(double) * ny, "");
-  sepred = (double *)dap_malloc(sizeof(double) * ny, "");
+  rss0 = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
+  rss1 = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
+  rss = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
+  f = (double *)dap_malloc(sizeof(double) * ny,  (char*) "");
+  fch = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
+  pred = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
+  sepred = (double *)dap_malloc(sizeof(double) * ny, (char*) "");
   dnobs = (double)nobs;
   /* row 0 of xymat will now be the means of the observations */
   for (c = 1; c < nx + ny; c++)
@@ -902,7 +902,7 @@ void logreg1(
     exit(1);
   }
   /* allocate probability array */
-  pr = (double *)dap_malloc(nobs * sizeof(double), "");
+  pr = (double *)dap_malloc(nobs * sizeof(double),  (char*) "");
   /* print out information on model */
   fprintf(dap_lst, "Reduced | full model regressors:");
   for (i = 0; i < nx0; i++)
