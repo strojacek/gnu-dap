@@ -18,7 +18,7 @@ As a result, the original manual is out of date, in that it references a bunch o
 
 
 
-Susan Bassein
-Anna Reidenbach
-Jeffrin Jose
-Seth Trojacek
+- Susan Bassein
+- Anna Reidenbach
+- Jeffrin Jose
+- Seth Trojacek
