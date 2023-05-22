@@ -646,9 +646,9 @@ int main(int argc, char **argv)
 		if (namelen > 4 && !strcmp(*argv + namelen - 4, ".sas"))
 		{
 			sastrans(*argv);
-			namelen -= 4;
+			namelen -= 2;
 		}
-		if (strcmp(*argv + namelen - 4, ".cpp"))
+		if (namelen < 4 && strcmp(*argv + namelen - 4, ".cpp"))
 		{
 			fprintf(stderr, "dappp: file name does not end in .cpp: %s\n", *argv);
 			exit(1);

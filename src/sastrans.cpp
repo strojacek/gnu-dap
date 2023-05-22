@@ -706,7 +706,7 @@ void datatrans(char *step, FILE *dapfile)
       fputs("\"", dapfile);
     else if (!delim[0])
       fputs("\" \"", dapfile);
-    fputs(");\n{\n", dapfile);
+    fputs(")\n{\n", dapfile);
   }
   else if ((s = findstatement(step, (char*) "set")))
   {
