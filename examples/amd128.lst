@@ -1,6 +1,6 @@
 
 =================================
-Dap   1. Mon Dec  6 11:12:51 2004
+Dap   1. Mon May 22 16:19:56 2023
 
 
 Response variable: y
@@ -12,19 +12,19 @@ block           block1 block2 block3
 
 
 =================================
-Dap   2. Mon Dec  6 11:12:51 2004
+Dap   2. Mon May 22 16:19:56 2023
 
 
 Testing Ho: treat block treat*block
 Number of observations = 16
-H0 SS = 238.937, df = 5, MS = 47.7875
+H0 SS = 238.938, df = 5, MS = 47.7875
 Error SS = 20, df = 10, MS = 2
 R-sq = 0.922761
-F0 = 23.8937
+F0 = 23.8938
 Prob[F > F0] = 0.00003
 
 =================================
-Dap   3. Mon Dec  6 11:12:52 2004
+Dap   3. Mon May 22 16:19:56 2023
 
 
 Testing Ho: treat
@@ -35,7 +35,7 @@ F0 = 30.8571
 Prob[F > F0] = 0.00025
 
 =================================
-Dap   4. Mon Dec  6 11:12:52 2004
+Dap   4. Mon May 22 16:19:56 2023
 
 
 Least-squares means for: treat
@@ -44,7 +44,7 @@ LSD  method
 Minimum significant differences are for level 0.05000
 
 =================================
-Dap   5. Mon Dec  6 11:12:52 2004
+Dap   5. Mon May 22 16:19:56 2023
 
 
                             _stat_ for _lsm_ / treat
@@ -69,7 +69,7 @@ Dap   5. Mon Dec  6 11:12:52 2004
 ------------------------------------------------------
 
 =================================
-Dap   6. Mon Dec  6 11:12:52 2004
+Dap   6. Mon May 22 16:19:56 2023
 
 
 Testing Ho: block
@@ -80,7 +80,7 @@ F0 = 19.2923
 Prob[F > F0] = 0.00037
 
 =================================
-Dap   7. Mon Dec  6 11:12:52 2004
+Dap   7. Mon May 22 16:19:56 2023
 
 
 Least-squares means for: block
@@ -89,7 +89,7 @@ LSD  method
 Minimum significant differences are for level 0.05000
 
 =================================
-Dap   8. Mon Dec  6 11:12:52 2004
+Dap   8. Mon May 22 16:19:56 2023
 
 
                             _stat_ for _lsm_ / block
@@ -120,7 +120,7 @@ Dap   8. Mon Dec  6 11:12:52 2004
 -------------------------------------------------------------------
 
 =================================
-Dap   9. Mon Dec  6 11:12:52 2004
+Dap   9. Mon May 22 16:19:56 2023
 
 
 Testing Ho: treat*block
