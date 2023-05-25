@@ -1,4 +1,4 @@
-The Basic DAP README
+README
 ---
 
 Gnu Dap is an open source implementation of SAS (Statistical Analysis System).
