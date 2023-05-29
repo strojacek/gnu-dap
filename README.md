@@ -22,3 +22,20 @@ As a result, the original manual is out of date, in that it references a bunch o
 - Anna Reidenbach
 - Jeffrin Jose
 - Seth Trojacek
+
+
+Example of Build Process
+---
+
+
+```bash
+$ autoreconf -f -i
+$ glibtoolize
+$ automake --add-missing
+$ autoupdate
+$ ./configure
+$ make
+$ sudo make install
+```
+
+This should result in two executables: dap, and dappp that are accessible from the command line. 
