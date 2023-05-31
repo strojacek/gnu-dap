@@ -1,0 +1,424 @@
+\begin{theindex}
+
+  \item \#define, \hyperpage{13}
+  \item \_corr\_, \hyperpage{36}
+  \item \_term\_, \hyperpage{37}
+  \item \_type\_, \hyperpage{17}
+  \item \_var1\_, \hyperpage{36}
+  \item \_var2\_, \hyperpage{36}
+
+  \indexspace
+
+  \item abort, \hyperpage{7}, \hyperpage{102}
+  \item analysis of variance, \hyperpage{37}, \hyperpage{75}
+  \item ANOVA, \hyperpage{37}, \hyperpage{75}
+  \item append, \hyperpage{20}
+  \item arguments, \hyperpage{7, 8}
+  \item array, \hyperpage{10}, \hyperpage{12}, \hyperpage{95}
+  \item array of char, \hyperpage{6}
+  \item association, \hyperpage{40, 41}
+  \item autoaxes, \hyperpage{66}
+  \item axes, \hyperpage{65--67}
+
+  \indexspace
+
+  \item binary, \hyperpage{83}
+  \item binomial coefficient, \hyperpage{60}
+  \item broken lines, \hyperpage{64}
+  \item bug, \hyperpage{11}, \hyperpage{37}, \hyperpage{97}, 
+		\hyperpage{101}
+
+  \indexspace
+
+  \item C, \hyperpage{3}
+  \item caption, \hyperpage{13}, \hyperpage{66}
+  \item categ, \hyperpage{42, 43}, \hyperpage{47}
+  \item categorical data, \hyperpage{83}
+  \item categorical data analysis, \hyperpage{42, 43}, \hyperpage{47}
+  \item char, array, \hyperpage{6}
+  \item chart (SAS proc), \hyperpage{49}
+  \item chi-squared, \hyperpage{40}, \hyperpage{57}, \hyperpage{83}
+  \item choose, \hyperpage{60}
+  \item circle, \hyperpage{68}
+  \item CMH, \hyperpage{40}
+  \item Cochran-Mantel-Haenszel, \hyperpage{40}, \hyperpage{83}
+  \item column percentage, \hyperpage{40}
+  \item combinations, \hyperpage{60}
+  \item command line arguments, \hyperpage{7, 8}
+  \item commas, not, \hyperpage{11}
+  \item comparing strings, \hyperpage{97}, \hyperpage{99}
+  \item compiler, \hyperpage{8}
+  \item compress, \hyperpage{71}
+  \item constants, \hyperpage{10}, \hyperpage{91}
+  \item contingency table, \hyperpage{40}, \hyperpage{83}
+  \item contrasts, \hyperpage{37}
+  \item control, \hyperpage{39}
+  \item copy, \hyperpage{20}
+  \item copying strings, \hyperpage{97}
+  \item corr, \hyperpage{36}
+  \item corr (SAS proc), \hyperpage{36}
+  \item correlation, \hyperpage{36}
+  \item count, \hyperpage{40}
+  \item cross classification, \hyperpage{83}
+  \item cross tabulation, \hyperpage{83}
+  \item cross-classification, \hyperpage{40}
+  \item cross-tabulation, \hyperpage{40}
+  \item curve, \hyperpage{69}
+
+  \indexspace
+
+  \item dap (SAS proc), \hyperpage{103}
+  \item dap.h, \hyperpage{9, 10}
+  \item dap1.h, \hyperpage{9}
+  \item dap\_dl, \hyperpage{13}
+  \item dap\_head, \hyperpage{12}
+  \item dap\_il, \hyperpage{13}
+  \item dap\_list, \hyperpage{18}
+  \item dap\_main, \hyperpage{13}
+  \item dap\_mark, \hyperpage{17, 18}
+  \item dap\_newpart, \hyperpage{19}
+  \item dap\_rest, \hyperpage{20}
+  \item dap\_rewind, \hyperpage{18}
+  \item dap\_save, \hyperpage{20}
+  \item dap\_sets, \hyperpage{17}
+  \item dap\_sl, \hyperpage{13}
+  \item dap\_swap, \hyperpage{18}
+  \item dap\_vd, \hyperpage{13}
+  \item dappp, \hyperpage{9}
+  \item darkness, \hyperpage{64}
+  \item dashing, \hyperpage{64}
+  \item data step (SAS), \hyperpage{104}
+  \item dataset, \hyperpage{12}, \hyperpage{15}, \hyperpage{17, 18}, 
+		\hyperpage{20}
+  \item dataset in memory, \hyperpage{15}, \hyperpage{17}
+  \item dataset on disk, \hyperpage{15}, \hyperpage{17}
+  \item dataset, output, \hyperpage{16}
+  \item dataset, partitioning, \hyperpage{15}, \hyperpage{19}
+  \item dataset, small, \hyperpage{15}, \hyperpage{17}
+  \item datasets (SAS proc), \hyperpage{20}
+  \item date, \hyperpage{61, 62}
+  \item debugging, \hyperpage{8}
+  \item declaration, \hyperpage{9}, \hyperpage{11}, \hyperpage{95}
+  \item define, \hyperpage{13}
+  \item delimiter, \hyperpage{10}, \hyperpage{15}
+  \item diamonds, \hyperpage{64}
+  \item dimension, \hyperpage{10}
+  \item display, \hyperpage{56}, \hyperpage{72}
+  \item distribution-free, \hyperpage{47}
+  \item double, \hyperpage{95}
+  \item Dunnett, \hyperpage{39}
+
+  \indexspace
+
+  \item editor, \hyperpage{8}
+  \item effects, \hyperpage{37}
+  \item empirical distribution function, \hyperpage{47}
+  \item end of file, \hyperpage{16}
+  \item EOF, \hyperpage{16}
+  \item error bar, \hyperpage{53}
+  \item estimate, \hyperpage{47}
+  \item exact test, \hyperpage{40}
+  \item execution, \hyperpage{10}, \hyperpage{91}
+  \item expand, \hyperpage{71}
+  \item expected count, \hyperpage{40}
+  \item exploratory data analysis, \hyperpage{7}
+  \item extreme value, \hyperpage{61}
+  \item extreme values, \hyperpage{29}
+
+  \indexspace
+
+  \item F distribution, \hyperpage{58}
+  \item F-test, \hyperpage{37, 38}
+  \item fill, \hyperpage{20}
+  \item fill, darkness, \hyperpage{64}
+  \item Fisher's exact test, \hyperpage{40}
+  \item Fisher's LSD, \hyperpage{39}
+  \item fixed-width, \hyperpage{10}
+  \item font, \hyperpage{64}, \hyperpage{70}
+  \item font size, \hyperpage{64}
+  \item fraction, \hyperpage{40}
+  \item freq, \hyperpage{40}
+  \item freq (SAS proc), \hyperpage{40}
+
+  \indexspace
+
+  \item glm (SAS proc), \hyperpage{37}
+  \item graph, \hyperpage{69}
+  \item graphics, \hyperpage{7}, \hyperpage{56}, \hyperpage{72, 73}
+  \item gray level, \hyperpage{64}
+  \item group, \hyperpage{28}
+
+  \indexspace
+
+  \item hash, \hyperpage{69}
+  \item header, \hyperpage{12}
+  \item header file, \hyperpage{9, 10}
+  \item header lines, \hyperpage{16}
+  \item histogram, \hyperpage{49}
+
+  \indexspace
+
+  \item I-beam, \hyperpage{64}
+  \item independence, \hyperpage{40}
+  \item infile, \hyperpage{9--11}
+  \item initialize, \hyperpage{65}
+  \item input, \hyperpage{12}, \hyperpage{16}
+  \item inset, \hyperpage{9}, \hyperpage{11}
+  \item insufficient memory, \hyperpage{10}
+  \item int, \hyperpage{95}
+  \item interquartile range, \hyperpage{35}
+  \item invalid data, \hyperpage{16}
+  \item invert, \hyperpage{62}
+  \item invoking Dap, \hyperpage{6}
+
+  \indexspace
+
+  \item join, \hyperpage{27}
+
+  \indexspace
+
+  \item keep \texttt{lst} file, \hyperpage{7}
+  \item Kendall's Tau-b, \hyperpage{41}
+  \item Kolmogorov, \hyperpage{47}
+
+  \indexspace
+
+  \item landscape, \hyperpage{56}, \hyperpage{72}
+  \item least square means, \hyperpage{38, 39}
+  \item line, \hyperpage{68}
+  \item line graph, \hyperpage{51}, \hyperpage{63}
+  \item line segments, \hyperpage{63}
+  \item line width, \hyperpage{64}
+  \item line, darkness, \hyperpage{64}
+  \item linear regression, \hyperpage{45}, \hyperpage{54}, 
+		\hyperpage{82}
+  \item link, \hyperpage{65}
+  \item local variable, \hyperpage{9}
+  \item log file, \hyperpage{12}
+  \item logistic (SAS proc), \hyperpage{45}
+  \item logistic regression, \hyperpage{42}, \hyperpage{45}, 
+		\hyperpage{55}, \hyperpage{87}, \hyperpage{106}
+  \item logit models, \hyperpage{42, 43}, \hyperpage{47}
+  \item loglinear models, \hyperpage{42, 43}, \hyperpage{47}
+  \item lower, \hyperpage{71}
+  \item LSD, \hyperpage{39}
+  \item lsmeans, \hyperpage{38, 39}
+  \item lst file, \hyperpage{7}, \hyperpage{12}
+
+  \indexspace
+
+  \item main, \hyperpage{13}, \hyperpage{98}
+  \item Mann-Whitney-Wilcoxon, \hyperpage{47}
+  \item manual, \hyperpage{5}
+  \item mark, \hyperpage{17}
+  \item match, \hyperpage{24}
+  \item matrix, \hyperpage{62}
+  \item maximize, \hyperpage{61}
+  \item maximum, \hyperpage{32}, \hyperpage{34}
+  \item mean, \hyperpage{32}, \hyperpage{53}
+  \item mean squares, \hyperpage{38}
+  \item means, \hyperpage{29}, \hyperpage{53}
+  \item means (SAS proc), \hyperpage{32}
+  \item measures of association, \hyperpage{40, 41}
+  \item median, \hyperpage{34}
+  \item memory allocation, \hyperpage{10}
+  \item merge, \hyperpage{12}, \hyperpage{24}
+  \item minimize, \hyperpage{61}
+  \item minimum, \hyperpage{32}, \hyperpage{34}
+  \item missing cells, \hyperpage{20}
+  \item missing data, \hyperpage{16}
+  \item model, \hyperpage{37}
+  \item move, \hyperpage{71}
+  \item multiple definition error, \hyperpage{9}
+
+  \indexspace
+
+  \item NaN, \hyperpage{16}, \hyperpage{33}, \hyperpage{95}
+  \item nested design, \hyperpage{37}
+  \item new part, \hyperpage{19}
+  \item nland, \hyperpage{56}
+  \item nominal, \hyperpage{40}
+  \item nonparametric, \hyperpage{47}
+  \item normal, \hyperpage{50}, \hyperpage{58}
+  \item normal probability plot, \hyperpage{50}
+  \item npar1way (SAS proc), \hyperpage{47}
+  \item nport, \hyperpage{49--51}, \hyperpage{53}, \hyperpage{56}
+  \item NULL, \hyperpage{12}, \hyperpage{96}
+  \item null string, \hyperpage{11}, \hyperpage{96}
+  \item number of observations, \hyperpage{32--34}
+
+  \indexspace
+
+  \item odds ratio, \hyperpage{40}
+  \item order, sort, \hyperpage{23}
+  \item ordinal, \hyperpage{41}, \hyperpage{83}
+  \item orientation, \hyperpage{72}
+  \item outliers, \hyperpage{29}
+  \item output, \hyperpage{17}
+  \item output dataset, \hyperpage{16}
+  \item output, graphics, \hyperpage{56}, \hyperpage{72, 73}
+  \item outset, \hyperpage{12}, \hyperpage{16}
+
+  \indexspace
+
+  \item page, \hyperpage{72}
+  \item paired, \hyperpage{41}
+  \item parameters, \hyperpage{10}, \hyperpage{91}
+  \item partitioning, \hyperpage{19}
+  \item partitioning a dataset, \hyperpage{15}
+  \item partv, \hyperpage{18}
+  \item partvars, \hyperpage{15}
+  \item pattern, \hyperpage{64}
+  \item patterns, \hyperpage{64}
+  \item pctiles, \hyperpage{35}
+  \item percent, \hyperpage{41}
+  \item percent, row, \hyperpage{41}
+  \item percentage, column, \hyperpage{40}
+  \item percentile points, \hyperpage{35}
+  \item percentiles, \hyperpage{35}
+  \item pict structure, \hyperpage{63}
+  \item pict, clear, \hyperpage{65}
+  \item pict, initialize, \hyperpage{65}
+  \item pict, link, \hyperpage{65}
+  \item picture, \hyperpage{63}, \hyperpage{72}
+  \item plot, \hyperpage{51}, \hyperpage{53--55}
+  \item plot (SAS proc), \hyperpage{51}
+  \item plotmeans, \hyperpage{53}
+  \item point, \hyperpage{67}
+  \item pointer, \hyperpage{96}
+  \item points, \hyperpage{64}
+  \item portrait, \hyperpage{56}, \hyperpage{72}
+  \item position, \hyperpage{17}
+  \item preprocessor, \hyperpage{9}
+  \item print, \hyperpage{25, 26}
+  \item print (SAS proc), \hyperpage{25}
+  \item ps file, \hyperpage{7}
+
+  \indexspace
+
+  \item q-q plot, \hyperpage{50}
+  \item quartile, \hyperpage{35}
+  \item quotes, \hyperpage{97}
+
+  \indexspace
+
+  \item radius, \hyperpage{64}
+  \item raise, \hyperpage{71}
+  \item random, \hyperpage{58}, \hyperpage{60}
+  \item range, \hyperpage{32}, \hyperpage{35}
+  \item rank, \hyperpage{28}
+  \item rank (SAS proc), \hyperpage{28}
+  \item read a line, \hyperpage{16}
+  \item reading this manual, \hyperpage{5}
+  \item rectangle, \hyperpage{68, 69}
+  \item reg (SAS proc), \hyperpage{44}
+  \item regression, linear, \hyperpage{45}, \hyperpage{54}, 
+		\hyperpage{82}
+  \item regression, logistic, \hyperpage{45}, \hyperpage{55}, 
+		\hyperpage{87}
+  \item remove, \hyperpage{20}
+  \item rename, \hyperpage{20}
+  \item rewind, \hyperpage{18}
+  \item rotate, \hyperpage{71}
+  \item row percent, \hyperpage{41}
+  \item running Dap, \hyperpage{6}
+
+  \indexspace
+
+  \item SAS syntax, \hyperpage{6}, \hyperpage{103}
+  \item Satterthwaite, \hyperpage{38}
+  \item scale, \hyperpage{71}
+  \item scatter plot, \hyperpage{51}, \hyperpage{64}
+  \item sd, \hyperpage{32}
+  \item segments, \hyperpage{63}
+  \item sem, \hyperpage{32}
+  \item semi-colon, \hyperpage{101}
+  \item settable parameters, \hyperpage{10}, \hyperpage{91}, 
+		\hyperpage{101}
+  \item Shapiro-Wilk, \hyperpage{50}
+  \item shift, \hyperpage{71}
+  \item show, \hyperpage{72}
+  \item shrink, \hyperpage{71}
+  \item signed rank, \hyperpage{47}
+  \item size, \hyperpage{64}, \hyperpage{71}
+  \item size, font, \hyperpage{64}
+  \item skip lines, \hyperpage{16}
+  \item solid areas, darkness, \hyperpage{64}
+  \item Somers' D, \hyperpage{41}
+  \item sort, \hyperpage{23}
+  \item sort (SAS proc), \hyperpage{23}
+  \item split, \hyperpage{27}
+  \item square, \hyperpage{68}
+  \item squares, \hyperpage{64}
+  \item standard deviation, \hyperpage{32}, \hyperpage{53}
+  \item standard error, \hyperpage{53}
+  \item standard error of the mean, \hyperpage{32}
+  \item step, \hyperpage{33}
+  \item stop, \hyperpage{102}
+  \item strcmp, \hyperpage{97}, \hyperpage{99}
+  \item strcpy, \hyperpage{97}
+  \item stretch, \hyperpage{71}
+  \item string, \hyperpage{6}, \hyperpage{95}
+  \item string values, \hyperpage{15}
+  \item string, null, \hyperpage{96}
+  \item strings, comparing, \hyperpage{97}, \hyperpage{99}
+  \item strings, copying, \hyperpage{97}
+  \item structure, pict, \hyperpage{63}
+  \item Student's t, \hyperpage{33}, \hyperpage{59}
+  \item subscripts, \hyperpage{13}
+  \item sum, \hyperpage{33}
+  \item superscripts, \hyperpage{13}
+  \item surveyselect (SAS proc), \hyperpage{31}
+  \item swap, \hyperpage{18}
+  \item syntax, \hyperpage{3}, \hyperpage{101}
+
+  \indexspace
+
+  \item t, \hyperpage{33}
+  \item t distribution, \hyperpage{59}
+  \item t-test, \hyperpage{33}
+  \item table, \hyperpage{26}
+  \item tables, \hyperpage{7}
+  \item tabulate (SAS proc), \hyperpage{26}
+  \item terminate, \hyperpage{102}
+  \item text, \hyperpage{70}
+  \item thickness, lines, \hyperpage{64}
+  \item tick, \hyperpage{67}
+  \item ticks, \hyperpage{65, 66}
+  \item title, \hyperpage{13}, \hyperpage{66}
+  \item title (SAS statement), \hyperpage{13}
+  \item transform, \hyperpage{71}
+  \item translate, \hyperpage{71}
+  \item triangles, \hyperpage{64}
+  \item trim, \hyperpage{29}
+  \item troubleshooting, \hyperpage{101}
+  \item Tukey, \hyperpage{39}
+  \item turn, \hyperpage{71}
+  \item type, \hyperpage{17}
+  \item type, picture, \hyperpage{63}
+
+  \indexspace
+
+  \item uncertainty coefficient, \hyperpage{40}
+  \item undeclared, \hyperpage{11}, \hyperpage{95}
+  \item uniform distribution, \hyperpage{60}
+  \item univariate (SAS proc), \hyperpage{34}
+  \item unknown variable, \hyperpage{11}, \hyperpage{95}
+
+  \indexspace
+
+  \item variable, \hyperpage{11}, \hyperpage{95}
+  \item variable lists, \hyperpage{11}
+  \item variable names, \hyperpage{11}
+  \item variables as arguments, \hyperpage{11}
+  \item variance, \hyperpage{33}
+  \item viewer, \hyperpage{8}
+
+  \indexspace
+
+  \item weight, \hyperpage{33}, \hyperpage{35}
+  \item width, lines, \hyperpage{64}
+  \item Wilcoxon, \hyperpage{47}
+  \item words, \hyperpage{70}
+
+\end{theindex}

@@ -122,23 +122,23 @@ by the Free Software Foundation.
 \section{{Description, an example, and reading this manual}}
 \label{anchor:Description-and-example}%
 
-Dap is a small statistics and graphics package based on C.
+Dap is a statistics and graphics package based on C++.
 As of Version 3.0, dap can read SAS programs to perform basic statistical
-analyses, thus freeing the user from learning and using C syntax
+analyses, thus freeing the user from learning and using C++ syntax
 for straightforward tasks,
-while retaining access to the C-style graphics and statistics
+while retaining access to the C++-style graphics and statistics
 features provided by the original implementation (see \hyperref[anchor:Appendix-IV]{\chaptername~\ref*{anchor:Appendix-IV} [Appendix IV], page~\pageref*{anchor:Appendix-IV}}).
 Dap provides core methods of data management,
 analysis, and graphics commonly used in statistical
 consulting practice.
-Anyone familiar with the basic syntax of C
+Anyone familiar with the basic syntax of C++
 \index[in]{C@C}%
 \index[in]{syntax@syntax}%
-programs can learn to use the C-style features of
+programs can learn to use the C++-style features of
 dap quickly and easily from this manual and the examples it provides;
 advanced features of C are not necessary,
 although they are available.
-(\hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} provides a brief description of the C syntax needed to use
+(\hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} provides a brief description of the C++ syntax needed to use
 those features of dap dependent on it.)
 Because dap processes files one line at a time, rather than reading entire files
 into memory, it can be used on data sets that have very large numbers of lines
@@ -146,32 +146,32 @@ and/or large numbers of variables.
 
 Dap consists of: an interactive front end that
 controls editing, compiling, execution, and viewing;
-an optional SAS-to-C-style-dap translator that can convert an SAS program into
-a C-style dap program;
+an optional SAS-to-C++-style-dap translator that can convert an SAS program into
+a C++-style dap program;
 a preprocessor that facilitates data input and output by
-converting a C-style dap program into an ordinary C program; and a library of
+converting a C++-style dap program into an ordinary C++ program; and a library of
 statistics functions and graphics functions.
 Typical use of dap involves the following steps:
 
 \begin{enumerate}[start=1]
 \item Obtain, or use a text editor to create, one or more data files in acceptable
 formats.
-\item Invoke (i.e., run) `\texttt{dap}' to create or view an SAS or C-style
+\item Invoke (i.e., run) `\texttt{dap}' to create or view an SAS or C++-style
 dap program that will read and process the data file(s) to
 produce tables and/or graphics.
 (See \hyperref[anchor:Invoking-Dap]{Section~\ref*{anchor:Invoking-Dap} [Invoking Dap], page~\pageref*{anchor:Invoking-Dap}} to find out how to run dap.
-If you want to use the C-style features of dap and
+If you want to use the C++-style features of dap and
 are unfamiliar with C, read \hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} before creating
-your C-style dap program.)
+your C++-style dap program.)
 \item Tell dap to compile (i.e., translate into machine usable form) your SAS
-or C-style dap program and execute (i.e., run) your program.
+or C++-style dap program and execute (i.e., run) your program.
 \item If the previous step was successful, view your tables and/or
 graphics; otherwise, if there are errors in your program, you will have to edit your program
 further and repeat Step 3.
 \end{enumerate}
 
 The following program examples illustrate the basic structure
-of simple SAS and C-style dap programs and how functions in the library are used in dap.
+of simple SAS and C++-style dap programs and how functions in the library are used in dap.
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
@@ -249,7 +249,7 @@ nport(plot("xyset",\ "x y",\ "",\ "==",\ NULL,\ NULL,\ 1),\ 1,\ 1);
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-For each C-style dap function, this manual
+For each C++-style dap function, this manual
 \index[in]{manual@manual}%
 \index[in]{reading this manual@reading this manual}%
 gives:
@@ -318,7 +318,7 @@ When you type the command to run dap:
 
 \begin{enumerate}[start=1]
 \item The editor Emacs (type the command \texttt{info emacs}
-for the manual) is opened for the named SAS or C-style dap file(s).
+for the manual) is opened for the named SAS or C++-style dap file(s).
 Each file is created, but is empty, if it doesn't exist.
 When you are finished editing your file(s), save it (them), but do not
 exit unless you are finished running dap.
@@ -369,13 +369,13 @@ this helps you abort the program to avoid filling up your disk
 to the \texttt{err} and you will see them displayed in your
 `\texttt{Async Shell Command}' buffer.
 
-\item At this point, you can edit (and save!) your SAS or C-style dap files again or quit.
+\item At this point, you can edit (and save!) your SAS or C++-style dap files again or quit.
 \end{enumerate}
 
 If the `\texttt{-a}' or `\texttt{{-}{-}args}'
 \index[in]{arguments@arguments}%
 \index[in]{command line arguments@command line arguments}%
-option is present (C-style dap programs only),
+option is present (C++-style dap programs only),
 then all the arguments that follow it on the command
 are passed to the `\texttt{main}' in your program as `\texttt{argv}'.
 In all cases, the \texttt{lst} and \texttt{ps} files
@@ -495,7 +495,7 @@ dap {-}{-}debug tweedle.c
 \chapter{{Program structure}}
 \label{anchor:Program-structure}%
 
-This chapter concerns C-style dap programs only.
+This chapter concerns C++-style dap programs only.
 
 
 \section{{Reading files and datasets}}
@@ -503,10 +503,10 @@ This chapter concerns C-style dap programs only.
 
 \index[in]{preprocessor@preprocessor}%
 \index[in]{dappp@dappp}%
-This section and the next apply only to C-style dap programs.
-C-style dap programs are C programs with two additional statement types
+This section and the next apply only to C++-style dap programs.
+C++-style dap programs are C++ programs with two additional statement types
 and additional library functions to perform statistical and graphical tasks.
-All C-style dap programs must contain a line
+All C++-style dap programs must contain a line
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
@@ -688,7 +688,7 @@ and write to dataset \texttt{tweedledum}:}
 \section{{Variables}}
 \label{anchor:Variables}%
 
-This section applies only to C-style dap programs.
+This section applies only to C++-style dap programs.
 The variables declared in the body of an `\texttt{infile}'
 \index[in]{infile@infile}%
 or `\texttt{inset}'
@@ -718,7 +718,7 @@ referenced by the `\texttt{inset}' statement, values that your program gives to
 that variable will be overwritten on each call to `\texttt{step}'.
 \index[in]{bug@bug}%
 
-Data management, statistics, graphics, and other C-style dap functions take lists of variables
+Data management, statistics, graphics, and other C++-style dap functions take lists of variables
 as arguments.  Such lists must always be given as strings
 \index[in]{variables as arguments@variables as arguments}%
 \index[in]{variable lists@variable lists}%
@@ -748,7 +748,7 @@ or `\texttt{merge}',
 \index[in]{merge@merge}%
 for which arrays of int or double must be referenced by the array name,
 with no brackets or indices.
-For all other C-style dap functions, each element of an array of
+For all other C++-style dap functions, each element of an array of
 int or double that is to be used must appear with its bracketed index.  
 
 \section{{Output: the \texttt{err}, \texttt{log}, \texttt{lst}, and \texttt{ps} files}}
@@ -937,7 +937,7 @@ cannot contain `\texttt{|}'.)
 \index[in]{partitioning a dataset@partitioning a dataset}%
 \index[in]{dataset, partitioning@dataset, partitioning}%
 \index[in]{partvars@partvars}%
-Most C-style dap data management, statistics, and graphics functions
+Most C++-style dap data management, statistics, and graphics functions
 have an argument, called \Texinfocommandstyletextvar{partvars} in the specifications,
 that allows parts of a dataset to be processed separately.
 (SAS programs use a `\texttt{by}' statement.)
@@ -6338,14 +6338,14 @@ DAP\_FABORT 0  /* abort on free */
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\chapter*{{Appendix II: Essentials of C syntax}}
+\chapter*{{Appendix II: Essentials of C++ syntax}}
 \label{anchor:Appendix-II}%
 
-This appendix explains the most basic syntax of C needed for using dap.
+This appendix explains the most basic syntax of C++ needed for using dap.
 There are many books to which you can refer for more detailed or
-more advanced descriptions of C.
+more advanced descriptions of C++.
 Note that the GNU editor \texttt{emacs} has special provisions for editing
-C programs.
+C++ programs.
 
 
 \section{{Variables and operations}}
@@ -6864,7 +6864,7 @@ Important notes regarding data steps (at least through this version of dap):
 using the C functions `\texttt{strcmp}' (or its variants),
 `\texttt{strcpy}' (or its variants), and `\texttt{strcat}' (or its variants);
 
-\item C-style subscripting (i.e., with `\texttt{[ ]}') must be used for obtaining
+\item C++-style subscripting (i.e., with `\texttt{[ ]}') must be used for obtaining
 individual characters from a string except that in SAS, array indexes start at
 1, not 0 as in C.
 

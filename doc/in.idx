@@ -1,0 +1,502 @@
+\indexentry{C@C|hyperpage}{3}
+\indexentry{syntax@syntax|hyperpage}{3}
+\indexentry{manual@manual|hyperpage}{5}
+\indexentry{reading this manual@reading this manual|hyperpage}{5}
+\indexentry{string@string|hyperpage}{6}
+\indexentry{array of char@array of char|hyperpage}{6}
+\indexentry{char, array@char, array|hyperpage}{6}
+\indexentry{SAS syntax@SAS syntax|hyperpage}{6}
+\indexentry{running Dap@running Dap|hyperpage}{6}
+\indexentry{invoking Dap@invoking Dap|hyperpage}{6}
+\indexentry{tables@tables|hyperpage}{7}
+\indexentry{lst file@lst file|hyperpage}{7}
+\indexentry{graphics@graphics|hyperpage}{7}
+\indexentry{ps file@ps file|hyperpage}{7}
+\indexentry{lst file@lst file|hyperpage}{7}
+\indexentry{abort@abort|hyperpage}{7}
+\indexentry{arguments@arguments|hyperpage}{7}
+\indexentry{command line arguments@command line arguments|hyperpage}{7}
+\indexentry{lst file@lst file|hyperpage}{7}
+\indexentry{ps file@ps file|hyperpage}{7}
+\indexentry{keep lst file@keep \texttt{lst} file|hyperpage}{7}
+\indexentry{exploratory data analysis@exploratory data analysis|hyperpage}{7}
+\indexentry{keep lst file@keep \texttt{lst} file|hyperpage}{7}
+\indexentry{editor@editor|hyperpage}{8}
+\indexentry{compiler@compiler|hyperpage}{8}
+\indexentry{viewer@viewer|hyperpage}{8}
+\indexentry{debugging@debugging|hyperpage}{8}
+\indexentry{arguments@arguments|hyperpage}{8}
+\indexentry{command line arguments@command line arguments|hyperpage}{8}
+\indexentry{arguments@arguments|hyperpage}{8}
+\indexentry{preprocessor@preprocessor|hyperpage}{9}
+\indexentry{dappp@dappp|hyperpage}{9}
+\indexentry{header file@header file|hyperpage}{9}
+\indexentry{dap.h@dap.h|hyperpage}{9}
+\indexentry{dap1.h@dap1.h|hyperpage}{9}
+\indexentry{multiple definition error@multiple definition error|hyperpage}{9}
+\indexentry{infile@infile|hyperpage}{9}
+\indexentry{inset@inset|hyperpage}{9}
+\indexentry{local variable@local variable|hyperpage}{9}
+\indexentry{declaration@declaration|hyperpage}{9}
+\indexentry{dimension@dimension|hyperpage}{10}
+\indexentry{array@array|hyperpage}{10}
+\indexentry{infile@infile|hyperpage}{10}
+\indexentry{delimiter@delimiter|hyperpage}{10}
+\indexentry{infile@infile|hyperpage}{10}
+\indexentry{fixed-width@fixed-width|hyperpage}{10}
+\indexentry{header file@header file|hyperpage}{10}
+\indexentry{dap.h@dap.h|hyperpage}{10}
+\indexentry{execution@execution|hyperpage}{10}
+\indexentry{parameters@parameters|hyperpage}{10}
+\indexentry{constants@constants|hyperpage}{10}
+\indexentry{settable parameters@settable parameters|hyperpage}{10}
+\indexentry{memory allocation@memory allocation|hyperpage}{10}
+\indexentry{insufficient memory@insufficient memory|hyperpage}{10}
+\indexentry{infile@infile|hyperpage}{11}
+\indexentry{inset@inset|hyperpage}{11}
+\indexentry{declaration@declaration|hyperpage}{11}
+\indexentry{unknown variable@unknown variable|hyperpage}{11}
+\indexentry{undeclared@undeclared|hyperpage}{11}
+\indexentry{variable@variable|hyperpage}{11}
+\indexentry{declaration@declaration|hyperpage}{11}
+\indexentry{variable names@variable names|hyperpage}{11}
+\indexentry{bug@bug|hyperpage}{11}
+\indexentry{variables as arguments@variables as arguments|hyperpage}{11}
+\indexentry{variable lists@variable lists|hyperpage}{11}
+\indexentry{commas, not@commas, not|hyperpage}{11}
+\indexentry{null string@null string|hyperpage}{11}
+\indexentry{NULL@NULL|hyperpage}{12}
+\indexentry{array@array|hyperpage}{12}
+\indexentry{input@input|hyperpage}{12}
+\indexentry{outset@outset|hyperpage}{12}
+\indexentry{dataset@dataset|hyperpage}{12}
+\indexentry{merge@merge|hyperpage}{12}
+\indexentry{dap\_head@dap\_head|hyperpage}{12}
+\indexentry{header@header|hyperpage}{12}
+\indexentry{lst file@lst file|hyperpage}{12}
+\indexentry{log file@log file|hyperpage}{12}
+\indexentry{title@title|hyperpage}{13}
+\indexentry{caption@caption|hyperpage}{13}
+\indexentry{title (SAS statement)@title (SAS statement)|hyperpage}{13}
+\indexentry{subscripts@subscripts|hyperpage}{13}
+\indexentry{superscripts@superscripts|hyperpage}{13}
+\indexentry{\#define@\#define|hyperpage}{13}
+\indexentry{define@define|hyperpage}{13}
+\indexentry{dap\_main@dap\_main|hyperpage}{13}
+\indexentry{main@main|hyperpage}{13}
+\indexentry{dap\_vd@dap\_vd|hyperpage}{13}
+\indexentry{dap\_dl@dap\_dl|hyperpage}{13}
+\indexentry{dap\_il@dap\_il|hyperpage}{13}
+\indexentry{dap\_sl@dap\_sl|hyperpage}{13}
+\indexentry{dap\_vd@dap\_vd|hyperpage}{13}
+\indexentry{dap\_dl@dap\_dl|hyperpage}{13}
+\indexentry{dap\_il@dap\_il|hyperpage}{13}
+\indexentry{dap\_sl@dap\_sl|hyperpage}{13}
+\indexentry{dataset@dataset|hyperpage}{15}
+\indexentry{string values@string values|hyperpage}{15}
+\indexentry{delimiter@delimiter|hyperpage}{15}
+\indexentry{partitioning a dataset@partitioning a dataset|hyperpage}{15}
+\indexentry{dataset, partitioning@dataset, partitioning|hyperpage}{15}
+\indexentry{partvars@partvars|hyperpage}{15}
+\indexentry{dataset in memory@dataset in memory|hyperpage}{15}
+\indexentry{dataset, small@dataset, small|hyperpage}{15}
+\indexentry{dataset on disk@dataset on disk|hyperpage}{15}
+\indexentry{input@input|hyperpage}{16}
+\indexentry{read a line@read a line|hyperpage}{16}
+\indexentry{input@input|hyperpage}{16}
+\indexentry{EOF@EOF|hyperpage}{16}
+\indexentry{end of file@end of file|hyperpage}{16}
+\indexentry{missing data@missing data|hyperpage}{16}
+\indexentry{NaN@NaN|hyperpage}{16}
+\indexentry{read a line@read a line|hyperpage}{16}
+\indexentry{skip lines@skip lines|hyperpage}{16}
+\indexentry{input@input|hyperpage}{16}
+\indexentry{invalid data@invalid data|hyperpage}{16}
+\indexentry{header lines@header lines|hyperpage}{16}
+\indexentry{dataset, output@dataset, output|hyperpage}{16}
+\indexentry{output dataset@output dataset|hyperpage}{16}
+\indexentry{outset@outset|hyperpage}{16}
+\indexentry{\_type\_@\_type\_|hyperpage}{17}
+\indexentry{type@type|hyperpage}{17}
+\indexentry{dataset in memory@dataset in memory|hyperpage}{17}
+\indexentry{dataset, small@dataset, small|hyperpage}{17}
+\indexentry{dataset on disk@dataset on disk|hyperpage}{17}
+\indexentry{dataset@dataset|hyperpage}{17}
+\indexentry{dap\_sets@dap\_sets|hyperpage}{17}
+\indexentry{output@output|hyperpage}{17}
+\indexentry{mark@mark|hyperpage}{17}
+\indexentry{position@position|hyperpage}{17}
+\indexentry{dap\_mark@dap\_mark|hyperpage}{17}
+\indexentry{dap\_rewind@dap\_rewind|hyperpage}{18}
+\indexentry{rewind@rewind|hyperpage}{18}
+\indexentry{dataset@dataset|hyperpage}{18}
+\indexentry{dap\_mark@dap\_mark|hyperpage}{18}
+\indexentry{dap\_list@dap\_list|hyperpage}{18}
+\indexentry{partv@partv|hyperpage}{18}
+\indexentry{swap@swap|hyperpage}{18}
+\indexentry{dap\_swap@dap\_swap|hyperpage}{18}
+\indexentry{dap\_newpart@dap\_newpart|hyperpage}{19}
+\indexentry{new part@new part|hyperpage}{19}
+\indexentry{dataset, partitioning@dataset, partitioning|hyperpage}{19}
+\indexentry{partitioning@partitioning|hyperpage}{19}
+\indexentry{dap\_save@dap\_save|hyperpage}{20}
+\indexentry{dap\_rest@dap\_rest|hyperpage}{20}
+\indexentry{dataset@dataset|hyperpage}{20}
+\indexentry{copy@copy|hyperpage}{20}
+\indexentry{rename@rename|hyperpage}{20}
+\indexentry{append@append|hyperpage}{20}
+\indexentry{remove@remove|hyperpage}{20}
+\indexentry{fill@fill|hyperpage}{20}
+\indexentry{missing cells@missing cells|hyperpage}{20}
+\indexentry{datasets (SAS proc)@datasets (SAS proc)|hyperpage}{20}
+\indexentry{sort@sort|hyperpage}{23}
+\indexentry{sort (SAS proc)@sort (SAS proc)|hyperpage}{23}
+\indexentry{order, sort@order, sort|hyperpage}{23}
+\indexentry{sort@sort|hyperpage}{23}
+\indexentry{merge@merge|hyperpage}{24}
+\indexentry{match@match|hyperpage}{24}
+\indexentry{print@print|hyperpage}{25}
+\indexentry{print (SAS proc)@print (SAS proc)|hyperpage}{25}
+\indexentry{print@print|hyperpage}{26}
+\indexentry{table@table|hyperpage}{26}
+\indexentry{tabulate (SAS proc)@tabulate (SAS proc)|hyperpage}{26}
+\indexentry{split@split|hyperpage}{27}
+\indexentry{join@join|hyperpage}{27}
+\indexentry{group@group|hyperpage}{28}
+\indexentry{rank@rank|hyperpage}{28}
+\indexentry{rank (SAS proc)@rank (SAS proc)|hyperpage}{28}
+\indexentry{trim@trim|hyperpage}{29}
+\indexentry{means@means|hyperpage}{29}
+\indexentry{extreme values@extreme values|hyperpage}{29}
+\indexentry{outliers@outliers|hyperpage}{29}
+\indexentry{surveyselect (SAS proc)@surveyselect (SAS proc)|hyperpage}{31}
+\indexentry{means (SAS proc)@means (SAS proc)|hyperpage}{32}
+\indexentry{maximum@maximum|hyperpage}{32}
+\indexentry{mean@mean|hyperpage}{32}
+\indexentry{minimum@minimum|hyperpage}{32}
+\indexentry{number of observations@number of observations|hyperpage}{32}
+\indexentry{range@range|hyperpage}{32}
+\indexentry{standard deviation@standard deviation|hyperpage}{32}
+\indexentry{sd@sd|hyperpage}{32}
+\indexentry{standard deviation@standard deviation|hyperpage}{32}
+\indexentry{sd@sd|hyperpage}{32}
+\indexentry{standard error of the mean@standard error of the mean|hyperpage}{32}
+\indexentry{sem@sem|hyperpage}{32}
+\indexentry{standard error of the mean@standard error of the mean|hyperpage}{32}
+\indexentry{sem@sem|hyperpage}{32}
+\indexentry{step@step|hyperpage}{33}
+\indexentry{sum@sum|hyperpage}{33}
+\indexentry{weight@weight|hyperpage}{33}
+\indexentry{Student's t@Student's t|hyperpage}{33}
+\indexentry{t@t|hyperpage}{33}
+\indexentry{t-test@t-test|hyperpage}{33}
+\indexentry{variance@variance|hyperpage}{33}
+\indexentry{variance@variance|hyperpage}{33}
+\indexentry{variance@variance|hyperpage}{33}
+\indexentry{variance@variance|hyperpage}{33}
+\indexentry{number of observations@number of observations|hyperpage}{33}
+\indexentry{weight@weight|hyperpage}{33}
+\indexentry{NaN@NaN|hyperpage}{33}
+\indexentry{univariate (SAS proc)@univariate (SAS proc)|hyperpage}{34}
+\indexentry{maximum@maximum|hyperpage}{34}
+\indexentry{median@median|hyperpage}{34}
+\indexentry{minimum@minimum|hyperpage}{34}
+\indexentry{number of observations@number of observations|hyperpage}{34}
+\indexentry{quartile@quartile|hyperpage}{35}
+\indexentry{quartile@quartile|hyperpage}{35}
+\indexentry{interquartile range@interquartile range|hyperpage}{35}
+\indexentry{range@range|hyperpage}{35}
+\indexentry{percentile points@percentile points|hyperpage}{35}
+\indexentry{weight@weight|hyperpage}{35}
+\indexentry{percentiles@percentiles|hyperpage}{35}
+\indexentry{pctiles@pctiles|hyperpage}{35}
+\indexentry{corr (SAS proc)@corr (SAS proc)|hyperpage}{36}
+\indexentry{\_var1\_@\_var1\_|hyperpage}{36}
+\indexentry{\_var2\_@\_var2\_|hyperpage}{36}
+\indexentry{\_corr\_@\_corr\_|hyperpage}{36}
+\indexentry{corr@corr|hyperpage}{36}
+\indexentry{correlation@correlation|hyperpage}{36}
+\indexentry{glm (SAS proc)@glm (SAS proc)|hyperpage}{37}
+\indexentry{effects@effects|hyperpage}{37}
+\indexentry{analysis of variance@analysis of variance|hyperpage}{37}
+\indexentry{ANOVA@ANOVA|hyperpage}{37}
+\indexentry{model@model|hyperpage}{37}
+\indexentry{contrasts@contrasts|hyperpage}{37}
+\indexentry{F-test@F-test|hyperpage}{37}
+\indexentry{model@model|hyperpage}{37}
+\indexentry{nested design@nested design|hyperpage}{37}
+\indexentry{bug@bug|hyperpage}{37}
+\indexentry{nested design@nested design|hyperpage}{37}
+\indexentry{\_term\_@\_term\_|hyperpage}{37}
+\indexentry{F-test@F-test|hyperpage}{38}
+\indexentry{mean squares@mean squares|hyperpage}{38}
+\indexentry{Satterthwaite@Satterthwaite|hyperpage}{38}
+\indexentry{lsmeans@lsmeans|hyperpage}{38}
+\indexentry{least square means@least square means|hyperpage}{38}
+\indexentry{lsmeans@lsmeans|hyperpage}{39}
+\indexentry{least square means@least square means|hyperpage}{39}
+\indexentry{LSD@LSD|hyperpage}{39}
+\indexentry{Fisher's LSD@Fisher's LSD|hyperpage}{39}
+\indexentry{Tukey@Tukey|hyperpage}{39}
+\indexentry{Dunnett@Dunnett|hyperpage}{39}
+\indexentry{control@control|hyperpage}{39}
+\indexentry{freq (SAS proc)@freq (SAS proc)|hyperpage}{40}
+\indexentry{freq@freq|hyperpage}{40}
+\indexentry{contingency table@contingency table|hyperpage}{40}
+\indexentry{cross-tabulation@cross-tabulation|hyperpage}{40}
+\indexentry{cross-classification@cross-classification|hyperpage}{40}
+\indexentry{chi-squared@chi-squared|hyperpage}{40}
+\indexentry{CMH@CMH|hyperpage}{40}
+\indexentry{Cochran-Mantel-Haenszel@Cochran-Mantel-Haenszel|hyperpage}{40}
+\indexentry{column percentage@column percentage|hyperpage}{40}
+\indexentry{percentage, column@percentage, column|hyperpage}{40}
+\indexentry{count@count|hyperpage}{40}
+\indexentry{expected count@expected count|hyperpage}{40}
+\indexentry{independence@independence|hyperpage}{40}
+\indexentry{Fisher's exact test@Fisher's exact test|hyperpage}{40}
+\indexentry{exact test@exact test|hyperpage}{40}
+\indexentry{fraction@fraction|hyperpage}{40}
+\indexentry{nominal@nominal|hyperpage}{40}
+\indexentry{association@association|hyperpage}{40}
+\indexentry{measures of association@measures of association|hyperpage}{40}
+\indexentry{uncertainty coefficient@uncertainty coefficient|hyperpage}{40}
+\indexentry{odds ratio@odds ratio|hyperpage}{40}
+\indexentry{ordinal@ordinal|hyperpage}{41}
+\indexentry{association@association|hyperpage}{41}
+\indexentry{measures of association@measures of association|hyperpage}{41}
+\indexentry{Kendall's Tau-b@Kendall's Tau-b|hyperpage}{41}
+\indexentry{Somers' D@Somers' D|hyperpage}{41}
+\indexentry{paired@paired|hyperpage}{41}
+\indexentry{percent@percent|hyperpage}{41}
+\indexentry{row percent@row percent|hyperpage}{41}
+\indexentry{percent, row@percent, row|hyperpage}{41}
+\indexentry{categ@categ|hyperpage}{42}
+\indexentry{categorical data analysis@categorical data analysis|hyperpage}{42}
+\indexentry{loglinear models@loglinear models|hyperpage}{42}
+\indexentry{logit models@logit models|hyperpage}{42}
+\indexentry{logistic regression@logistic regression|hyperpage}{42}
+\indexentry{categ@categ|hyperpage}{43}
+\indexentry{categorical data analysis@categorical data analysis|hyperpage}{43}
+\indexentry{loglinear models@loglinear models|hyperpage}{43}
+\indexentry{logit models@logit models|hyperpage}{43}
+\indexentry{reg (SAS proc)@reg (SAS proc)|hyperpage}{44}
+\indexentry{linear regression@linear regression|hyperpage}{45}
+\indexentry{regression, linear@regression, linear|hyperpage}{45}
+\indexentry{logistic (SAS proc)@logistic (SAS proc)|hyperpage}{45}
+\indexentry{logistic regression@logistic regression|hyperpage}{45}
+\indexentry{regression, logistic@regression, logistic|hyperpage}{45}
+\indexentry{npar1way (SAS proc)@npar1way (SAS proc)|hyperpage}{47}
+\indexentry{nonparametric@nonparametric|hyperpage}{47}
+\indexentry{distribution-free@distribution-free|hyperpage}{47}
+\indexentry{Wilcoxon@Wilcoxon|hyperpage}{47}
+\indexentry{Mann-Whitney-Wilcoxon@Mann-Whitney-Wilcoxon|hyperpage}{47}
+\indexentry{signed rank@signed rank|hyperpage}{47}
+\indexentry{Kolmogorov@Kolmogorov|hyperpage}{47}
+\indexentry{empirical distribution function@empirical distribution function|hyperpage}{47}
+\indexentry{categ@categ|hyperpage}{47}
+\indexentry{estimate@estimate|hyperpage}{47}
+\indexentry{categorical data analysis@categorical data analysis|hyperpage}{47}
+\indexentry{loglinear models@loglinear models|hyperpage}{47}
+\indexentry{logit models@logit models|hyperpage}{47}
+\indexentry{histogram@histogram|hyperpage}{49}
+\indexentry{nport@nport|hyperpage}{49}
+\indexentry{chart (SAS proc)@chart (SAS proc)|hyperpage}{49}
+\indexentry{normal@normal|hyperpage}{50}
+\indexentry{normal probability plot@normal probability plot|hyperpage}{50}
+\indexentry{Shapiro-Wilk@Shapiro-Wilk|hyperpage}{50}
+\indexentry{q-q plot@q-q plot|hyperpage}{50}
+\indexentry{nport@nport|hyperpage}{50}
+\indexentry{plot (SAS proc)@plot (SAS proc)|hyperpage}{51}
+\indexentry{plot@plot|hyperpage}{51}
+\indexentry{scatter plot@scatter plot|hyperpage}{51}
+\indexentry{line graph@line graph|hyperpage}{51}
+\indexentry{nport@nport|hyperpage}{51}
+\indexentry{mean@mean|hyperpage}{53}
+\indexentry{error bar@error bar|hyperpage}{53}
+\indexentry{standard deviation@standard deviation|hyperpage}{53}
+\indexentry{standard error@standard error|hyperpage}{53}
+\indexentry{plot@plot|hyperpage}{53}
+\indexentry{means@means|hyperpage}{53}
+\indexentry{plotmeans@plotmeans|hyperpage}{53}
+\indexentry{nport@nport|hyperpage}{53}
+\indexentry{linear regression@linear regression|hyperpage}{54}
+\indexentry{regression, linear@regression, linear|hyperpage}{54}
+\indexentry{plot@plot|hyperpage}{54}
+\indexentry{logistic regression@logistic regression|hyperpage}{55}
+\indexentry{regression, logistic@regression, logistic|hyperpage}{55}
+\indexentry{plot@plot|hyperpage}{55}
+\indexentry{nport@nport|hyperpage}{56}
+\indexentry{nland@nland|hyperpage}{56}
+\indexentry{portrait@portrait|hyperpage}{56}
+\indexentry{landscape@landscape|hyperpage}{56}
+\indexentry{graphics@graphics|hyperpage}{56}
+\indexentry{output, graphics@output, graphics|hyperpage}{56}
+\indexentry{display@display|hyperpage}{56}
+\indexentry{chi-squared@chi-squared|hyperpage}{57}
+\indexentry{F distribution@F distribution|hyperpage}{58}
+\indexentry{normal@normal|hyperpage}{58}
+\indexentry{random@random|hyperpage}{58}
+\indexentry{t distribution@t distribution|hyperpage}{59}
+\indexentry{Student's t@Student's t|hyperpage}{59}
+\indexentry{uniform distribution@uniform distribution|hyperpage}{60}
+\indexentry{random@random|hyperpage}{60}
+\indexentry{binomial coefficient@binomial coefficient|hyperpage}{60}
+\indexentry{combinations@combinations|hyperpage}{60}
+\indexentry{choose@choose|hyperpage}{60}
+\indexentry{minimize@minimize|hyperpage}{61}
+\indexentry{maximize@maximize|hyperpage}{61}
+\indexentry{extreme value@extreme value|hyperpage}{61}
+\indexentry{date@date|hyperpage}{61}
+\indexentry{date@date|hyperpage}{62}
+\indexentry{matrix@matrix|hyperpage}{62}
+\indexentry{invert@invert|hyperpage}{62}
+\indexentry{pict structure@pict structure|hyperpage}{63}
+\indexentry{structure, pict@structure, pict|hyperpage}{63}
+\indexentry{type, picture@type, picture|hyperpage}{63}
+\indexentry{picture@picture|hyperpage}{63}
+\indexentry{line graph@line graph|hyperpage}{63}
+\indexentry{segments@segments|hyperpage}{63}
+\indexentry{line segments@line segments|hyperpage}{63}
+\indexentry{I-beam@I-beam|hyperpage}{64}
+\indexentry{scatter plot@scatter plot|hyperpage}{64}
+\indexentry{points@points|hyperpage}{64}
+\indexentry{squares@squares|hyperpage}{64}
+\indexentry{triangles@triangles|hyperpage}{64}
+\indexentry{triangles@triangles|hyperpage}{64}
+\indexentry{diamonds@diamonds|hyperpage}{64}
+\indexentry{patterns@patterns|hyperpage}{64}
+\indexentry{dashing@dashing|hyperpage}{64}
+\indexentry{broken lines@broken lines|hyperpage}{64}
+\indexentry{font@font|hyperpage}{64}
+\indexentry{font size@font size|hyperpage}{64}
+\indexentry{size, font@size, font|hyperpage}{64}
+\indexentry{line width@line width|hyperpage}{64}
+\indexentry{thickness, lines@thickness, lines|hyperpage}{64}
+\indexentry{width, lines@width, lines|hyperpage}{64}
+\indexentry{radius@radius|hyperpage}{64}
+\indexentry{size@size|hyperpage}{64}
+\indexentry{gray level@gray level|hyperpage}{64}
+\indexentry{darkness@darkness|hyperpage}{64}
+\indexentry{line, darkness@line, darkness|hyperpage}{64}
+\indexentry{gray level@gray level|hyperpage}{64}
+\indexentry{darkness@darkness|hyperpage}{64}
+\indexentry{fill, darkness@fill, darkness|hyperpage}{64}
+\indexentry{solid areas, darkness@solid areas, darkness|hyperpage}{64}
+\indexentry{pattern@pattern|hyperpage}{64}
+\indexentry{pattern@pattern|hyperpage}{64}
+\indexentry{pict, initialize@pict, initialize|hyperpage}{65}
+\indexentry{pict, link@pict, link|hyperpage}{65}
+\indexentry{initialize@initialize|hyperpage}{65}
+\indexentry{link@link|hyperpage}{65}
+\indexentry{pict, clear@pict, clear|hyperpage}{65}
+\indexentry{axes@axes|hyperpage}{65}
+\indexentry{ticks@ticks|hyperpage}{65}
+\indexentry{axes@axes|hyperpage}{66}
+\indexentry{ticks@ticks|hyperpage}{66}
+\indexentry{caption@caption|hyperpage}{66}
+\indexentry{title@title|hyperpage}{66}
+\indexentry{autoaxes@autoaxes|hyperpage}{66}
+\indexentry{tick@tick|hyperpage}{67}
+\indexentry{axes@axes|hyperpage}{67}
+\indexentry{point@point|hyperpage}{67}
+\indexentry{line@line|hyperpage}{68}
+\indexentry{circle@circle|hyperpage}{68}
+\indexentry{rectangle@rectangle|hyperpage}{68}
+\indexentry{square@square|hyperpage}{68}
+\indexentry{rectangle@rectangle|hyperpage}{69}
+\indexentry{hash@hash|hyperpage}{69}
+\indexentry{curve@curve|hyperpage}{69}
+\indexentry{graph@graph|hyperpage}{69}
+\indexentry{text@text|hyperpage}{70}
+\indexentry{words@words|hyperpage}{70}
+\indexentry{font@font|hyperpage}{70}
+\indexentry{transform@transform|hyperpage}{71}
+\indexentry{translate@translate|hyperpage}{71}
+\indexentry{move@move|hyperpage}{71}
+\indexentry{shift@shift|hyperpage}{71}
+\indexentry{raise@raise|hyperpage}{71}
+\indexentry{lower@lower|hyperpage}{71}
+\indexentry{transform@transform|hyperpage}{71}
+\indexentry{scale@scale|hyperpage}{71}
+\indexentry{size@size|hyperpage}{71}
+\indexentry{stretch@stretch|hyperpage}{71}
+\indexentry{shrink@shrink|hyperpage}{71}
+\indexentry{compress@compress|hyperpage}{71}
+\indexentry{expand@expand|hyperpage}{71}
+\indexentry{transform@transform|hyperpage}{71}
+\indexentry{rotate@rotate|hyperpage}{71}
+\indexentry{turn@turn|hyperpage}{71}
+\indexentry{portrait@portrait|hyperpage}{72}
+\indexentry{landscape@landscape|hyperpage}{72}
+\indexentry{picture@picture|hyperpage}{72}
+\indexentry{orientation@orientation|hyperpage}{72}
+\indexentry{graphics@graphics|hyperpage}{72}
+\indexentry{output, graphics@output, graphics|hyperpage}{72}
+\indexentry{portrait@portrait|hyperpage}{72}
+\indexentry{landscape@landscape|hyperpage}{72}
+\indexentry{picture@picture|hyperpage}{72}
+\indexentry{orientation@orientation|hyperpage}{72}
+\indexentry{graphics@graphics|hyperpage}{72}
+\indexentry{output, graphics@output, graphics|hyperpage}{72}
+\indexentry{page@page|hyperpage}{72}
+\indexentry{show@show|hyperpage}{72}
+\indexentry{display@display|hyperpage}{72}
+\indexentry{picture@picture|hyperpage}{72}
+\indexentry{output, graphics@output, graphics|hyperpage}{73}
+\indexentry{graphics@graphics|hyperpage}{73}
+\indexentry{analysis of variance@analysis of variance|hyperpage}{75}
+\indexentry{ANOVA@ANOVA|hyperpage}{75}
+\indexentry{linear regression@linear regression|hyperpage}{82}
+\indexentry{regression, linear@regression, linear|hyperpage}{82}
+\indexentry{contingency table@contingency table|hyperpage}{83}
+\indexentry{cross classification@cross classification|hyperpage}{83}
+\indexentry{cross tabulation@cross tabulation|hyperpage}{83}
+\indexentry{chi-squared@chi-squared|hyperpage}{83}
+\indexentry{Cochran-Mantel-Haenszel@Cochran-Mantel-Haenszel|hyperpage}{83}
+\indexentry{ordinal@ordinal|hyperpage}{83}
+\indexentry{categorical data@categorical data|hyperpage}{83}
+\indexentry{binary@binary|hyperpage}{83}
+\indexentry{logistic regression@logistic regression|hyperpage}{87}
+\indexentry{regression, logistic@regression, logistic|hyperpage}{87}
+\indexentry{execution@execution|hyperpage}{91}
+\indexentry{parameters@parameters|hyperpage}{91}
+\indexentry{constants@constants|hyperpage}{91}
+\indexentry{settable parameters@settable parameters|hyperpage}{91}
+\indexentry{variable@variable|hyperpage}{95}
+\indexentry{unknown variable@unknown variable|hyperpage}{95}
+\indexentry{undeclared@undeclared|hyperpage}{95}
+\indexentry{declaration@declaration|hyperpage}{95}
+\indexentry{int@int|hyperpage}{95}
+\indexentry{double@double|hyperpage}{95}
+\indexentry{NaN@NaN|hyperpage}{95}
+\indexentry{array@array|hyperpage}{95}
+\indexentry{string@string|hyperpage}{95}
+\indexentry{pointer@pointer|hyperpage}{96}
+\indexentry{pointer@pointer|hyperpage}{96}
+\indexentry{null string@null string|hyperpage}{96}
+\indexentry{string, null@string, null|hyperpage}{96}
+\indexentry{NULL@NULL|hyperpage}{96}
+\indexentry{strcpy@strcpy|hyperpage}{97}
+\indexentry{copying strings@copying strings|hyperpage}{97}
+\indexentry{strings, copying@strings, copying|hyperpage}{97}
+\indexentry{quotes@quotes|hyperpage}{97}
+\indexentry{bug@bug|hyperpage}{97}
+\indexentry{strcmp@strcmp|hyperpage}{97}
+\indexentry{comparing strings@comparing strings|hyperpage}{97}
+\indexentry{strings, comparing@strings, comparing|hyperpage}{97}
+\indexentry{main@main|hyperpage}{98}
+\indexentry{strcmp@strcmp|hyperpage}{99}
+\indexentry{comparing strings@comparing strings|hyperpage}{99}
+\indexentry{strings, comparing@strings, comparing|hyperpage}{99}
+\indexentry{bug@bug|hyperpage}{101}
+\indexentry{troubleshooting@troubleshooting|hyperpage}{101}
+\indexentry{syntax@syntax|hyperpage}{101}
+\indexentry{semi-colon@semi-colon|hyperpage}{101}
+\indexentry{settable parameters@settable parameters|hyperpage}{101}
+\indexentry{terminate@terminate|hyperpage}{102}
+\indexentry{abort@abort|hyperpage}{102}
+\indexentry{stop@stop|hyperpage}{102}
+\indexentry{SAS syntax@SAS syntax|hyperpage}{103}
+\indexentry{dap (SAS proc)@dap (SAS proc)|hyperpage}{103}
+\indexentry{data step (SAS)@data step (SAS)|hyperpage}{104}
+\indexentry{logistic regression@logistic regression|hyperpage}{106}
