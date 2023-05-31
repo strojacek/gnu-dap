@@ -1,3 +1,6 @@
+CXX = g++
+AM_CXXFLAGS=-g -std=c++17 -Wall -pedantic
+
 bin_PROGRAMS = dap dappp
 dappp_SOURCES = dappp.cpp sastrans.cpp sastrans1.cpp sastrans2.cpp sastrans3.cpp
 dap_SOURCES = dap.cpp

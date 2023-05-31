@@ -353,6 +353,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
+AM_CXXFLAGS = -g -std=c++17 -Wall -pedantic
 dappp_SOURCES = dappp.cpp sastrans.cpp sastrans1.cpp sastrans2.cpp sastrans3.cpp
 dap_SOURCES = dap.cpp
 include_HEADERS = dap.h dap1.h ps.h
