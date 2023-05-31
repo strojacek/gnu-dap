@@ -14,7 +14,7 @@ This repository contains the following changes I have made to the system:
 
 Note: This is very much a work in progress, and the original codebase was written in C. In order to start the implementation of some newer features, I needed to use generics, and have had to update the C code to C++. 
 
-As a result, the original manual is out of date, in that it references a bunch of C related functions. Dap has contributions from the following individuals:
+Dap has contributions from the following individuals:
 
 
 
