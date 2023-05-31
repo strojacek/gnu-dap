@@ -136,7 +136,7 @@ Anyone familiar with the basic syntax of C++
 \index[in]{syntax@syntax}%
 programs can learn to use the C++-style features of
 dap quickly and easily from this manual and the examples it provides;
-advanced features of C are not necessary,
+advanced features of C++ are not necessary,
 although they are available.
 (\hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} provides a brief description of the C++ syntax needed to use
 those features of dap dependent on it.)
@@ -161,7 +161,7 @@ dap program that will read and process the data file(s) to
 produce tables and/or graphics.
 (See \hyperref[anchor:Invoking-Dap]{Section~\ref*{anchor:Invoking-Dap} [Invoking Dap], page~\pageref*{anchor:Invoking-Dap}} to find out how to run dap.
 If you want to use the C++-style features of dap and
-are unfamiliar with C, read \hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} before creating
+are unfamiliar with C++, read \hyperref[anchor:Appendix-II]{\chaptername~\ref*{anchor:Appendix-II} [Appendix II], page~\pageref*{anchor:Appendix-II}} before creating
 your C++-style dap program.)
 \item Tell dap to compile (i.e., translate into machine usable form) your SAS
 or C++-style dap program and execute (i.e., run) your program.
@@ -280,7 +280,7 @@ some, although permitted, may have no effect.
 Elements within braces `\texttt{\{\ \}}', separated by a vertical bar `\texttt{|}' are
 alternatives.
 Keywords may be in upper or lower case.
-Single and double quotes must be used as in C, i.e., use double quotes
+Single and double quotes must be used as in C++, i.e., use double quotes
 for strings (whether or not they are one character long) and
 use single quotes only for character values.
 Not all statements listed below the `\texttt{data}' or `\texttt{proc}'
@@ -298,10 +298,10 @@ To run dap, you must type a command which looks like one of the following
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\textbf{dap [-k] [-d] \Texinfocommandstyletextvar{file1}.c [ \Texinfocommandstyletextvar{file2}.c ... ] [-a \Texinfocommandstyletextvar{arg1} ...]}
-\textbf{dap [--keep] [--debug] \Texinfocommandstyletextvar{file1}.c [ \Texinfocommandstyletextvar{file2}.c ... ] [--args \Texinfocommandstyletextvar{arg1} ...]}
-\textbf{dap [-k] [-d] \Texinfocommandstyletextvar{file1}.sbs [ \Texinfocommandstyletextvar{file2}.c ... ]}
-\textbf{dap [--keep] [--debug] \Texinfocommandstyletextvar{file1}.sbs [ \Texinfocommandstyletextvar{file2}.c ... ]}
+\textbf{dap [-k] [-d] \Texinfocommandstyletextvar{file1}.cpp [ \Texinfocommandstyletextvar{file2}.cpp ... ] [-a \Texinfocommandstyletextvar{arg1} ...]}
+\textbf{dap [--keep] [--debug] \Texinfocommandstyletextvar{file1}.cpp [ \Texinfocommandstyletextvar{file2}.cpp ... ] [--args \Texinfocommandstyletextvar{arg1} ...]}
+\textbf{dap [-k] [-d] \Texinfocommandstyletextvar{file1}.sas [ \Texinfocommandstyletextvar{file2}.cpp ... ]}
+\textbf{dap [--keep] [--debug] \Texinfocommandstyletextvar{file1}.sas [ \Texinfocommandstyletextvar{file2}.cpp ... ]}
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
@@ -324,18 +324,18 @@ When you are finished editing your file(s), save it (them), but do not
 exit unless you are finished running dap.
 \item Emacs will have a buffer called `\texttt{Async Shell Command}'; select that buffer
 and you will be
-asked whether to compile the named SAS or C file(s) and run the resulting
+asked whether to compile the named SAS or C++ file(s) and run the resulting
 executable file (if the compilation is successful).
 If you answer `\texttt{y}', then dap
-runs the preprocessor on the named SAS or C file(s) to produce
-\Texinfocommandstyletextvar{file1}.dap.c [ \Texinfocommandstyletextvar{file2}.dap.c ... ].
+runs the preprocessor on the named SAS or C++ file(s) to produce
+\Texinfocommandstyletextvar{file1}.dap.cpp [ \Texinfocommandstyletextvar{file2}.dap.cpp ... ].
 If you answer `\texttt{q}', then dap stops running (and you can either leave Emacs
 running for some other purpose or exit it).
 
 \item If the preprocessing is successful, 
 then dap runs a C compiler on the preprocessed file(s), linking
 library functions as necessary, to produce \Texinfocommandstyletextvar{file1}.dap.
-\item If the compilation is successful, then dap removes the \texttt{dap.c} file(s)
+\item If the compilation is successful, then dap removes the \texttt{dap.cpp} file(s)
 (unless the `\texttt{-d}' or `\texttt{{-}{-}debug}' option is present) and
 runs the executable \Texinfocommandstyletextvar{file1}.dap, passing the arguments
 \Texinfocommandstyletextvar{arg1}, ..., if any, and produces \Texinfocommandstyletextvar{file1}.lst file for tables
@@ -435,60 +435,60 @@ option was used when the source files were processed, then arguments
 If you want to use `\texttt{gdb}'
 to debug \Texinfocommandstyletextvar{file1}.dap, include `\texttt{-g}' as one
 of your compiler options and use the `\texttt{-d}' or `\texttt{{-}{-}debug}' option when you run
-dap so that the \texttt{.dap.c} files will not be removed.
+dap so that the \texttt{.dap.cpp} files will not be removed.
 
 \noindent{}\textbf{Code fragment(s)}
 
-\emph{Run \texttt{dap} on the file \texttt{tweedle.c}:}
+\emph{Run \texttt{dap} on the file \texttt{tweedle.cpp}:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap tweedle.c
+\ttfamily dap tweedle.cpp
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on the file \texttt{tweedle.sbs}:}
+\emph{Run \texttt{dap} on the file \texttt{tweedle.sas}:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap tweedle.sbs
+\ttfamily dap tweedle.sas
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on the files \texttt{tweedle.c} and \texttt{dee.c}:}
+\emph{Run \texttt{dap} on the files \texttt{tweedle.cpp} and \texttt{dee.cpp}:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap tweedle.c dee.c
+\ttfamily dap tweedle.cpp dee.cpp
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on the files \texttt{tweedle.sbs} and \texttt{dee.c}:}
+\emph{Run \texttt{dap} on the files \texttt{tweedle.sas} and \texttt{dee.cpp}:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap tweedle.sbs dee.c
+\ttfamily dap tweedle.sas dee.cpp
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on \texttt{tweedle.c}; append to \texttt{tweedle.lst} in each cycle:}
+\emph{Run \texttt{dap} on \texttt{tweedle.cpp}; append to \texttt{tweedle.lst} in each cycle:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap -k tweedle.c
-dap {-}{-}keep tweedle.c
+\ttfamily dap -k tweedle.cpp
+dap {-}{-}keep tweedle.cpp
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on \texttt{tweedle.c}; pass arguments `\texttt{17}'
-and `\texttt{dum}' to `\texttt{main}' in \texttt{tweedle.c}:}
+\emph{Run \texttt{dap} on \texttt{tweedle.cpp}; pass arguments `\texttt{17}'
+and `\texttt{dum}' to `\texttt{main}' in \texttt{tweedle.cpp}:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap tweedle.c -a 17 dum
-dap tweedle.c {-}{-}args 17 dum
+\ttfamily dap tweedle.cpp -a 17 dum
+dap tweedle.cpp {-}{-}args 17 dum
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
-\emph{Run \texttt{dap} on \texttt{tweedle.c}; do not remove \texttt{tweedle.dap.c} for debugging:}
+\emph{Run \texttt{dap} on \texttt{tweedle.cpp}; do not remove \texttt{tweedle.dap.cpp} for debugging:}
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
-\ttfamily dap -d tweedle.c
-dap {-}{-}debug tweedle.c
+\ttfamily dap -d tweedle.cpp
+dap {-}{-}debug tweedle.cpp
 \end{Texinfopreformatted}
 \end{Texinfoindented}
 
@@ -602,7 +602,7 @@ example:
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
 \ttfamily infile("data",\ "x6x5x8")
-or for sbs
+or for sas
 PROC IMPORT  out = data datafile =  "Pres2007Clustered.csv"  dbms  = csv //support tab and dlm
 delimiter = ',' replace ;\  //support getnames=yes/no;
 run ;
@@ -867,8 +867,8 @@ title("CFU per cm\^{}2\^{} of surface area");
 \section{{The preprocessor: dappp}}
 \label{anchor:The-preprocessor}%
 
-The preprocessor, which is named dappp, reads \Texinfocommandstyletextvar{file}.c,
-performs the following four actions to create \Texinfocommandstyletextvar{file}.dap.c:  
+The preprocessor, which is named dappp, reads \Texinfocommandstyletextvar{file}.cpp,
+performs the following four actions to create \Texinfocommandstyletextvar{file}.dap.cpp:  
 
 \begin{enumerate}[start=1]
 \item Process simple `\texttt{\#defines}' of the form:
@@ -914,8 +914,8 @@ functions create links
 between the variables in the user's program and the internal dap storage
 to allow input and output.
 These functions are appended to the last line of the user's declarations
-so that line numbers in C compiler messages for \Texinfocommandstyletextvar{file}.dap.c correspond
-exactly to line numbers in \Texinfocommandstyletextvar{file}.c.  
+so that line numbers in C++ compiler messages for \Texinfocommandstyletextvar{file}.dap.cpp correspond
+exactly to line numbers in \Texinfocommandstyletextvar{file}.cpp.  
 
 \chapter{{Datasets}}
 \label{anchor:Datasets}%
@@ -5767,7 +5767,7 @@ proc dap;
 \{\ /* start with a brace to enclose everything here */
 \  inset("amd173.mns") /* file from model statement */
 \   \{
-\     char treat[3],\ block[3];\ /* we're in C here!\ */
+\     char treat[3],\ block[3];\ /* we're in C++ here!\ */
 \     double y;
 \     char \_type\_[9];\ /* set this to CONTR */
 \     int \_term\_;\     /* bits specify the effect */
@@ -5800,7 +5800,7 @@ proc dap;
 \ */
 \  inset("amd173.mns") /* file from model statement */
 \   \{
-\     char treat[3],\ block[3];\ /* we're in C here!\ */
+\     char treat[3],\ block[3];\ /* we're in C++ here!\ */
 \     double y;
 \     char \_type\_[9];\ /* set this to CONTR */
 \     int \_term\_;\     /* bits specify the effect */
@@ -6779,7 +6779,7 @@ In that case, the system will produce a file named \texttt{core}, which
 is a snapshot of what point the program reached when it crashed.
 If that happens, exit dap and use a \textsl{debugger} to examine the
 core file.  For example, to use the GNU debugger \texttt{gdb} on the
-core file produced by a crash in prog.c, you would type
+core file produced by a crash in prog.cpp, you would type
 
 \begin{Texinfoindented}
 \begin{Texinfopreformatted}%
@@ -6836,7 +6836,7 @@ with the statistical functions you are using, and a lot of patience.
 This section contains miscellaneous notes and warnings regarding
 the use of SAS.
 \textbf{WARNING}:
-When processing \Texinfocommandstyletextvar{file}.sbs, dap writes (or overwrites)
+When processing \Texinfocommandstyletextvar{file}.sas, dap writes (or overwrites)
 the file \Texinfocommandstyletextvar{file}.c. Note that because the syntax
 and options of SAS and dap graphics procedures are not very compatible,
 many dap graphics options are not available in SAS (which is one reason
@@ -6845,13 +6845,13 @@ to dap graphics options (or statistical options) from SAS,
 use a `\texttt{proc dap}' statement (see below).
 In addition, you can define your own functions in a separate `\texttt{.c}' file
 that you include on the command line to run dap. (To declare such functions
-in the `\texttt{.sbs}' file, use a `\texttt{proc dap}' statement at the beginning
+in the `\texttt{.sas}' file, use a `\texttt{proc dap}' statement at the beginning
 of the file.)
 Note that if the program does not use a graphics proc,
 compiling will produce a number of warnings about unused variables, all of whose
 names begin and end with an underscore `\texttt{\_}'; you may ignore them.
 
-One peculiarity that SAS inherits from C through dap
+One peculiarity that SAS inherits from C++ through dap
 is that character variables that are explicitly
 used in a data step always need to appear in a `\texttt{length}' statement,
 no matter whether the data step gets its data from a
@@ -6861,12 +6861,12 @@ Important notes regarding data steps (at least through this version of dap):
 
 \begin{enumerate}[start=1]
 \item Comparison, assignment, and concatenation of strings must be performed
-using the C functions `\texttt{strcmp}' (or its variants),
+using the C++ functions `\texttt{strcmp}' (or its variants),
 `\texttt{strcpy}' (or its variants), and `\texttt{strcat}' (or its variants);
 
 \item C++-style subscripting (i.e., with `\texttt{[ ]}') must be used for obtaining
 individual characters from a string except that in SAS, array indexes start at
-1, not 0 as in C.
+1, not 0 as in C++.
 
 \item Mnemonics are not accepted for relational or logical operators (e.g., `\texttt{ne}'
 is not accepted for `\texttt{\^{}=}');
@@ -6881,7 +6881,7 @@ assignment statements, are `\texttt{if-then}', `\texttt{if-then-else}',
 translator, but will subsequently be caught by either the dap preprocessor
 or the C compiler. However, the line numbers referred to by those programs will
 be the line numbers of the dap program into which your SAS program was translated,
-which you can view by opening up file \Texinfocommandstyletextvar{file}.c if you ran dap on \Texinfocommandstyletextvar{file}.sbs.
+which you can view by opening up file \Texinfocommandstyletextvar{file}.c if you ran dap on \Texinfocommandstyletextvar{file}.sas.
 
 \end{enumerate}
 
