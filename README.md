@@ -16,13 +16,28 @@ Note: This is very much a work in progress, and the original codebase was writte
 
 Dap has contributions from the following individuals:
 
-
-
 - Susan Bassein
 - Anna Reidenbach
 - Jeffrin Jose
 - Seth Trojacek
 
+Currently implemented Procedures
+---
+
+- Proc GLM
+- Proc FREQ 
+- Proc CORR
+- Proc REG
+- Proc PRINT
+- Proc IMPORT
+- Proc SORT
+- Proc MEANS
+
+Dependencies
+---
+
+- Boost
+- Eigen
 
 Example of Build Process
 ---
@@ -39,3 +54,4 @@ $ sudo make install
 ```
 
 This should result in two executables: dap, and dappp that are accessible from the command line. 
+
