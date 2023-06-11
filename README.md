@@ -24,17 +24,25 @@ Dap has contributions from the following individuals:
 Currently implemented Procedures
 ---
 
+- Proc CHART
+- Proc DATASETS
 - Proc GLM
 - Proc FREQ 
 - Proc CORR
 - Proc REG
 - Proc PRINT
 - Proc IMPORT
+- Proc LOGISTIC
+- Proc RANK
 - Proc SORT
 - Proc MEANS
 - Proc PLOT
 - Proc TABULATE
-
+- Proc NPAR1WAY
+- Proc UNIVARIATE 
+  
+  
+  
 Dependencies
 ---
 
