@@ -33,6 +33,7 @@ Currently implemented Procedures
 - Proc SORT
 - Proc MEANS
 - Proc PLOT
+- Proc TABULATE
 
 Dependencies
 ---
