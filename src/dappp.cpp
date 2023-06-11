@@ -633,6 +633,94 @@ int infile(FILE *dotc, FILE *dapc)
 	return 0;
 }
 
+/* Look for cards or datalines statements.  */
+int cards(FILE *dotc, FILE *dapc)
+{
+	char token[TOKLEN + 1];	 /* could be cards or datalines or main or not */
+	char tokdel[TOKLEN + 1]; /* delimiter after token */
+	int c;					 /* character read */
+	long dotcpos;			 /* file position at start of main in dotc */
+	long dapcpos;			 /* file position at start of main in dapc */
+	int paren;				 /* depth of nesting of parentheses */
+
+	while (gettoken(token, dotc, dapc, 1))
+	{
+		if (pound)
+		{
+			if (column > 1)
+			{
+				if (!strcmp(token, "define"))
+					newdef(dotc, dapc);
+				pound = 0;
+			}
+		}
+		else if (!strcmp(token, "main"))
+		{
+			dotcpos = ftell(dotc) - 4;
+			dapcpos = ftell(dapc) - 4;
+			if (gettoken(tokdel, dotc, dapc, 1))
+			{
+				if (!strcmp(tokdel, "("))
+				{
+					if (fseek(dotc, dotcpos, SEEK_SET) < 0)
+					{
+						perror("dappp");
+						exit(1);
+					}
+					if (fseek(dapc, dapcpos, SEEK_SET) < 0)
+					{
+						perror("dappp");
+						exit(1);
+					}
+					fputs("dap_", dapc);
+					gettoken(token, dotc, dapc, 1);
+					gettoken(tokdel, dotc, dapc, 1);
+				}
+			}
+		}
+		else if (!strcmp(token, "cards") || !strcmp(token, "datalines"))
+		{
+			if (gettoken(tokdel, dotc, dapc, 1) && !strcmp(tokdel, "("))
+			{
+				for (paren = 1; paren && (c = dgetc(dotc, dapc, 1)) != EOF;)
+				{
+					if (!incomment && !inquote1 && !inquote2)
+					{
+						if (c == '(')
+							paren++;
+						else if (c == ')')
+							--paren;
+					}
+				}
+				putc(';', dapc);
+				while (white(c = dgetc(dotc, dapc, 1)) || incomment)
+					;
+				if (c == '{')
+				{
+					while (white(c = dgetc(dotc, dapc, 1)) || incomment)
+						;
+					unget1c(c, dotc, dapc);
+				}
+				else
+				{
+					fprintf(stderr, "dappp:%s:%d: expected {, got %c\n",
+							dotname, lineno, c);
+					exit(1);
+				}
+				return 1;
+			}
+			else
+			{
+				fprintf(stderr, "dappp:%s:%d: expected (, got %s\n",
+						dotname, lineno, tokdel);
+				exit(1);
+			}
+		}
+	}
+	return 0;
+}
+
+
 int main(int argc, char **argv)
 {
 	FILE *dotc, *dapc;
