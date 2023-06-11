@@ -442,7 +442,8 @@ char *nonaction(char *step) /* is not an action statement? */
       !linecmp(step, (char*) "input") || !linecmp(step, (char*) "length") ||
       !linecmp(step, (char*) "merge") || !linecmp(step, (char*) "by") ||
       !linecmp(step, (char*) "drop") || !linecmp(step, (char*) "keep") ||
-      !linecmp(step, (char*) "title"))
+      !linecmp(step, (char*) "title") || !linecmp(step, (char*) "cards") ||
+	  !linecmp(step, (char*) "datalines"))
   {
     linecpy(type, step);
     return type;
