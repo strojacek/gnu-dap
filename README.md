@@ -46,9 +46,9 @@ Currently implemented Procedures
 Dependencies
 ---
 
-- Boost: For the tuple, version, utility, and iostreams packages.
-- Eigen: For the MCMC, Stats, and BaseMatrixOps packages from ktothr.
-- OpenXLSX: For the ability to do File I/O with Excel Spreadsheets.
+- Boost: For the tuple, version, utility, and iostreams packages. (in progress)
+- Eigen: For the MCMC, Stats, and BaseMatrixOps packages from ktothr. (in progress)
+- OpenXLSX: For the ability to do File I/O with Excel Spreadsheets. (in progress)
 - Sqlite ORM: For the usage of Proc SQL (in progress)
 
 Example of Build Process
