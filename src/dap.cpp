@@ -30,7 +30,7 @@
 #include <cstring>
 
 #define PAGE "/bin/more"
-#define GCC "/usr/bin/gcc"
+#define GCC "/usr/bin/g++"
 #define PS "/usr/bin/X11/gv"
 
 #define DAPPP "/usr/local/bin/dappp"
