@@ -525,7 +525,11 @@ int statementtrans(char *step, FILE *dapfile, int *isoutput)
     }
     else /* no, just a do */
     {
-      fputs("{\n", dapfile);
+      fputs("loop (", dapfile);
+      while (step[s] && linecmp(step + s, (char*) "to"))
+        s += opfix(step + s, dapfile);
+      fputs(", ", dapfile);
+      s += 3; /* get past the to */
       statementtype = (char*) "do";
     }
   }
