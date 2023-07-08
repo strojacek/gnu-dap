@@ -85,8 +85,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = aarch64-apple-darwin22.4.0
-host_triplet = aarch64-apple-darwin22.4.0
+build_triplet = aarch64-apple-darwin22.5.0
+host_triplet = aarch64-apple-darwin22.5.0
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -165,7 +165,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing AUTHORS COPYING ChangeLog \
 	INSTALL NEWS README.md TODO build-aux/compile \
-	build-aux/config.guess build-aux/config.sub \
+	build-aux/config.guess build-aux/config.sub build-aux/depcomp \
 	build-aux/install-sh build-aux/ltmain.sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
@@ -295,10 +295,10 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
-build = aarch64-apple-darwin22.4.0
+build = aarch64-apple-darwin22.5.0
 build_alias = 
 build_cpu = aarch64
-build_os = darwin22.4.0
+build_os = darwin22.5.0
 build_vendor = apple
 builddir = .
 datadir = ${datarootdir}
@@ -306,10 +306,10 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = aarch64-apple-darwin22.4.0
+host = aarch64-apple-darwin22.5.0
 host_alias = 
 host_cpu = aarch64
-host_os = darwin22.4.0
+host_os = darwin22.5.0
 host_vendor = apple
 htmldir = ${docdir}
 includedir = ${prefix}/include

@@ -55,6 +55,23 @@ static char *keyword[] = /* SAS keywords inside data step */
         (char*) "to",
         (char*) "cards",
         (char*) "datalines",
+		// GSL functions
+		(char*) "abs",
+		(char*) "arcos",
+		(char*) "arcosh",
+		(char*) "arsin",
+		(char*) "arsinh",
+		(char*) "artanh",
+		(char*) "airy",
+		(char*) "atan",
+		(char*) "atan2",
+		(char*) "beta",
+		(char*) "blackclprc"
+		(char*) "blackptprc"
+		(char*) "blkshclprc"
+		(char*) "blkshptprc"
+		(char*) "gamma",
+
         (char*) ""};
 
 int iskeyword(char *str)
