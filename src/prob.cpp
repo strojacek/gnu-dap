@@ -68,7 +68,7 @@ double probt(double t1, int di)
   double c;
   double ddi;
 
-  if (!isfinite(t1))
+  if (!std::isfinite(t1))
     return 0.0 / 0.0;
   ddi = (double)di;
   dddi = ddi;
@@ -170,7 +170,7 @@ double probf(double f0, int numdf, int dendf)
   double b;
   double s, s0, s1, s2;
 
-  if (!isfinite(f0))
+  if (!std::isfinite(f0))
     return 0.0 / 0.0;
   if (numdf == 1)
     return 2.0 * probt(sqrt(f0), dendf);
@@ -281,7 +281,7 @@ double varunif()
 
 double probz(double z)
 {
-  if (!isfinite(z))
+  if (!std::isfinite(z))
     return 0.0 / 0.0;
   z *= SQRTHALF;
   if (z < -0.58)
@@ -303,7 +303,7 @@ double probchisq(double c, int df)
     fprintf(dap_err, "(probchisq) non-positive df = %d\n", df);
     exit(1);
   }
-  if (!isfinite(c))
+  if (!std::isfinite(c))
     return 0.0 / 0.0;
   switch (df)
   {
@@ -315,7 +315,7 @@ double probchisq(double c, int df)
     ddf = (double)df;
     tmp = (0.5 * ddf - 1.0) * log(0.5 * c) - 0.5 * c -
           lgamma(0.5 * ddf);
-    if (isfinite(tmp))
+    if (std::isfinite(tmp))
       return exp(tmp) + probchisq(c, df - 2);
     return 0.0;
     /* Orginal code:
@@ -383,7 +383,7 @@ double rangef1(double x0)
   if (diff / x2 < 1.0e-16)
     return 0.0;
   tmp = -0.5 * x * x + numdfm1 * log(diff);
-  if (isfinite(tmp))
+  if (std::isfinite(tmp))
     return exp(tmp) / (x1 * x1);
   return 0.0;
   /* Original code:
@@ -406,7 +406,7 @@ double rangef2(double x0)
   if (diff / x2 < 1.0e-16)
     return 0.0;
   tmp = -0.5 * x * x + numdfm1 * log(diff);
-  if (isfinite(tmp))
+  if (std::isfinite(tmp))
     return exp(tmp) / (x1 * x1);
   return 0.0;
   /* Original code:
@@ -434,7 +434,7 @@ static double sturf(double s0)
   if (dendfm1 == 0.0)
     return exp(-0.5 * s * s / E) * range(pt * s * INVSQRTE) / (s1 * s1);
   tmp = dendfm1 * log(s) - 0.5 * ddendf * s * s / E;
-  if (isfinite(tmp))
+  if (std::isfinite(tmp))
     return exp(tmp) * range(pt * s * INVSQRTE) / (s1 * s1);
   return 0.0;
   /* Original code:

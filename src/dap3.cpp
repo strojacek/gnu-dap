@@ -358,7 +358,7 @@ pict *plot(char *fname, char *xyvar, char *marks,
     {
       x[nobs] = dap_obs[0].do_dbl[xyv[0]];
       y[nobs] = dap_obs[0].do_dbl[xyv[1]];
-      if (isfinite(x[nobs]) && isfinite(y[nobs]))
+      if (std::isfinite(x[nobs]) && std::isfinite(y[nobs]))
         nobs++;
       else
         nnan++;
@@ -415,7 +415,7 @@ static double orderf(double t)
   tmp1 = 1.0 - t * t;
   x = t / sqrt(tmp1);
   tmp2 = dkm1 * log(probz(x)) + dnmk * log(probz(-x)) - 0.5 * x * x;
-  if (isfinite(tmp2))
+  if (std::isfinite(tmp2))
     return exp(tmp2) * t / (tmp1 * tmp1);
   return 0.0;
 }
@@ -576,7 +576,7 @@ static double probw(int n, double w0, double a1)
     {
       r = 1;
       u = log(u);
-      if (!isfinite(u))
+      if (!std::isfinite(u))
         return 0.0 / 0.0;
     }
     u = poly(au[n - 4][r], u, 4);
@@ -816,7 +816,7 @@ pict *normal(char *fname, char *variable, char *marks, int nplots)
     if (nobs < dap_maxval)
     {
       y[nobs] = dap_obs[0].do_dbl[vy];
-      if (isfinite(y[nobs]))
+      if (std::isfinite(y[nobs]))
         nobs++;
       else
         nnan++;
@@ -1222,7 +1222,7 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
       if (nvar == 1)
       {
         x[nobs] = dap_obs[0].do_dbl[varv[0]];
-        if (isfinite(x[nobs]))
+        if (std::isfinite(x[nobs]))
           nobs++;
         else
           nnan++;
@@ -1231,7 +1231,7 @@ pict *histogram(char *fname, char *vars, char *marks, int nbars,
       {
         xw[nobs][0] = dap_obs[0].do_dbl[varv[0]];
         xw[nobs][1] = dap_obs[0].do_dbl[varv[1]];
-        if (isfinite(xw[nobs][0]) && isfinite(xw[nobs][1]))
+        if (std::isfinite(xw[nobs][0]) && std::isfinite(xw[nobs][1]))
           nobs++;
         else
           nnan++;

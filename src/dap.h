@@ -43,11 +43,11 @@
 // SAS DO TO Loop template
 
 template <typename FUNCTION>
-inline void loop(int n, FUNCTION &&f)
+inline void loop(int n, FUNCTION f)
 {
 	for (int i = 0; i < n; ++i)
 	{
-		std::forward<FUNCTION>(f)(i);
+		f(i);
 	}
 }
 
@@ -321,4 +321,4 @@ int dap_fabort = DAP_FABORT;
 int dap_fabort = 0;			   /* abort on free */
 #endif
 
-#include <dap1.h>
+#include "dap1.h"

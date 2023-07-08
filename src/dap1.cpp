@@ -1131,7 +1131,7 @@ void means(char *fname, char *varlist, char *statlist, char *marks)
         wt = dap_obs[0].do_dbl[wtvar[v]];
       else
         wt = 1.0;
-      if (isfinite(vtmp) && isfinite(wt))
+      if (std::isfinite(vtmp) && std::isfinite(wt))
       {
         if (!nobs[v])
         {

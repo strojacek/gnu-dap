@@ -1512,7 +1512,7 @@ void estimate(char *fname, char *parameters, char *definitions, char *part)
         estimate[pnum1] = 0.0;
         for (pnum2 = 0; pnum2 < pnum1; pnum2++)
         {
-          if (def[pnum1][pnum2] && !isfinite(estimate[pnum2]))
+          if (def[pnum1][pnum2] && !std::isfinite(estimate[pnum2]))
           {
             fprintf(dap_err,
                     "(estimate) estimate for parameter %s not in dataset %s\n",

@@ -384,7 +384,7 @@ void pctiles(char *fname, char *varlist, char *statlist, char *marks)
 						val[v][nobs][1] = dap_obs[0].do_dbl[wtvar[v]];
 					else
 						val[v][nobs][1] = 1.0;
-					if (!isfinite(val[v][nobs][0]) || !isfinite(val[v][nobs][1]))
+					if (!std::isfinite(val[v][nobs][0]) || !std::isfinite(val[v][nobs][1]))
 					{
 						fprintf(dap_err,
 								"(pctiles) NaN value %d for %s\n",
@@ -569,7 +569,7 @@ void corr(char *fname, char *varlist, char *marks)
 			for (v = 0; v < nvar; v++)
 			{
 				vtmp = dap_obs[0].do_dbl[varv[v]];
-				if (!isfinite(vtmp))
+				if (!std::isfinite(vtmp))
 				{
 					fprintf(dap_err,
 							"(corr) NaN value %d for %s\n",
@@ -915,7 +915,7 @@ void group(char *fname, char *varspec, char *marks)
 				{
 					for (v = 1, allgood = 1; v < nvar; v++)
 					{
-						if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
+						if (!std::isfinite(dap_obs[0].do_dbl[varv[v]]))
 						{
 							allgood = 0;
 							break;
@@ -944,7 +944,7 @@ void group(char *fname, char *varspec, char *marks)
 				{
 					for (v = 0, allgood = 1; v < nvar; v++)
 					{
-						if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
+						if (!std::isfinite(dap_obs[0].do_dbl[varv[v]]))
 						{
 							allgood = 0;
 							break;
@@ -976,7 +976,7 @@ void group(char *fname, char *varspec, char *marks)
 		{
 			for (v = 1, allgood = 1; v < nvar; v++)
 			{
-				if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
+				if (!std::isfinite(dap_obs[0].do_dbl[varv[v]]))
 				{
 					allgood = 0;
 					break;
@@ -993,7 +993,7 @@ void group(char *fname, char *varspec, char *marks)
 			{
 				for (v = 0, allgood = 1; v < nvar; v++)
 				{
-					if (!isfinite(dap_obs[0].do_dbl[varv[v]]))
+					if (!std::isfinite(dap_obs[0].do_dbl[varv[v]]))
 					{
 						allgood = 0;
 						break;
@@ -1988,7 +1988,7 @@ void trim(char *fname, char *trimspec, char *marks)
 		{
 			for (v = 0; v < nvar; v++)
 			{
-				if (isfinite(dap_obs[0].do_dbl[varv[v]]))
+				if (std::isfinite(dap_obs[0].do_dbl[varv[v]]))
 					val[v][nobs] = dap_obs[0].do_dbl[varv[v]];
 				else
 				{
